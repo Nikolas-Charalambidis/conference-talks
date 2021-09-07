@@ -24,7 +24,7 @@ _____
 _____
 
 ## [Deploy Code into Production Faster on Kubernetes](https://springone.io/2021/sessions/modern-application-configuration-in-kubernetes)
-- Length 27:31, watched on 2021-09-07, **#devops #kubernetes #cloud #native**
+- Length 27:31, watched on 2021-09-07, **#devops #kubernetes #cloud #native #microservices**
 - Valentina Alaria as Director Product Management, VMware
 - Track: Cloud Native Platforms
 
