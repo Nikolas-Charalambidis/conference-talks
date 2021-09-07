@@ -30,7 +30,7 @@
   - 94 % of organizations, if use K8S, building internal platforms use more than one platform
   - 58 % of organizations agree that architectural decision making has gotten harder
 - Developer experience on DIY platforms is lacking. Developers must still maintain containers, configure containers run through multiple layers of YAML, manage IT and security aspects
-- Importance lies in tooling to help developers: leverage automatized DevOps practices,  enforce organizational best-practices, app-aware platform
+- Importance lies in tooling to help developers: leverage automatized DevOps practices, enforce organizational best-practices, app-aware platform, preconfigured templates by Ops
 
 ### Rating ⭐⭐☆☆☆
 - ✅ Beginner-friendly introduction, developer concerns identification
