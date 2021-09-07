@@ -4,6 +4,7 @@
 
 ## [How To Be a Java Automated Testing Superstar](https://springone.io/2021/sessions/how-to-be-a-java-automated-testing-superstar)
 - Length 26:24, watched on 2021-09-07
+- Author Billy Korando as Java Developer Advocate, Oracle
 
 ### Keynotes
 - Automated tests should be human-readable and treated as same as the production code. They are repeatable and auditable.
