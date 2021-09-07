@@ -60,3 +60,19 @@ _____
 - ✅ Very catchy speech, an excellent introduction into the environment properties management problem and comparison of approaches
 - ⛔ The speaker has only one session
 
+_____
+
+## [You Can Be Cloud Native, Too](https://springone.io/2021/sessions/you-can-be-cloud-native-too)
+- Length 27:00, watched on 2021-09-07, **#cloud #native**
+- Hananiel Sarella as Software Engineer, VMware
+- Track: Beginner-Friendly Spring
+
+### Keynotes
+- Microservice architecture provides easy to maintain, test, and deploy services, teams can be scaled, polyglot-friendly, distribute systems are rather complex and interaction is difficult to test, memory consumption and overhead
+- Cloud-native patterns: Consistent management, run everywhere, secure, seamlessly adopt new environments, distributed systems patterns and abstractions
+- Steeltoe Project introduction on top of .NET foundation enables building production-grade and cloud-native microsystems in a simplified way quick to stand up
+  - Scalability (service discovery, configuration providers), Resilience (circuit breaker, bulkhead, client-side load balancing), Ease of Use (initializer, autoconfiguration, platform providers and connectors such as DB, MQ, OAuth), Observability (management endpoints, dynamic logging, distributed tracing, metrics), Security (SSO, JWT auth, certificates), Messaging (stream processing)
+
+### Rating ⭐⭐⭐☆☆
+- ✅ Broad overview of microservice architecture facilities and difficulties
+- ⛔ Missing introduction into cloud-native concepts since this is marked as beginner-friendly, .NET examples
