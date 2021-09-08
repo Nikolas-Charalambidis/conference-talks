@@ -194,9 +194,8 @@ _____
 
 
 ## [Spring Security 5.5 From Taxi to Takeoff](https://springone.io/2021/sessions/spring-security-5-5)
-> "Spring Security integrates the Spring Native for all of its authentication mechanism and all of its authorization models"
+> "Spring Security integrates the Spring Native for all of its authentication mechanism and all of its authorization models."
 - Length 51:05, watched on 2021-09-08 #spring #security
-
 - Josh Cummings as Software Engineer, VMware
 - Marcus Da Coregio as Software Engineer, VMware
 - Steve Riesenberg as Software Engineer, VMware
@@ -212,19 +211,19 @@ _____
 - **Authorization of a certain endpoint**
   - Some endpoints must be restricted to certain users, so it is needed to define either *roles* or *authorities* to them in `UserDetailsService` bean and map endpoints to the authority through `SecurityFilterChain` bean (`.httpBasic(Customizer.withDefaults())` must be added though).
   - It is needed to provide CSRF token to pass through the `CsrfFilter` to prevent [cross-site request forgery](https://owasp.org/www-community/attacks/csrf), ex. `.csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())` and defining `CorsConfigurationSource` bean - The preflight (`OPTIONS` HTTP method) request conains the CORS headers on response and in the request to `POST`/`PUT` is present header `Access-Control-Allow-*`, and `Cookie` with the `XSRF-TOKEN` token and `X-XSRF-TOKEN` header itself together called *double submitting cookie*. 
-  - It is needed to manage CORS to allow call endpoints from the endpoint using `.cors(Customizer.withDefaults())`
-- Debugging Spring Security application is easy through `org.springframework.security=TRACE` logging level.
-  - `FilterChainProxy` is the entry point and a first place that Spring-secured interceptor requests fall in and then come to the `SecurityFilterChain` and to the further filters that either call the next filter or terminate the request by interrupting ~ [Chain of Responsibility](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern) design pattern.
+  - It is needed to manage CORS to allow call endpoints from the endpoint using `.cors(Customizer.withDefaults())`.
 - **Insecure direct object reference vulnerability**
   - Secure wildcard endpoints such as `PUT /{flightId}/taxi` are vulnerable as it is not checked if the object to be modified is compliant with the current authentication.
   - It is not preferred to weave the authentication behavior into the business logic and use more declarative security patterns using the domain-specific language (DSL), ex. `@PostAuthorizate("returnObject?.pilotId == authentication.name")` for outputs or `@PreAuthorize` for inputs are both compliant with the Spring transaction management and upon exception thrown by this construct any kind of change to the database will be rolled back - to get Spring Security to honor these annotations, `@EnableGlobalMethodSecurity(prePostEnabled = true)` is required.
 - **Externalize the authorizaion** creating a `@Component` impementing `AuthorizationManager<RequestAuthorizationContext>` delegating check to `RequestMatcherDelegatingAuthorizationManager`, using `@EventListener` to apply the rules read once from the database and applying to `SecurityFilterChain`.
-- Spring Security integrates the Spring Native for all of its authentication mechanisms and all of its authorization models (except SAML)
+- Spring Security integrates the Spring Native for all of its authentication mechanisms and all of its authorization models (except SAML).
 - **Speed it up** from `200ms` to `2ms`
   - Basic authentication means the credentials are sent every single time and the password needs to be hashed every time and compared against what is in the user store (especial using BCrypt algorithm that adds some amount of time) - switch over to a different authentication scheme, Bearer tokens as JWT tokens, bringing in the `spring-bot-starter-oauth2-resource-server` dependency (the resource server part allows to perform decoding tokens and using them as authentication mechanism) and removing `.httpBasic(Customizer.withDefaults())` with `.csrf(..)` and adding `.oauth2ResourceServer(OAuth2ResourcesServerConfigurer::jwt)` that also configures JWT out of the box.
   - OAuth2 authorization server is needed to be added to mint the tokens and to give some secure keys to verify a signature on them through properties `spring.security.oauth2.resourceserver.jwt.jwk-set-uri` and `spring.security.oauth2.resourceserver.jwt.issuer-uri`.
   - Finally, it is needed to define bean `JwtAuthenticationConverter` to make sure that the stored authorities in the database come back and match when a token is decoded.
-- **Testing** is easy in `@SpringBootTest` and `@AutoConfigureMockMvc` using `@WithMockUser(username, authorities)` annotation and static helpers in `org.springframework.security.test.**` packages. 
+- **Debugging** Spring Security application is easy through `org.springframework.security=TRACE` logging level.
+  - `FilterChainProxy` is the entry point and a first place that Spring-secured interceptor requests fall in and then come to the `SecurityFilterChain` and to the further filters that either call the next filter or terminate the request by interrupting ~ [Chain of Responsibility](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern) design pattern.
+- **Testing** is also easy in `@SpringBootTest` and `@AutoConfigureMockMvc` using `@WithMockUser(username, authorities)` annotation and static helpers in `org.springframework.security.test.**` packages. 
 
 ### Rating ⭐⭐⭐⭐⭐
 - ✅ Well-prepared, exhaustive and entertaining role-played scenario securing application step-by-step, key takeaways summary at the end
