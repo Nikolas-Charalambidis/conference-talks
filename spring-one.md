@@ -38,7 +38,7 @@ _____
 
 ### Rating ⭐⭐☆☆☆
 - ✅ Beginner-friendly introduction, on-spot developer concerns identification.
-- ⛔ The structure doesn't match the agenda in the introduction and a bit chaotic, rather Tanzu platform promotion, lacking expected pure K8S tips.
+- ⛔ The structure doesn't match the agenda in the introduction and a bit chaotic, rather Tanzu platform promotion, lacking expected pure K8S tips, VSCode
 
 _____
 
