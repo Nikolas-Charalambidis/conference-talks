@@ -188,5 +188,5 @@ ______
 
 ### Rating ⭐⭐⭐☆☆
 - ✅ Interesting overview of upcoming versions and timing
-- ⛔ Missing examples of existing problems that new features would resolve
+- ⛔ Missing examples of existing problems that new features would resolve, 60% of the time is rather focused on terms than features
 
