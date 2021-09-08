@@ -102,3 +102,44 @@ _____
 ### Rating ⭐⭐⭐⭐⭐
 - ✅ Excellent explanation of the container and Linux kernel concepts, simple but nice workshop
 - ⛔ Slides would be better to support the ideas at the beginning
+
+_____
+
+## [Building Fast and Scalable Persistence Layers with Spring Data JPA](https://springone.io/2021/sessions/fast-and-scalable-persistence-layers-with-spring-data-jpa)
+> "Favour DTO interfaces projections without advanced techniques (SpEL, nested associations) for read-operations over managed entities"
+- Length 54:50, watched on 2021-09-08 #spring #jpa
+- Thorben Janssen as Freelancer, Self-employed
+- Track: Intermediate/Advanced Spring
+
+### Keynotes
+- Hibernate statistics: Properties `hibernate.generate_statistics=true`, `hibernate.session.events.log.LOG_QUERIES_SLOWER+THAN_MS=3` and logging `org.hibernate.stats=DEBUG` (for DEV purposes).
+- **Assciation management**
+  - `FetchType` recommendtion:
+    - To-many relationships: Stick to the default mapping `FetchType.LAZY` and use fetching for specific queries if required.
+    - To-one relationships: Check existing mappings individually and use `FetchType.LAZY` for new ones.
+  - N+1 problem that lazy fetching introduces: 
+    - Fetch all required entities with one query using Fetch Joins (`JOIN FETCH` in `@Query` or Entity Graphs (@NamedEntityGraph` and `@EntityGraph`)
+    - Beware of left-joining as the complexity of the queue raises and it becomes slower. Although it's recommended to not join more than one association, it also depends on whether it contains 3 or thousands of rows.
+  - Hibernate and many-to-many:
+    - Hibernate handles `List` inefficiently (it removes all associations and adds remaining ones) so is better to use `Set`.
+- **Projections** help to fine-tune the data that you actually need, so less data is selected from the database
+  - Write-operations: 
+    - Entities are managed by the current persistence context, which means at the end of the transaction the managed entity is updated in the database through queries
+  - Read-operations: They don't need lifecycle management overhead (no `INSERT`/`UPDATE`/`DELETE`).
+    - Scalar values are object arrays (`Obejct[]`) and need to remember the order in the `SELECT` clause.
+    - DTO classes (without `@Entity` for pure JPA) and interfaces with matching getter methods (easier, Spring Data JPA generates a class based on the definition) are preferred over scalar values
+- **Advanced DTO projections pitfalls** 
+  - Nested associations such as a getter returning `List<ClientDtoProjecion>` on an interface-based DTO projection actually defies all the benefits of the DTO projections introduced earlier
+  - SpEL such as returning first and last name together using `@Value("#{target.lastName + ', ' + target.firstName}") over a getter actuall selects a whole entity and it is better to use a `default` interface method performing the concatenation instead and preserve he benefits of DTO proections
+- **Caching**
+  - 1st level cache: 
+    - Each Hibernate session has 1st level cache assuring we have only one object representation of each record in the database within each session, but it is useless performance-wise when each user has their own session.
+  - 2nd level cache:
+    - It is a session independent entity store containing entity objects and is used whenever an entity is found by its primary key (or if associations are traversed), but it creates some additional problems because now this external cache is needed to keep in sync (check first) that creates a small overhead and it's needed to compensate with a higher number of hits (rule of thumb is at least 9-10 reads per 1 write operation).
+    - It needs to be activated in properties with a specific cache mode where `ENABLE_SELECTIVE` and `DISABLE_SELECTIVE` is recommended over `ALL`/`NONE`/`UNSPECIFIED` and managed through `@Cacheable` annotation on the repository class/method or entity class level.
+    - Tip: Place `@Cache(use = CacheCocurrencyStrategy.TRANSACTIONAL) over many-to-many associations and all associations on entities that don't map the foreign key column, because in these cases Hibernate doesn't cache the *association* between these two objects but *only* the objects themselves.
+
+### Rating ⭐⭐⭐⭐⭐
+- ✅ Practical workshop with an on-spot set of tips for working with Hibernate and Spring Data JPA effectively
+- ⛔ An alternative to SpEL was introduced but not to the nested association within advanced DTO projection
+
