@@ -143,3 +143,25 @@ _____
 - ✅ Practical workshop with an on-spot set of tips for working with Hibernate and Spring Data JPA effectively
 - ⛔ An alternative to SpEL was introduced but not to the nested association within advanced DTO projection
 
+_____
+
+##[Packaging and Distributing Applications for Kubernetes](https://springone.io/2021/sessions/packaging-and-distributing-applications-for-kubernetes)
+> "Carvel is a composable Kubernetes tool suite"
+- Length 24:55, watched on 2021-09-08 #devops #kubernetes
+- Ian Zink as Staff Software Engineer, VMware
+- Nitasha Verma as Solutions Engineer, VMware
+- Track: Architecture
+
+### Keynotes
+- Relocating K8S configurations and containers in the hands of their customers as a secure, consistent, and unified distribution within the framework of their existing ecosystem is clumsy.
+- Application lifecycle (packagin and deployment on K8S): Author Configuration -> Package and Distribution -> Customizing Configuration -> Deploy to Cluster.
+- Carvel is a composable Kubernetes tool suite, which provides a set of reliable, single-purpose, composable tools that aid in your application building, configuration, and deployment to Kubernetes. Basic tools:
+  - `ytt`: Template and overlay K8S via YAML structures.
+  - `kbld`: Build or reference container images in K8S configuration in an immutable way.
+  - `kapp`: Install, upgrade, and delete multiple K8S resources as one application.
+  - `imgpkg`: Bundle and relocate application configuration (with images) via Docker registers.
+
+### Rating ⭐⭐⭐☆☆
+- ✅ Well structured presentation with a demo, they were able to find a workaround for an unexpected error they faced during the demo
+- ⛔ Overly abstract terms (configuration, bundle, registers...) and commands in the demo were insufficiently described
+
