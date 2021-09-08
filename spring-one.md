@@ -107,7 +107,7 @@ _____
 
 ## [Building Fast and Scalable Persistence Layers with Spring Data JPA](https://springone.io/2021/sessions/fast-and-scalable-persistence-layers-with-spring-data-jpa)
 > "Favour DTO interfaces projections without advanced techniques (SpEL, nested associations) for read-operations over managed entities."
-- Length 54:50, watched on 2021-09-08 #spring #jpa #hibernate
+- Length 54:50, watched on 2021-09-08, **#spring #jpa #hibernate**
 - Thorben Janssen as Freelancer, Self-employed
 - Track: Intermediate/Advanced Spring
 
@@ -147,7 +147,7 @@ _____
 
 ## [Packaging and Distributing Applications for Kubernetes](https://springone.io/2021/sessions/packaging-and-distributing-applications-for-kubernetes)
 > "Carvel is a composable Kubernetes tool suite."
-- Length 24:55, watched on 2021-09-08 #devops #kubernetes
+- Length 24:55, watched on 2021-09-08, **#devops #kubernetes**
 - Ian Zink as Staff Software Engineer, VMware
 - Nitasha Verma as Solutions Engineer, VMware
 - Track: Architecture
@@ -169,7 +169,7 @@ ______
 
 ## [From Spring Framework 5.3 to 6.0](https://springone.io/2021/sessions/from-spring-framework-5-3-to-6-0)
 > "Spring Framework **5.3.x** remains in active development and Spring Framework **6.0** will be the beginning of a new generation."
-- Length 25:34, watched on 2021-09-08 #java #spring #jakarta
+- Length 25:34, watched on 2021-09-08, **#java #spring #jakarta**
 - Juergen Hoeller as Spring Framework Project Lead, VMware
 - Track: Intermediate/Advanced Spring
 
@@ -195,7 +195,7 @@ _____
 
 ## [Spring Security 5.5 From Taxi to Takeoff](https://springone.io/2021/sessions/spring-security-5-5)
 > "Spring Security integrates the Spring Native for all of its authentication mechanism and all of its authorization models."
-- Length 51:05, watched on 2021-09-08 #spring #security
+- Length 51:05, watched on 2021-09-08, **#spring #security**
 - Josh Cummings as Software Engineer, VMware
 - Marcus Da Coregio as Software Engineer, VMware
 - Steve Riesenberg as Software Engineer, VMware
