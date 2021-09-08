@@ -107,7 +107,7 @@ _____
 
 ## [Building Fast and Scalable Persistence Layers with Spring Data JPA](https://springone.io/2021/sessions/fast-and-scalable-persistence-layers-with-spring-data-jpa)
 > "Favour DTO interfaces projections without advanced techniques (SpEL, nested associations) for read-operations over managed entities"
-- Length 54:50, watched on 2021-09-08 #spring #jpa
+- Length 54:50, watched on 2021-09-08 #spring #jpa #hibernate
 - Thorben Janssen as Freelancer, Self-employed
 - Track: Intermediate/Advanced Spring
 
