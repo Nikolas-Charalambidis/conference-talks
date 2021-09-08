@@ -145,7 +145,7 @@ _____
 
 _____
 
-##[Packaging and Distributing Applications for Kubernetes](https://springone.io/2021/sessions/packaging-and-distributing-applications-for-kubernetes)
+## [Packaging and Distributing Applications for Kubernetes](https://springone.io/2021/sessions/packaging-and-distributing-applications-for-kubernetes)
 > "Carvel is a composable Kubernetes tool suite"
 - Length 24:55, watched on 2021-09-08 #devops #kubernetes
 - Ian Zink as Staff Software Engineer, VMware
