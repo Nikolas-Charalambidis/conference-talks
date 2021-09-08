@@ -165,3 +165,28 @@ _____
 - ✅ Well structured presentation with a demo, they were able to find a workaround for an unexpected error they faced during the demo
 - ⛔ Overly abstract terms (configuration, bundle, registers...) and commands in the demo were insufficiently described
 
+______
+
+## [From Spring Framework 5.3 to 6.0](https://springone.io/2021/sessions/from-spring-framework-5-3-to-6-0)
+> "Carvel is a composable Kubernetes tool suite"
+- Length 25:34, watched on 2021-09-08 #java #spring #jakarta
+- Juergen Hoeller as Spring Framework Project Lead, VMware
+- Track: Intermediate/Advanced Spring
+
+### Keynotes
+- Spring Framework **5.3.x** remains in active development.
+  - Java 17 support against a Java 8 baseline, support in Spring Boot 2.6 as of November 2021.
+  - Java EE 8 focus agasint a Java EE 7 baseline.
+- Spring Framework **6.0** will be the beginning of a new generation.
+  - Development branch (main) will be established in mid of September, milestone phase at the end of 2021 (`6.0.M1` version), release candidate phase in mid-2022 (`6.0.RC1`). and `6.0` GA in October 2022.
+  - Release cadence is yet undecided, might follow Boot's half-year rhythm.
+  - Spring Native initiative moves into Spring proper, AOT processed metadata for regular JVM deployment as well.
+  - Introduces core abstractions
+- Spring Boot 2.7 as of May 2022.
+- Spring Boot 3.0 introduces starter for native applications, build plugins and support for specific GraalVM versions, and auto-configuring the observability backend
+- Java 17 enforces illegal access rules, no general escape hatch anymore.
+
+### Rating ⭐⭐⭐☆☆
+- ✅ Interesting overview of upcoming versions and timing
+- ⛔ Missing examples of existing problems that new features would resolve
+
