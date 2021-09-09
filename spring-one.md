@@ -40,7 +40,7 @@ _____
 
 ### Rating ⭐⭐☆☆☆
 - ✅ Beginner-friendly introduction, on-spot developer concerns identification.
-- ⛔ The structure doesn't match the agenda in the introduction and a bit chaotic, rather Tanzu platform promotion, lacking expected pure K8S tips, VSCode
+- ⛔ The structure doesn't match the agenda in the introduction and a bit chaotic, rather Tanzu platform promotion, lacking expected pure K8S tips
 
 _____
 
@@ -244,4 +244,35 @@ ______
 
 ### Rating ⭐⭐⭐⭐⭐
 - ✅ Simple introduction to Spring security testing, TDD approach, OWASP mentioned
-- ⛔ Since is labeled as "Intermediate/Advanced Spring" track, OAuth2 testing sample should be included, quite a short talk (22 mins of 30 mins available, other speakers use around 25-26 minutes) 
+- ⛔ Session labeled as *Intermediate/Advanced Spring* track should include a sample of OAuth2 testing, quite a short talk (22 mins of 30 mins available, other speakers use around 25-26 minutes) 
+
+_____
+
+## [Code Wars: Database Decisions for Application Development](https://springone.io/2021/sessions/database-decisions-for-application-development)
+> ""
+- Length 51:14, watched on 2021-09-09, **#spring #security #test**
+- Jennifer Reif as Developer Relations Engineer, Neo4j
+- Track: Beginner-Friendly Spring
+
+### Keynotes
+- Databases
+  - In long-term is the right tool for the right job worth for future maintenance/improvement efforts
+  - In the short-term forces data into the unnatural format, confuses data model, and delegates business questions to complex queries, data storage can impact application development 
+- Spring Data provides annotation-based mapping for POJO domain classes, repository support via interfaces, and DSL queries for each datastore
+- MariaDB as an example of relational database model through Spring Data JPA dependency
+  - `orders(orderId, orderDate)`, `products(productId, productName)` and `orderProducts(quantity, unitPrice)` tables representing M:N relationship between `orders` and `products`.
+  - The concepts are `@Entity`, `@Table`, `@Id`, `@OneToOne`/`@OneToMany`/`@ManyToOne`/`@ManyToMany`, `@JoinColumn` JPA (`javax.persistence`/`jakarta.persistence`) and Spring Data annotations and `CrudRepository<E, ID>` interface with `@Query` annotation using JQL/HQL as a domain-specific language for querying from the database.
+  - Relevant properties are `spring.dtasource.**` and `spring.jpa.**`
+- MongoDB as an example of document database model through Spring Data MongoDB dependency
+  - `order(_id, orderId, orderDate, Product(productId, productName, unitPrice, quantity))` nesting structure.
+  - The concepts are `@Document`, `@Id ObjectId objectId`, `@Field` Spring Data MongoDB annotations, and `CrudRepository<E, ID>` interface with `@Query` annotation using Json Structured queries (SQL works also) as a domain-specific language for querying from the database.
+  - Relevant properties is `spring.data.mongodb.**`
+- Neo4j as an example of graph database model through Spring Data Neo4j dependency
+  - `order(orderId, orderDate)` and `product(productId, productName)` nodes with association `INCLUDES` from left to right between them having `unitPrice` and `quantity` attributes. 
+  - The concepts are `@Node`, `@Id`, `@Relationship` and `@TargetNode` Spring Data Neo4j annotations and `CrudRepository<E, ID>` interface with `@Query` annotation using Cypher as a domain-specific language for querying from the database.
+  - Relevant properties are `spring.data.neo4j.**` and `spring.neo4j.**`
+
+### Rating ⭐⭐⭐⭐☆
+- ✅ Implementation of the same conceptual data representation in various database models, sorcery that programmed code on the fly worked always at the first try 
+- ⛔ Missing introduction of at least basic examples of use-cases for what each data model is suitable or not, more detailed comparison aside from implementation is missing
+
