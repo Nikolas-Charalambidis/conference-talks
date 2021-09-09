@@ -192,7 +192,6 @@ ______
 
 _____
 
-
 ## [Spring Security 5.5 From Taxi to Takeoff](https://springone.io/2021/sessions/spring-security-5-5)
 > "Spring Security integrates the Spring Native for all of its authentication mechanism and all of its authorization models."
 - Length 51:05, watched on 2021-09-08, **#spring #security**
@@ -228,3 +227,21 @@ _____
 ### Rating ⭐⭐⭐⭐⭐
 - ✅ Well-prepared, exhaustive and entertaining role-played scenario securing application step-by-step, key takeaways summary at the end
 - ⛔ CSRF demo showing requests and responses is difficult to follow and could be explained better
+
+______
+
+## [Test-Driven Security](https://springone.io/2021/sessions/test-driven-security)
+> "Feature development is guided by writing failing tests first and then write the minimal amount of code necessary to make a test pass."
+- Length 22:25, watched on 2021-09-08, **#spring #security #test**
+- Eleftheria Stein-Kousathana as Software Engineer, VMware
+- Track: Intermediate/Advanced Spring
+
+### Keynotes
+- Dependency `org.springframework.security:spring-security-test` brings helpers in `org.springframework.security.test.**` packages and more:
+  - `mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();` using autowired `WebApplicationContext`
+  - `get("/greeting").with(user("Ria")).with(csrf()).andExpect(..)..`
+- `String greeting(@AuthenticationPrincipal(expression = "username") String username)` injects in the currently logged user's username and `String greeting(@AuthenticationPrincipal CustomUser user)` to injects in a subtype of `UserDetails`.
+
+### Rating ⭐⭐⭐⭐⭐
+- ✅ Simple introduction to Spring security testing, TDD approach, OWASP mentioned
+- ⛔ Since is labeled as "Intermediate/Advanced Spring" track, OAuth2 testing sample should be included, quite a short talk (22 mins of 30 mins available, other speakers use around 25-26 minutes) 
