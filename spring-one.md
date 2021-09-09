@@ -280,7 +280,7 @@ _____
 
 ## [Spring Data JDBC: Beyond the Obvious](https://springone.io/2021/sessions/spring-data-jdbc-beyond-the-obvious)
 > "Strong Aggregates as a main concept of Spring Data JDBC: Whatever is reachable from the root of you aggregates is part of that aggregates and gets persisetd/loaded with that root"
-- Length 52:39, watched on 2021-09-09, **#spring #jdbc**
+- Length 52:39, watched on 2021-09-09, **#spring #data #jdbc**
 - Jens Schauder as Staff Engineer, VMware
 - Track: Intermediate/Advanced Spring
 
