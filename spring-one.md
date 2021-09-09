@@ -276,3 +276,53 @@ _____
 - ✅ Implementation of the same conceptual data representation in various database models, sorcery that programmed code on the fly worked always at the first try 
 - ⛔ Missing introduction of at least basic examples of use-cases for what each data model is suitable or not, more detailed comparison aside from implementation is missing
 
+_____
+
+## [Spring Data JDBC: Beyond the Obvious](https://springone.io/2021/sessions/spring-data-jdbc-beyond-the-obvious)
+> "Strong Aggregates as a main concept of Spring Data JDBC: Whatever is reachable from the root of you aggregates is part of that aggregates and gets persisetd/loaded with that root"
+- Length 52:39, watched on 2021-09-09, **#spring #jdbc**
+- Jens Schauder as Staff Engineer, VMware
+- Track: Intermediate/Advanced Spring
+
+### Keynotes
+- Spring Data offers a common abstraction for various kind of persitent stores, by abstraction is means that things look similar and it' by no means that it's possble to just swap just one database out and another one in, otherwise the common set of features would be limited and the undelying technology features are no blocked - things looks similar so working with one gives an easy way in the other. Sprnig Data is famous for the ability to define repositories as interfaces conceptually from the domain-driven design.
+- Spring Data JPA is far more popular than Spring Data JDBC but it brings a problem that is very complex, ex. it tries to map a graph of objects/classes to graph of tables with no boundaries (lazy vs. eager) and it is needed to know what is behind saving and what is actually saving and what is controlled with cascade annotations.
+- Spring Data JDBC is yet another support for relation databases, such as Spring Data JPA but without JPA, the key of its simplicity are strong aggregates, whatever is reachable from the root of you aggregates is part of that aggregates and gets persisetd/loaded with that root just as it is kind of prescribed by domain-driven design the concept of aggregates cmoes from.
+- **User Defined IDS**
+  - If we call `CrudRepository#ave` on entity, set its `@Id` to particular value that is not present in the database, it fails since `UPDATE` is executed isntead of `INSERT` (because `@Id` is filled) and results in 0 updated rows.
+  - Solution is autowiring and calling `JdbcAggregateTepmlate#insert` that is used under the hood. Another solution is defining a bean `BeforeSaveCalback<Minion>` that generates for example `UUID` ID for the entity if it has not set ID yet.
+- **JSON / Custom Conversinos**
+   - We can persist an entity with an object property having further properties as JSON.
+   - To write, implement `Converter<MyEntityData, JdbcValue>`, annotate converter with `@WritingConverter` and store as `JdbcValue.of(json, JDBCType.VARCHAR)`/
+   - To read implement `Converter<JdbcValue, MyEntityData>`, annotate converter with `@ReadingConverter` and read from JSON
+   - It is needed to cerate a configuration class (annotated with `@Configuration`) extending from AbstractJdbcConfiguration` overriding and registering a bean of `JdbcCustomConversions`.
+ - **Bidirectional Relationships** 
+   - In the relationship 1:N `Minon` has `Set<Toy>`, the full-args constructor is annotated with `@PersistenceConstructor` to mark it for Spring Data and set reference for each `Toy#setMinion` to `this`, and that reference in `Toy` must be `@Transient`.
+   - Alternatively it is possible to use `AggregateReference<Minion, Long>` in `Toy` and use `@Query` in the `CrudRepository<Toy>` to get `Collection<Toy> by `Minion#getId()` from its `AggregateReference`.
+ - **Caching**
+   - Just use Spring Data caching mechanism enabled by `@EnableCaching` and placed `@Cacheable` annotatinos.
+ - **Eager Loading References**
+   - To load data in a single statement it is possible to use a view such as `ToyView extends Toy` to simply include all `Toy` fields and embedded `Minion` field using `@Embedded(onEmpt = Embedded.OnEmpty.USE_EMPTY, prefix = "minion_")` annotation and fetch them in a repository using `@Query` with a `JOIN statement`.
+
+### Rating ⭐⭐⭐⭐⭐
+- ✅ Very informative session about not-to-known Spring Data JDBC, easy to understand examples
+- ⛔ -
+
+_____
+
+## [Microservices Testing at Scale](https://springone.io/2021/sessions/microservices-testing-at-scale)
+> "Contract testing allows API producers and consumers work in a decoupled fashion"
+- Length 22:58, watched on 2021-09-09, **#microservice #test**
+- Kishore Kotaas Sr Architect, Discover Financial Services
+- Sindhu Nair as Principal Value Stream Architect, Discover Financial Services
+ - Track: Architecture
+
+### Keynotes
+- Testing monolithic architecture heavy relies on End-To-End testing and prolonges testing cycle
+- Testing microservice architecture involves testing a lot of small moving pieces but system integration becomes more complex 
+- Unit testing (isolation, mocking and stubbing) ->  Contract testing (contract creation and verification) -> System integration testing (system entry points) -> Backwards compatibility testing (two-step process) -> Performance testing (virtualize dependencies, short intervals and quick feedback) -> Vulnerability testing -> -> Disruptive testing (dependency and API outage) -> E2E testing -> Browser compatibility testing (Selenium) -> Production Smoke testing (certificates, network connection)
+- For disruptive testing is possible to use [Spring Boot Chaos Monkey](https://github.com/codecentric/chaos-monkey-spring-boot)
+
+### Rating ⭐⭐⭐☆☆
+- ✅ Interesting overview of the extended testing pyramid
+- ⛔ Too much teoretical and abstract, missing real-live examples of what exactly is tested in each part
