@@ -329,9 +329,9 @@ _____
 
 _____
 
-## [A Spring Data’s Guide to Persistence] (https://springone.io/2021/sessions/spring-datas-guide-to-persistence)
+## [A Spring Data’s Guide to Persistence](https://springone.io/2021/sessions/spring-datas-guide-to-persistence)
 > "Spring Data is a familiar and consistent programming model that respects store specific traits"
-- Length 53:54, watched on 2021-09-10, ** # spring # data **
+- Length 53:54, watched on 2021-09-10, **#spring #data**
 - Christoph Strobl as Spring Data Engineer, VMware
 - Track: Beginner-Friendly Spring
 
