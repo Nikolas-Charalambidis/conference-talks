@@ -261,7 +261,7 @@ _____
 - Spring Data provides annotation-based mapping for POJO domain classes, repository support via interfaces, and DSL queries for each datastore
 - MariaDB as an example of relational database model through Spring Data JPA dependency
   - `orders(orderId, orderDate)`, `products(productId, productName)` and `orderProducts(quantity, unitPrice)` tables representing M:N relationship between `orders` and `products`.
-  - The concepts are `@Entity`, `@Table`, `@Id`, `@OneToOne`/`@OneToMany`/`@ManyToOne`/`@ManyToMany`, `@JoinColumn` JPA (`javax.persistence`/`jakarta.persistence`) and Spring Data annotations and `CrudRepository<E, ID>` interface with `@Query` annotation using JQL/HQL as a domain-specific language for querying from the database.
+  - The concepts are `@Entity`, `@Table`, `@Id`, `@Column`, `@OneToOne`/`@OneToMany`/`@ManyToOne`/`@ManyToMany`, `@JoinColumn` JPA (`javax.persistence`/`jakarta.persistence`) and Spring Data annotations and `CrudRepository<E, ID>` interface with `@Query` annotation using JQL/HQL as a domain-specific language for querying from the database.
   - Relevant properties are `spring.dtasource.**` and `spring.jpa.**`
 - MongoDB as an example of document database model through Spring Data MongoDB dependency
   - `order(_id, orderId, orderDate, Product(productId, productName, unitPrice, quantity))` nesting structure.
@@ -326,3 +326,40 @@ _____
 ### Rating ⭐⭐⭐☆☆
 - ✅ Interesting overview of the extended testing pyramid
 - ⛔ Too much teoretical and abstract, missing real-live examples of what exactly is tested in each part
+
+_____
+
+## [A Spring Data’s Guide to Persistence] (https://springone.io/2021/sessions/spring-datas-guide-to-persistence)
+> "Spring Data is a familiar and consistent programming model that respects store specific traits"
+- Length 53:54, watched on 2021-09-10, ** # spring # data **
+- Christoph Strobl as Spring Data Engineer, VMware
+- Track: Beginner-Friendly Spring
+
+### Keynotes
+- Spring Data is not a silver bullet (doesn't manage indices), is not a magical tool, is not one API to rule them all.
+- Spring Data module anatomy starts with Repository Interface with a default implementation.
+  - In the case of JPA uses Entity Manger.
+  - In the case of NoSQL stores and modules is sits upon a Template API that takes care of all the resource and transaction management.
+    - It uses the *Mapping* layer responsible for converting domain entities to something that can be stored via the driver.
+    - For some specific properties (for example `enum`) that the driver themselves are not understood by, there is a Conversion engine for type translation.
+  - All of the above sits on top of the database driver and does all the heavy lifting.
+- `Repository` ->` CrudRepository` (`findAll` /` findById` / `count` /` save` / `delete` / ...)>` PagingAndSortingRepository` (`findAll (Page / Sort)`)
+  - Derived Fetch Queries, some data sources might need a little help with `@ Modifying` annotation for` UPDATE` / `DELETE` (might return` void` / `long` /` List <E> `for none, count or modifyied entities respectively.
+    - `List <E> findXXX`: It fetches all matched entities which put a lot of pressure on the memory and runtime, alternatives are below.
+    - `Page <E> getXXX`: Pages has set a chunk of data giving a defined rate range of matching entities and count, however, it needs to allocate resources every time the method is invoked.
+    - `Slice <T> queryXXX`: WOrks like Pagination, but it doesn't know the total number of available pages (overhead of extra query) and only knows whether the next slice is available or not.
+    - `Stream <E> searchXXX / streamXXX`: Streaming is the alternatives for continuous scrolling, however, calling` limit` or `skip` on Stream contradicts its benefits and it is needed to close the Stream properly to release the boundary sources and free memory.
+    - `Flux <E> findXXX` is an alternative for the reactive world.
+ - For read-operation, it is possible to use DTO Projection, Closed Interface Projection (interface with getters), or Open Interface Projection (interface with getters annotated with `@Value (" {# target ...} ")`.
+ - Query By Example (`List <E> findAll (Example <E> probe)`) is a good fit for web from search binding.
+ - Spring Data JPA has auditing support through `@ CreatedDate` and` @ LastModifiedDate` annotations and even adds who created/modified the entity if the information is provided through the implementation of Auditor and Spring Security has already implemented for it so it's only needed to plug it in and activate auditing.
+  - Spring Data MongoDB has `@DBRef List <Employee>` and `@DocumentReference Manager` which is a native storage format for references instead of whole documents, analogically the Spring Data JPA uses` @Embedded Manager` (possibly is needed to use `@ AttributeOverrides ({}) `to avoid field names clashes) to flatten the mapped entity.
+  - Spring Data JPA provides access to Stord Procedures, which is a piece of functionality stored in the database, through `@Procedure (" Employee.increaseSalary ")` fr the JPA-stored procedure having both input and output parameters.
+  - Spring Data MongoDB has support for geospatial queries returning a result list including the distance from the target location and the average distance from all the found documents to the target location, ex. `GeoResults <E> findByOfficeLocationNear (Point p, Distance max)`.
+  - There is always support for native queries if a derived method is not enough, such as `@ Query` for Spring Data JPA or` @ Aggregation` for Spring Data MongoDB.
+  - Spring Data offers to add store-specific custom implementation using Fragment interfaces on top of `* Repository` interfaces, ie to provide implementation and extend within the repository interface that is looked for at the application start-up.
+ - To tune performance, Spring Data offer * Repository Metrics *, * Logiles *, * Network Stats *, and * Query Planners *.
+
+### Rating ⭐⭐⭐⭐⭐
+- ✅ Comprehenisle dive into the anatomy of Spring Data module and relational and document data storages
+- ⛔ The very same deep comparison of a graph database model (Neoj4) would be great, troubleshooting part was too way brief, nothing about named queries as promised
