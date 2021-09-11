@@ -363,3 +363,78 @@ _____
 ### Rating ⭐⭐⭐⭐⭐
 - ✅ Comprehenisle dive into the anatomy of Spring Data module and relational and document data storages
 - ⛔ The very same deep comparison of a graph database model (Neoj4) would be great, troubleshooting part was too way brief, nothing about named queries as promised
+
+_____
+
+## [Live Coding Spring Data Queries to the End of the Persistence Universe](https://springone.io/2021/sessions/introduction-to-spring-data)
+> "The queries must flow"
+- Length 26:11, watched on 2021-09-11, **#spring #data**
+- Greg Turnquist as Principal Software Engineer, VMware
+- Track: Beginner-Friendly Spring
+
+### Keynotes
+- Spring Data JPA has pre-baked `JpaRepositoy` that extends `PagingAndSotringReporitory` from Spring Data.
+- For debugging, enable `spring.jpa.show-sql=true` and `logging.leel.org.springframework.data=TRACE`.
+- Having 1:N relationship between Manager and Employee `entities` using Spring Data JPA:
+  - `List<Employee> findByNameContainingIgnoreCase(String partialName)` for full-text search.
+  - `List<Employee> findByManagerName(String managerName)` query navigates across relationships. 
+- Use `@EnableJpaAuditin` and register `@EntityListeners(AuditingEntityListener.class)` on the `Employee` object to enable auditing through `@CreatedDate` and `@LastModifiedDate`.
+
+### Rating ⭐⭐⭐☆☆
+- ✅ Auditing introduction, very beginner-friendly
+- ⛔ Since beginner-friendly the database structure could be introduced (especially how auditing stores additional data)
+
+_____
+
+## [Leap Ahead with Redis 6.2](https://springone.io/2021/sessions/leap-ahead-with-redis-62)
+> "The 'Most Loved' database in StackOverflow's Developer survey for the 5th year in a row"
+- Length 26:11, watched on 2021-09-11, **#spring #data #redis**
+- Brian Sam-Bodden as Developer Advocate, Redis Labs
+- DaShaun Carter as Partner Solution Architect, Redis
+- Track: Beginner-Friendly Spring
+
+### Keynotes
+- Redis (162 clients in 50 languages) stores data in memory, not on disk, which brings <1ms latency
+- Srping Data is a damily of project giving a Java/Spring idiomatic ways to access data from low-level constructs to higl-level OO abstractions in either non/reactive or functional way
+- Spring Data Redis provides reasy configuration and access to Redis through low-level connectivity via Lettuce & Jedis libraries, provides `RedisTemplate` as a high-level abstraction for Redis operations (Ops) and implements key-value mappings and repositories.
+- String: ValueOperations can be performed through `StringRedisTemplate#opsForValue` and maximum size of a Redis Key is 512MB and Redis value is 512MB
+   - `redis-cli set stringKey stringValue` (`SET`) sets a key-value.
+   - `redis-cli get stringKey` (`GET`) gets a value by key.
+   - `redis-cli getset stringKey stringUpdatedValue` (`GETSET`) gets a value by key and and sets the value immediatelly in one operation.
+   - `redis-cli getdel stringKey` (`GETDEL`) gets a value by key and deletes the key immediatelly.
+   - `redis-cli getex stringKey ex 3` (`GETEX`) gets and expires a key in a certain number of seconds.
+   - `redis-cli set stringKey stringValue exat 1662163200` (`PXAT`) sets and expires a key at the sprcifiec Unix time in seconds.
+   - `redis-cli set stringKey stringValue pxat 1662163200000` (`PXAT`) sets and expires a key at the sprcifiec Unix time in milliseconds.
+   - `redis-cli ttl stringKey` (`TTL`) returns the remaining time to live of a key that has a timeout.
+ - Hash: HashOperations (`HSET`/`HMSET`/`HGETALL`)  can be performed through `StringRedisTemplate#opsForHash`, the hash maps identified by *keys* between string *fields* and string *values* closely resembles Java Map and can store over 4 billion field-value pairs.
+   - `redis-cli hset hashKey currentTime "${date}"` (`HMET`) sets field in the hash stored at key to value.
+   - `redis-cli hmset hashKey status "Good" name "Redis" greeting "Hi"` (`HSMET`) sets multiple fields in the hash but is deprecated as of Redis 4.0.0 in favor to `HSET`
+   - `redis-cli hget hashKey greeting`  (`HGET`) returns the `value` associated with `field` in the hash stored at key.
+   - `redis-cli hgetall hashKey`  (`HGETALL`) returns all fields and values of the hash stored at key.
+   - `redis-cli hrandfield hashKey 4 WITHVALUES` (`HRANDFIELD`) returns array of random distinct fields (if positive count) or random fields with possible duplicates (if negative count). 
+ - List: ListOperations can be performed through `ListOperations<K, V>` and they are implemented in Redis as a linked list but has enough commands to turn it into a stack, queue or any linear storage and store over 4 billion entries.
+   - Adding: Pushing in `LPUSH`/`LPUSHX`/`RPUSH`/`RPUSHX`, inserting before/after `LINSERT` and setting the value at an index `LSET`.
+   - Removing: Popping off `LPOP`/`RPOP`/`BLPOP`/`BRPOP` (including blocking operations), by value `LREM` and by index range `LTRIM`.
+   - Accessing: By index `LINDEX` and by range `LRANGE`.
+   - Between sits: Last from one/to firt in another `RPOPLPUSH`/`BRPOPLPUSH` and pop and then push `LMOVE`/`BLMOVE` (including blocking operations).
+ - Set: SetOperations can be performed through `SetOperations<K, V>` and thery are collection of unique and unsorted string elements supported by operations such as union, intersection and subtraction, most operations perform in constant time (`O(n)`).
+   - Use cases: unique item management, tracking OPs, content filtering.
+   - Adding `SADD` and removing `SPOP`/`SREM`.
+   - Accessing `SMEMBERS`/`SRANDMEMBERS and retrieving `SSCAN`.
+   - Set info `SCARD`/`SISMEMBER`/`SMISMEMBER` and set operations `SDIF*`/`SINTER*`/`SUNION*`/`SMOVE`.
+ - Sorted Set operations can be performed through `ZSetOperations<K, V>`, they are weighted sets, tuples with a *value* and a *score* and elements are always taken by their score or in ranges, in spring Data Redis uses `Set<TypedTuple<E>>` data type.
+   - Use cases: Prioriy queues, low-latency leaderboards or secondary indexing in general 
+   - `redis-cli zadd game1 100 "Frank" 740 "Jennifer" 200 "Pieter" 512 "Dave" 690 "Ana"` (`ZADD`)
+   - `redis-cli zrange game1 0 -1 wihscores` (`ZRANGE`)
+   - `redis-cli zinter 2 game1 game2 wihscores` / `redis-cli zinter 2 game1 game2 withscores aggregate max` (`ZINTER`) 
+   - `redis-cli zdiff 2 game1 game2 withscores`
+   - `redis-cli zadd game1 100 "Foo"` (`ZADD`)
+ - Geo: GeoOperations can be performed through `StringRedisTemplate#opsForGeo`, it is a sorted set as a latitude and longitude encoded into the score of thesorted set using the geohash algorithm.
+   - Sicne it is still a sorted set, it is possible to use `Z*` commands 
+   - `redis-cli GEOAD running-poi -94.238226 39.029377 "Lake"
+   - `redis-cli GEODIST running-poi "Lake" "Park"
+ - Streams before Redis 6.2 could be only trimmed to an exact or aproximate number of entries which were odd as it defies stream processing
+   - The rule of thumb is that each entry in a stream must have a unique ID greater than any previously seen in the stream (Redis by  defaut uses millisecods timestamps for this) and now allows you to trim based on ID.
+ - Redis team is up to extending and complementing Spring Data Redis with:
+  - Access to module commands via Spring's Tepmlates, multi-model obect-mapping support, JSON obect-mapping and RediSearch integration, Redis Graph oriented-mapping, RediSearch integration for existing Redis Hash mapped entities. 
+- Redis Modules Tepmlates follow Spring Data Redis `opsForXXX()` pattern and provide Native way to interact at the command-level with RedisSON, RedisGraph, RediSearch, RedisAI, RedisBloom, and RedisTimeSeries
