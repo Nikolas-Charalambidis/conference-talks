@@ -447,7 +447,7 @@ _____
 
 ## [Winning the Lottery with Spring: A Microservices Case Study for the Dutch Lotteries](https://springone.io/2021/sessions/winning-the-lottery-with-spring)
 
-> "The 'Most Loved' database in StackOverflow's Developer survey for the 5th year in a row"
+> "Microservices architecture built using state-of-the-art Spring Boot and Cloud components"
 - Length 27:12, watched on 2021-09-12, **#spring #microservices**
 - Joris Kuipers as CTO, Trifork
 - Track: Architecture
@@ -475,3 +475,4 @@ _____
 
 ### Rating ⭐⭐⭐⭐⭐
 - ✅ Great use-case talk especially about technology and know-how of using custom Spring Boot autoconfiguration and replacing Spring Netflix
+- ⛔ Lack of time for more detailed API gateway description and circuit breaker solution
