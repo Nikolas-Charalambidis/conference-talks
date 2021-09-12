@@ -438,3 +438,40 @@ _____
  - Redis team is up to extending and complementing Spring Data Redis with:
   - Access to module commands via Spring's Tepmlates, multi-model obect-mapping support, JSON obect-mapping and RediSearch integration, Redis Graph oriented-mapping, RediSearch integration for existing Redis Hash mapped entities. 
 - Redis Modules Tepmlates follow Spring Data Redis `opsForXXX()` pattern and provide Native way to interact at the command-level with RedisSON, RedisGraph, RediSearch, RedisAI, RedisBloom, and RedisTimeSeries
+
+### Rating ⭐⭐⭐⭐⭐
+- ✅ Enthustiatic talk covering wide-range of Redis topics with practical examples with some ease
+- ⛔ Some commands could be omitted in favor of where Redis aim now as said at the end of the session
+
+_____
+
+## [Winning the Lottery with Spring: A Microservices Case Study for the Dutch Lotteries](https://springone.io/2021/sessions/winning-the-lottery-with-spring)
+
+> "The 'Most Loved' database in StackOverflow's Developer survey for the 5th year in a row"
+- Length 27:12, watched on 2021-09-12, **#spring #microservices**
+- Joris Kuipers as CTO, Trifork
+- Track: Architecture
+
+### Keynotes
+- Case study of the integration platform developed for the Dutch Lotteries
+- Architecture: Separate domains (verticals - specific games, subscriptions, players...) and service types (horizontals)
+- Project Setup: Every service is Spring Boot or Cloud app running on AWS EKS as AWS proprietary Docker orchestrator (K8S) using blocking HTTP for inter-service communication (started at the end of 2017, but too early for reactive programming as Spring was starting too, even though it would have been a good fit since asynchronous non-blocking is basically the bread and butter of building gateways and integrated solutions).
+- Currently around 30 services ad a bunch of libraries inside of a single GIT repository with a single Gradle build that produces all of the actual Docker images because it is easy to build shared libraries used by a variety of services so no artifactory is needed. 
+  - `libs` module are only Java libraries (not Dockerized servicies): `accoung-status-store-client`, `auto-parameter-store-config`, `common-error-handling`, `common-potcodeservice-client`, `encryption`, `experience-web-shared`, `gateway-logging`, `gateway-monitoring`, `gateway-specification`, `gateway-testing`, `gateway-utils`, `http-client-autoconfiguer`, `open-api-specifications`, `sqs`, etc...
+  - `inlane`, `marketing`, `players` (sample submodules: `player-experience`, `player-experience-spec`, `player-igaming`, `player-process`, `player-specs`, `player-system`, `player-system-client`, etc...)
+- **Autoconfiguration for the people**
+  - Spring Boot autoconfiguration is the main and most visible feature used extensively within the framework but not restricted to Spring Boot itself.
+  - Although it seems like a black-box or magic it is nothing more than conditional configuration classes providing beans that may or may not be initiated at startup based on certain conditions (classpath presence, something defined...), automatically applied and listed in `META-INF/spring.factories`.
+  - Custom autoconfiguration benefits in encapsulation and dynamic configuration (conditions, overridable defaults) and making components auto-configurable with default properties enable configuration options discovery (`@ConfigurationProperties` allows IDE auto-completion).
+  - Key concepts: `@Configuration`, `@PropertySource(value="classpath:httpclientlogging.properties")`, `@Import(HttpConnectionPoolHealthIndicaor.class)`, `@ConfigurationProperties("http.client"` on the properties POJO class, and `@Bean` definitions including `@Primary`, `@ConfitionalOnMissingBean` and `@Order`.
+  - Examples: Custom JSON marshaling configuration, error handling (involves JSON response parsing), authentication (OAuth bearer token, basic auth), etc...
+- **Observability for messaging**
+  - Distributed Tracking is allowed by Spring Sleuth that propagates correlation ID per logical request called Trace ID and is instrumented by many Spring components out of the box.
+  - Spring Cloud AWS for SQS integration (point-to-point solution - templates for sending, listener container for receiving) + Sleuth integration for message headers = To correlate asynchronous logging as a port of regular flow and provide Admin tool to link error logs for dead-lettered messages
+- **Spring Cloud Netflix**
+  - Part of the start of Spring Cloud allowed Netflix OSS stack to be used with Spring Boot (Eureka, Zuul, Ribbon, Hystrix...), but Netflix has stopped maintenance, and Spring support announced to stop as well providing alternatives.
+  - `Experience API` -> `Process API` -> `System API` - sometimes the Process API needed to do actual work and sometimes, however, just proxy through so they wanted to have an automatic way of doing that proxy which is what Zuul did
+  - With replacing deprecating Zuul they were forced to call `Experience API` -> `System API` directly in some cases, but they needed something to proxy 3rd party libraries, so they used Spring Cloud Gateway MVC (not SPring Cloud Gateway) which is a simple `RestTemplate` wrapper (`ProxyExchange passed to controller method allows for adding headers & query params, changing path and making the actual request) with Spring MVC integration for building proxies supporting reactive as well.
+
+### Rating ⭐⭐⭐⭐⭐
+- ✅ Great use-case talk especially about technology and know-how of using custom Spring Boot autoconfiguration and replacing Spring Netflix
