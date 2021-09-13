@@ -79,7 +79,7 @@ _____
 
 ### Rating ⭐⭐⭐☆☆
 - ✅ Broad overview of microservice architecture facilities and difficulties
-- ⛔ Missing introduction into cloud-native concepts since this is marked as beginner-friendly, too many buzzwords, .NET examples, I can't extract the gist of the talk into a single quote
+- ⛔ Missing introduction into cloud-native concepts since this is marked as beginner-friendly, too many buzzwords, .NET examples, I can't extract the gist or quote of the talk into the header
 
 _____
 
@@ -480,8 +480,6 @@ _____
 _____
 
 ## [Live Coding Spring, Kafka, & Elasticsearch: Personalized Search Results on Ranking and User Profile](https://springone.io/2021/sessions/spring-kafka-elasticsearch)
-
-> "..."
 - Length 26:42, watched on 2021-09-12, **#spring #elasticsearch**
 - Erdem Günay as CTO, Layermark
 - Track: Architecture
@@ -504,6 +502,6 @@ _____
    - If a particular user searches for a certain element, that element should be bosted in the search for that particular user only. 
    - Another funciton must be taken into account similarly as previous boosting: `"script" : { "source" : "params.boosts.get(doc[params.artistIdFieldName].value)", "lang" : "painless", "params" : { .. } }`.
 
-### Rating ⭐⭐⭐⭐⭐
-- ✅ Informative overview of what is ElasticSearch capable of, although, the live demo is impossible to follow
-- ⛔ The way result popularity in real-time was updated from Kafka was not really clearly explained, it's not clear why Kafka figures in the demo if an easier approach could be used and the title is misleading then, data structure could be shown as not everybody has experience with ElasticSearch (all because I guess caused by of lack of time).
+### Rating ⭐⭐⭐⭐☆
+- ✅ Informative overview of what is ElasticSearch capable of, although, the live demo is impossible to follow but still impressive
+- ⛔ The way result popularity in real-time was updated from Kafka was not really clearly explained, it's not clear why Kafka figures in the demo if an easier approach could be used and the title is misleading then, data structure could be shown as not everybody has experience with ElasticSearch (all because I guess mostly caused by of lack of time), I can't extract the gist or quote of the talk into the header
