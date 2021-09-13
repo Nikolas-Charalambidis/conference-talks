@@ -476,3 +476,34 @@ _____
 ### Rating ⭐⭐⭐⭐⭐
 - ✅ Great use-case talk especially about technology and know-how of using custom Spring Boot autoconfiguration and replacing Spring Netflix
 - ⛔ Lack of time for more detailed API gateway description and circuit breaker solution
+
+_____
+
+## [Live Coding Spring, Kafka, & Elasticsearch: Personalized Search Results on Ranking and User Profile](https://springone.io/2021/sessions/spring-kafka-elasticsearch)
+
+> "..."
+- Length 26:42, watched on 2021-09-12, **#spring #elasticsearch**
+- Erdem Günay as CTO, Layermark
+- Track: Architecture
+
+### Keynotes
+- ElasticSearch based indexed search using analyzers and filters with a boost by popularity and by user behavior.
+- `GET /_cat/indices` returns all the indicies
+- `POST /content/_search` queries the `content` index but an exception is thrown if index is not found (`PUT /content`/`POST /content/_bulk`).
+- **ElasticSearch Analyzers**
+  - By default, ElasticSearch finds by an exact match, to enable easy search using a single letter ignoring accented characters (`é`, `í`, etc...) it is needed to use ElasticSearch Analyzers utilizing `POST _analyze` with `"tokenizer": "standard"` and `"char_filter"` with `pattern_replace` "type` to replace anything that is not an alphanumeric character.
+  - To get rid of capital letters and non-ASCII characters, it is needed to add token `"filter" : ["asciifolding", "lowercase"]` and specific `edge-ngram` among them.
+  - It is needed to delete the former index and recreate the index.
+  - Each `hit` has a `_score` that sets the element order in the returned structure.
+  - For search by fields, it is possible to add *boosting*, ex. boost the search of artist name `artist_name` by a factor of 5 (exact match should have a bigger score) as `artist_name^5` or `artist_name.prefix^1` where are the generated tokens stored in. 
+  - `"fuzziness" : 1` enables to match other elements (ex. `"query": "sezan"` would match `Selena Gomez` with a low `_score` since there is a partial match in individual letters from search (basically allows typos).
+- **Boosting results by popularity**
+  - If search is based on a single letter (`s`), `Shakira` might be places below `Selena Goméz` although the popularity sais otherwise (I liek Shakira more, though). It is needed to enable scoring on search through `POST /content/_search` and provide `"script_score"` in `"functions"` in `"function_score"` in `"query"`: `"script" { "source" : "Math.max(((!doc['ranking'].empty ) ? Math.log10(doc.['ranking'].value) : 1), 1)", "lang" : "painless" }`.
+  - Assuming the popularity is updated programmatically (200 asynchronous hits by Kafka) it is needed to process the listen-event messages and place them in listen-event indices using `POST /listen-event-*/_search/`. User profiles are also getting generated (`POST /user-profile/_search`).
+ - **Boosting by user behavior**
+   - If a particular user searches for a certain element, that element should be bosted in the search for that particular user only. 
+   - Another funciton must be taken into account similarly as previous boosting: `"script" : { "source" : "params.boosts.get(doc[params.artistIdFieldName].value)", "lang" : "painless", "params" : { .. } }`.
+
+### Rating ⭐⭐⭐⭐⭐
+- ✅ Informative overview of what is ElasticSearch capable of, although, the live demo is impossible to follow
+- ⛔ The way result popularity in real-time was updated from Kafka was not really clearly explained, it's not clear why Kafka figures in the demo if an easier approach could be used and the title is misleading then, data structure could be shown as not everybody has experience with ElasticSearch (all because I guess caused by of lack of time).
