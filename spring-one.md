@@ -480,7 +480,7 @@ _____
 _____
 
 ## [Live Coding Spring, Kafka, & Elasticsearch: Personalized Search Results on Ranking and User Profile](https://springone.io/2021/sessions/spring-kafka-elasticsearch)
-- Length 26:42, watched on 2021-09-12, **#spring #elasticsearch**
+- Length 26:42, watched on 2021-09-13, **#spring #elasticsearch**
 - Erdem Günay as CTO, Layermark
 - Track: Architecture
 
@@ -505,3 +505,50 @@ _____
 ### Rating ⭐⭐⭐⭐☆
 - ✅ Informative overview of what is ElasticSearch capable of, although, the live demo is impossible to follow but still impressive
 - ⛔ The way result popularity in real-time was updated from Kafka was not really clearly explained, it's not clear why Kafka figures in the demo if an easier approach could be used and the title is misleading then, data structure could be shown as not everybody has experience with ElasticSearch (all because I guess mostly caused by of lack of time), I can't extract the gist or quote of the talk into the header
+
+_____
+
+## [Debugging Complex Issues in Web Applications](https://springone.io/2021/sessions/debugging-complex-issues-in-web-applications)
+> "It is often required to simulate lost connection at some point by literally two machines and "pulling out the cable."
+- Length 51:15, watched on 2021-09-14, **#tomcat**
+- Mark Thomas as Staff Engineer, VMware
+- Track: Intermediate/Advanced Spring
+
+### Keynotes
+- **Complex issues** are subjective (everybody has a different understanding o this term), and there are three factors that are not completely independent but it tends one dominates more than the other.
+  - Issue that isn't 100% repeatable which typically means harder to debug, it drags the process out (get data, analyze, fix, repeat).
+  - Only occurs under load, which generates an awful load of application/debug logs, Wireshark, and network traces.
+  - Issues around concurrency tend to happen when there are multiple threads interacting and a problem only occurs when a particular sequence of events happens between those threads.
+  - Methodology: Identify at a high level, record state before/after and check the consistency of them with expectations, sometimes it is needed to record multiple points.
+    - To defy the statistical variation, it is needed more samples, load, and tests: at least 20 tests, at least 5 passes, at least 5 failures, and keep adding tests and load until you meet all three.
+    - Beware and the issue can have multiple root causes.
+- **Use-case: [Large and concurrent HTTP/2 responses](https://tomcat.markmail.org/thread/texcre345tmyn337)** - well-described, 1-2 days to fix
+  - Trouble with HTTP/2 (HTTP/2 connections are multiplexed: Multiple streams are trying to write and semaphore ensures only one writes at a time) during bulk data transfer (server -> client), multiple streams on same connection blocked indefinitely (configured an infinite timeout, so blocked until connection timeout).
+    - > When a write operation is stuck servlet is not able to push any data to the client and the client is also stuck waiting for more data. There wasn't any error/exception at the client/server. `streamReadTimeout` and `streamWriteTimeout` are configured as `-1` so they are infinitely waiting for the write semaphore.
+    - Described details for a test case to be coded: writing large files (1GB - 5GB) on three or more concurrent streams.
+    - Described working HTTP/1.1 and non-working configurations (HTTP/2), reproducible both on blocking and non-blocking API
+  - Identify root cause process:
+    1. Since fairly reproducible, it was possible to continually exclude functionality to narrow the focus: Disabling asyncIO proved it is where to start looking and provided a user a workaround (disable this functionality).
+    2. It was possible to see threads waiting for semaphore (it should be released by Poller indicating ready to write), code review started (possible root cause was non-volatile `interestOps` flag) but volatile `interestOps` on a higher level of tests didn't show the issue was fixed as the test was failing - the importance of sufficient testing sample.
+    3. Next step was to debug Socket/Poller interactions but added logging changed time timing and issue became less repeatable so the logging strategy was needed to be changed: copy relevant information to variables and log them after failure or event of interest that much less likely affects timing - but after a log of debugging Poller was working correctly.
+    4. Poller was signaling write was possible but `OperationState` was `null` which was potential root cause because the event couldn't be processed and semaphore was never released - although it was fixed, since reading and write operations are similar, the same error could exist elsewhere (read also affected but nobody haven't stumbled across it yet).
+    5. Fix: https://github.com/apache/tomcat/commit/92b91857
+- **Use-case: [Connection drops before writing response](https://tomcat.markmail.org/thread/bf6oz7ibxccvodd2)** ~ well-written report but, the presenter had no access to the system where the issue could be created, 6 weeks to fix
+  - Very occasionally Tomcat didn't send a response shown in the access log, no exceptions and Wireshark shows the GET request was followed by a TCP FIN packet from Tomcat (clean TCP close).
+  - Identify root cause process:
+    1. Asked various questions to try to eliminating features and/or possible failures: small response ~1kB (small enough to buffer entirely), typical response time 60m (not timeout-related), FIN sent 100µs after request received (no timeout-related), the request was fully sent (no waiting for the rest of the request and not malformed), User-agent -> Firewall -> Nginx -> Tomcat, HTTP/1.0 request (ruled out HTTP/2), no indicator from network traces from Tomcat and Nginx, unique request IDS aided correlation across logs, issue started in the last month but no obvious changes released, systems were lightly loaded (20 requests/s).
+    2. Configuration changes: Switching from BIO to NIO didn't fix the issue (not in endpoint specific code, less likely JVM issue),  added `%b` configuration to access log to suggest JSP is generating response (it was), no GZIP (no compression involved), no obvious explanation.
+    3. Custom debug code to provide detail on when things were happening (who is closing the socket) because it was closed long before Tomcat tried to write, but neither Tomcat nor the application was closing it - what the hell was it?
+    4. After more logging, it showed the exception "Bad file descriptor" was swallowed, because it was assumed to be a dropped client connection (Tomcat changed to debug-log them), no indication file descriptors ran out, no other connections present between Nginx and Tomcat when the issue occurred and no indication of JRE mishandled file descriptors.
+    5. `strace` time showed the socket close came from somewhere in the JRE and an attempt to correlate with thread dumps to identify where the close occurred showed a native library incorrectly managed the file descriptors associated with a fork and closed a file descriptor twice - in same cases the descriptor has already been re-used for the network connection which was hence closed..
+    6. Vendor accepted the native library (PDFTron) was at fault and provided instructions to disable the use, but Tomcat recommended switching to HTTP/1.1 for the Nginx/Tomcat connection to assure fewer and persistent new connections do not constantly change the file descriptor so the native library was less likely is going to have the same one and then close it on you.
+- **Use-case: [Response write does not compile](https://github.com/spring-projects/spring-framework/issues/26434)** ~ originate on Spring Framework's issue tracker, well-written, 6 weeks to fix
+  - Small number of response writing fails to complete with WebFlux on Tomcat under load, low repeatability was the biggest issue as it was timing-sensitive.
+  - Multiple issues identified: Spring handling of failed flushes, incorrect Tomcat error handling (attempted to flush the error page content after an I/O write error overwritten the original one, IO errs were not triggering to the error listener, Tomcat assumed `IOEception` would be seen bu the container but WebFlux swallowed them).
+  - After fixing the Spring issue, Tomcat now calls error listener before internal error handling and it ended with [JDK bug](https://bugs.openjdk.java.net/browse/JDK-8263243) and [Ubuntu bug](https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1924298) because for once incoming connection there were two firings of the socket accept method and there should absolutely be a one-to-one mapping (so there were two threads processing the same socket).
+- **Techniques**
+  - Logging and Wireshark should use a 5-minute rolling window, don't be afraid to use `ERROR` logs, the network latency-related issues can be simulated in the supervisor, choose the load generator carefully as they are not always completely spec-compliant and might behave not the way you think (especially HTTP/2), it is often required to simulate lost connection at some point by literally two machines and "pulling out the cable", test on multiple platforms since VM or bare metal seems to be less of an issue.
+
+### Rating ⭐⭐⭐⭐☆
+- ✅ Impressive walkthrough of debugging truly complex issues around Tomcat including network communication or Ubuntu, great explanation of the steps proceeded.
+- ⛔ All issues were well-written and an example of a poor one would be nice, the lip-smacking was very intensive and annoying with all due respect to the speaker.
