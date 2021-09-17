@@ -2,10 +2,27 @@
 
 - All sessions for free and online since the 7th of September 2021
 
-| Session                                                                                           | Tags                   | Length | Track        |
-|---------------------------------------------------------------------------------------------------|------------------------|--------|--------------|
-| [How To Be a Java Automated Testing Superstar](#how-to-be-a-java-automated-testing-superstar)     | #architecture #testing | 26:24  | Architecture |
-
+| Session                                                                                           | Tags                          | Length | Track                        |
+|---------------------------------------------------------------------------------------------------|-------------------------------|--------|------------------------------|
+| [How To Be a Java Automated Testing Superstar](#how-to-be-a-java-automated-testing-superstar)     | #architecture #testing        | 26:24  | Architecture                 |
+| [Deploy Code into Production Faster on Kubernetes](#deploy-code-into-production-faster-on-kubernetes) | #devops #cloud #native #microservices | 27:31 | Cloud Native Platforms |
+| [Modern Application Configuration in Kubernetes](#modern-application-configuration-in-kubernetes) | #devops #kubernetes #spring #cloud | 26:49 | Architecture             |
+| [You Can Be Cloud Native, Too](#you-can-be-cloud-native-too)                                      | #cloud #native                | 27:00  | Beginner-Friendly Spring     |
+| [A Developer’s Introduction to Containers](#a-developers-introduction-to-containers)              | #containers #devops           | 26:15  | Cloud Native Platforms       |
+| [Building Fast and Scalable Persistence Layers with Spring Data JPA](#building-fast-and-scalable-persistence-layers-with-spring-data-jpa) | #spring #jpa #hibernate | 54:50 | Intermediate/Advanced Spring |
+| [Packaging and Distributing Applications for Kubernetes](#packaging-and-distributing-applications-for-kubernetes) | #containers #devops           | 24:55  | Architecture |
+| [From Spring Framework 5.3 to 6.0](#from-spring-framework-53-to-60)                               | #java #spring #jakarta        | 25:34  | Intermediate/Advanced Spring |
+| [Spring Security 5.5 From Taxi to Takeoff](#spring-security-55-from-taxi-to-takeoff)              | #spring #security             | 51:05  | Beginner-Friendly Spring     |
+| [Test-Driven Security](#test-driven-security)                                                     | #spring #security #test       | 22:25  | Intermediate/Advanced Spring |
+| [Code Wars: Database Decisions for Application Development](#code-wars-database-decisions-for-application-development) | #spring #security #test | 51:14 | Beginner-Friendly Spring |
+| [Spring Data JDBC: Beyond the Obvious](#spring-data-jdbc-beyond-the-obvious)                      | #spring #data #jdbc           | 52:39  | Intermediate/Advanced Spring |
+| [Microservices Testing at Scale](#microservices-testing-at-scale)                                 | #microservice #test           | 22:58  | Architecture                 |
+| [A Spring Data’s Guide to Persistence](#a-spring-datas-guide-to-persistence)                      | #spring #data                 | 53:54  | Beginner-Friendly Spring     |
+| [Live Coding Spring Data Queries to the End of the Persistence Universe](#live-coding-spring-data-queries-to-the-end-of-the-persistence-universe) | #spring #data | 26:11 | Beginner-Friendly Spring |
+| [Leap Ahead with Redis 6.2](#leap-ahead-with-redis-62)                                            | #spring #data #redis          | 55:32  | Beginner-Friendly Spring     |
+| [Winning the Lottery with Spring: A Microservices Case Study for the Dutch Lotteries](#winning-the-lottery-with-spring-a-microservices-case-study-for-the-dutch-lotteries) | #spring #microservices | 27:12 | Architecture |
+| [Live Coding Spring, Kafka, & Elasticsearch: Personalized Search Results on Ranking and User Profile](#live-coding-spring-kafka--elasticsearch-personalized-search-results-on-ranking-and-user-profile) | #spring #elasticsearch | 26:42 | Architecture |
+| [Debugging Complex Issues in Web Applications](#debugging-complex-issues-in-web-applications)     | #spring #tomcat               | 51:15  | Intermediate/Advanced Spring |
 _____
 
 ## [How To Be a Java Automated Testing Superstar](https://springone.io/2021/sessions/how-to-be-a-java-automated-testing-superstar)
@@ -30,7 +47,7 @@ _____
 
 ## [Deploy Code into Production Faster on Kubernetes](https://springone.io/2021/sessions/modern-application-configuration-in-kubernetes)
 > "Developer experience on DIY platforms is lacking."
-- Length 27:31, watched on 2021-09-07, **#devops #kubernetes #cloud #native #microservices**
+- Length 27:31, watched on 2021-09-07, **#devops #cloud #native #microservices**
 - Valentina Alaria as Director Product Management, VMware
 - Track: Cloud Native Platforms
 
@@ -317,7 +334,7 @@ _____
 ## [Microservices Testing at Scale](https://springone.io/2021/sessions/microservices-testing-at-scale)
 > "Contract testing allows API producers and consumers work in a decoupled fashion"
 - Length 22:58, watched on 2021-09-09, **#microservice #test**
-- Kishore Kotaas Sr Architect, Discover Financial Services
+- Kishore Kotaas as Sr Architect, Discover Financial Services
 - Sindhu Nair as Principal Value Stream Architect, Discover Financial Services
  - Track: Architecture
 
@@ -372,7 +389,7 @@ _____
 
 ## [Live Coding Spring Data Queries to the End of the Persistence Universe](https://springone.io/2021/sessions/introduction-to-spring-data)
 > "The queries must flow"
-- Length 26:11, watched on 2021-09-11, **#spring #data**
+- Length 55:32, watched on 2021-09-11, **#spring #data**
 - Greg Turnquist as Principal Software Engineer, VMware
 - Track: Beginner-Friendly Spring
 
@@ -514,7 +531,7 @@ _____
 
 ## [Debugging Complex Issues in Web Applications](https://springone.io/2021/sessions/debugging-complex-issues-in-web-applications)
 > "It is often required to simulate lost connection at some point by literally two machines and "pulling out the cable."
-- Length 51:15, watched on 2021-09-14, **#tomcat**
+- Length 51:15, watched on 2021-09-14, **#spring #tomcat**
 - Mark Thomas as Staff Engineer, VMware
 - Track: Intermediate/Advanced Spring
 
