@@ -586,7 +586,34 @@ _____
 - Thomas Vitale as Senior Software Engineer, Systematic
 - Track: Beginner-Friendly Spring
 
-...
+### Keynotes
+- If Flyway should be used with a Reactive application, it is needed to provide JDBC connecion to Flyway as it doesn't support R2DBC drivers.
+- **Spring Actuator**
+  - `management.endpoints.web.exposure.include=*` exposes all endpoints, although it is better to make a selection
+  - `GET /actuator/health` is a base health endpoint includining components (Database), liveness and readyness needed especially fr Kubernetes.
+    - Livenes if `DOWN`, Kubernetes restarts the cnotainer because it means it entered into a faulty state
+    - Readiness if `DOWN` means that application cannot handle more requests so Kubernetes stops sending traffic to that specific instance
+  - `GET /actuator/flyway` returns all the information regarding the migrations, stored in database relation `flyway_schema_history` with all the migration statuses that have been run.
+  - `GET /actuator/prometheus` returns useful metrics about the application easy to scrap from the Prometheus server and show them in dashboards such as Grafana.
+  - `GET /actuator/heapdump` crates a snapshot of heap memory to investigate ex. memory leaks and fix memory issues.
+- **Packaging** (Gradle is in examples but for Maven it works the same) 
+  - `./gradlew bootJar` packs the application as a fat jar, a standalone jar with all the dependencies needed by application to run correctly with no external dependency except the JVM, which is easily depoyable to cloud platforms like Heroku or Azure.
+  - To make the application even more portable and deployable on platform like Kubernetes, it is possible to package the application as a container image using `./gradle bootBuildImage`.
+  - Sprign Boot Plugin uses under the hood cloud-native build backs which is a specification to convert application source into contanier images without a need to provide a Dockerfile (Spring uses `packeto-buildbacks` implementation to produce prouction ready images good for security and optiized for both building and running).
+  - *Java Memory Calculator* is included in the final image and configures heap and non-heap memory of the JVM running in the container at start-up.
+ - **Properties configuration**
+   - Property fils for local development environment but Spring Ecosystem provide also different strategies
+   - A good strategy is that property files define default value used in the deployment environment (URL to the local DB), for all properties not related to the infrastructure use Sonfiguration Service like Spring Cloud Config (connection pools, timeouts and retries, feature flags, external services with URLs, usernames and passwords, or PAAS specific properties), and Kubernetes specific propertues with Spring Active Profiles and internal services (URLs, usernames and passwords) use K8S Config Maps and Secrets. 
+   - **Configuring Resources for JVM containers**
+     - CPU: Is a compressible resource and throttles when its limit is hit - application still runs.
+     - Memory: It is not a compressible resoucre and is OOMKilled when its limit is killed - application crashes
+     - It is recomended to set in `containers` K8S YAML configuraion `resources.requests.memory` and `resources.requests.cpu` and `resources.limits.memory` to assign minimum values to the container - it is also a good practice to set `requests` and `limits` values equal to guarantee the best performance.
+     - To get some start-up boost it is possible to omit the CPU limit as long as we know it is a compressible resource.
+   - Rememberto set livenes and readiness probes in K8S YAML configuraion `containers.livenessProbe` and `conainers.readinessProbe` - especially `httpGet.path`, `httpGet.port`, `initialDelaySeconds` and `periodSeconds`.
+  
+### Rating ⭐⭐⭐⭐☆
+- ✅ Hanful overview of Spring Kubernetes and producion friendly features that Spring Boot Actuator provides out-of-box.  
+- ⛔ The application could be ready to save some time (although the gist of the talk is to highlight quick rollout to production.
 
 _____
 
