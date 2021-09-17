@@ -573,3 +573,33 @@ _____
 ### Rating ⭐⭐⭐⭐☆
 - ✅ Impressive walkthrough of debugging truly complex issues around Tomcat including network communication or Ubuntu, great explanation of the steps proceeded.
 - ⛔ All issues were well-written and an example of a poor one would be nice, the lip-smacking was very intensive and annoying with all due respect to the speaker.
+
+_____
+
+## [Spring Boot—Production Boost](https://springone.io/2021/sessions/spring-boot-production-boost)
+> ""
+- Length 26:09, watched on 2021-09-14, **#spring #kubernetes**
+- Thomas Vitale as Senior Software Engineer, Systematic
+- Track: Beginner-Friendly Spring
+
+...
+
+_____
+
+## [How to Use KPIs in an Agile Delivery Environment](https://springone.io/2021/sessions/how-to-use-kpis-in-an-agile-delivery-environment)
+> ""
+- Length 24:15, watched on 2021-09-14, **#agile #project #management #kpi**
+- Arijit Sarbagna as Director - Agile & DevSecOps, Atos
+- Track: Agile Leadership
+
+...
+
+_____
+
+## [Why Every Software Team Should Have a Designer](https://springone.io/2021/sessions/why-every-software-team-should-have-a-designer)
+> ""
+- Length 24:15, watched on 2021-09-16, **#agile #project #management**
+- Antonia Horvath as Delivery Lead & Design Manager, VMware Tanzu Labs
+- Track: Agile Leadership
+
+...
