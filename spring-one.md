@@ -2,11 +2,15 @@
 
 - All sessions for free and online since the 7th of September 2021
 
+| Session                                                                                           | Tags                   | Length | Track        |
+|---------------------------------------------------------------------------------------------------|------------------------|--------|--------------|
+| [How To Be a Java Automated Testing Superstar](#how-to-be-a-java-automated-testing-superstar)     | #architecture #testing | 26:24  | Architecture |
+
 _____
 
 ## [How To Be a Java Automated Testing Superstar](https://springone.io/2021/sessions/how-to-be-a-java-automated-testing-superstar)
 > "Write automated tests until they give me the confidence to deploy PROD without manual intervention."
-- Length 26:24, watched on 2021-09-07, **#architecture #testing**
+- Length 26:24, watched on 2021-09-07, **#architecture #test**
 - Billy Korando as Java Developer Advocate, Oracle
 - Track: Architecture
 
