@@ -23,6 +23,10 @@
 | [Winning the Lottery with Spring: A Microservices Case Study for the Dutch Lotteries](#winning-the-lottery-with-spring-a-microservices-case-study-for-the-dutch-lotteries) | #spring #microservices | 27:12 | Architecture |
 | [Live Coding Spring, Kafka, & Elasticsearch: Personalized Search Results on Ranking and User Profile](#live-coding-spring-kafka--elasticsearch-personalized-search-results-on-ranking-and-user-profile) | #spring #elasticsearch | 26:42 | Architecture |
 | [Debugging Complex Issues in Web Applications](#debugging-complex-issues-in-web-applications)     | #spring #tomcat               | 51:15  | Intermediate/Advanced Spring |
+| [Spring Boot—Production Boost](#spring-bootproduction-boost)                                      | #spring #kubernetes           | 26:09  | Beginner-Friendly Spring     |
+| [How to Use KPIs in an Agile Delivery Environment](#how-to-use-kpis-in-an-agile-delivery-environment) | #agile #project #management #kpi | 24:15 | Agile Leadership       |
+| [Why Every Software Team Should Have a Designer](#why-every-software-team-should-have-a-designer) | #agile #project #management   | 23:24  | Agile Leadership             |
+
 _____
 
 ## [How To Be a Java Automated Testing Superstar](https://springone.io/2021/sessions/how-to-be-a-java-automated-testing-superstar)
