@@ -104,7 +104,7 @@ _____
 
 ### Rating ⭐⭐⭐☆☆
 - ✅ Broad overview of microservice architecture facilities and difficulties
-- ⛔ Missing introduction into cloud-native concepts since this is marked as beginner-friendly, too many buzzwords, .NET examples, I can't extract the gist or quote of the talk into the header
+- ⛔ Missing introduction into cloud-native concepts since this is marked as beginner-friendly, too many buzzwords, .NET examples
 
 _____
 
@@ -529,7 +529,7 @@ _____
 
 ### Rating ⭐⭐⭐⭐☆
 - ✅ Informative overview of what is ElasticSearch capable of, although, the live demo is impossible to follow but still impressive
-- ⛔ The way result popularity in real-time was updated from Kafka was not really clearly explained, it's not clear why Kafka figures in the demo if an easier approach could be used and the title is misleading then, data structure could be shown as not everybody has experience with ElasticSearch (all because I guess mostly caused by of lack of time), I can't extract the gist or quote of the talk into the header
+- ⛔ The way result popularity in real-time was updated from Kafka was not really clearly explained, it's not clear why Kafka figures in the demo if an easier approach could be used and the title is misleading then, data structure could be shown as not everybody has experience with ElasticSearch (all because I guess mostly caused by of lack of time)
 
 _____
 
@@ -581,7 +581,6 @@ _____
 _____
 
 ## [Spring Boot—Production Boost](https://springone.io/2021/sessions/spring-boot-production-boost)
-> ""
 - Length 26:09, watched on 2021-09-14, **#spring #kubernetes**
 - Thomas Vitale as Senior Software Engineer, Systematic
 - Track: Beginner-Friendly Spring
@@ -613,17 +612,51 @@ _____
   
 ### Rating ⭐⭐⭐⭐☆
 - ✅ Hanful overview of Spring Kubernetes and producion friendly features that Spring Boot Actuator provides out-of-box.  
-- ⛔ The application could be ready to save some time (although the gist of the talk is to highlight quick rollout to production.
+- ⛔ The application could be ready to save some time (although the gist of the talk is to highlight quick rollout to production).
 
 _____
 
 ## [How to Use KPIs in an Agile Delivery Environment](https://springone.io/2021/sessions/how-to-use-kpis-in-an-agile-delivery-environment)
-> ""
+> "Goodhart's Law: 'When a measure becomes a target, it ceases to be a good measure'"
+> "'A wealth of information creates a poverty of attention - 'Herbert A. Simon"
 - Length 24:15, watched on 2021-09-14, **#agile #project #management #kpi**
 - Arijit Sarbagna as Director - Agile & DevSecOps, Atos
 - Track: Agile Leadership
 
-...
+### Keynotes
+- Measuring in an Agile environment is problematic as businesses have been curious to measure few specific elements: *scope* delivered on *time*, on *spec*, and on *budget* without compromising quality -> golden triangle.
+- Time has changed but basic needs remain valid, we have to improve and change in perspective: *what* should be measured, *how* to be measured, and more importantly *why*?
+  - **What**: Identify that helps to deliver on time, remove waste, improve quality, reduce cycle line, increase customer satisfaction, stay ahead of the competition and most importantly make/save more money.
+    - Goodhart's Law applies: "When a measure becomes a target, it ceases to be a good measure" - Cobra effect is related.
+    - Cobra effect is that a well-intentioned measure can often backfire and have the opposite effect to intended as happened in India - Intention: Reduce cobra population -> Action: A bounty for dead cobras -> Effect: People start cobra farming (increased population).
+  - Once What is identified, derive **How** having a *Goal* -> *How* do we achieve it -> *How* do we measure it - Example: We want to deliver on time:
+    - ⛔Work extra hours -> Log hours/swipes
+    - ⚠️ Drive 'good estimation' -> Track committed vs. delivered user stories
+    - ⛔Add more people/teams -> Scaling numbers (of teams/members), how quickly they get in track
+    - ⚠️ Introduce test automation -> Automation coverage
+    - ✅ Reduce 'cycle time' -> Control charts
+    - ⛔ Identify 'defects' early -> Defect count in development environment 
+    - ✅ Identify dependencies early -> Backlog scoring
+  - **Why** do we measure what we measure.
+    - We want to avoid knowing too late, too little (to solve the root of the problem rather than symptomatically) and we want to know the right things and most importantly, we want *to do something about it*.
+- Measurement should be done with specific views:
+  - **Productivity**: Are we improving our ability to *deliver* products over time? - Change in amount of working product delivered per Sprint.
+  - **Value delivery**: Are we *prioritizing* the right features to deliver first? - Business value per unit of a team effort.
+  - **Quality**: Are we meeting our *quality* standards? - Defect rate or service downtime.
+  - **Sustainability**: Are we working in a way we can continue *for the long* run? - Mental well-being and technical debt.
+- If we look at measures using **Correct perspective** (the customer/consumer perspective), we can replace KPI by **CPI** (Customer Performance Indicator), i.e. how the customer would benefit:
+  - Productivity -> **Reduced Costs**
+  - Value delivery -> **Optimal Features**
+  - Quality -> **Better Product**
+  - Sustainability -> **Continuity**
+- Executive Dashboard example:
+  - **Wrong**: Story completion itself doesn't make sense as 3 teams are covered delivering in 4 different sprints, two chats are portraying the same information (defect patterns and cumulative story points vs. defects), pie charts with colors misinterpret the meaning
+  - **Correct**: Velocity delta (velocity as points against sprints), revenue delta (revenue per story point against time) happiness delta (subjective happiness against time).
+- To sue KPIs correctly, identify project/program objectives and goals, set few but "well thought of" measures (not becoming targets) and make them transparent, and review them periodically (do they allow us to drive corrections/improvements) and rinse & repeat.
+  
+### Rating ⭐⭐⭐⭐⭐
+- ✅ Highly educative and well-presented approach to the KPI/CPI with examples. Two on-spot quotes.
+- ⛔ -
 
 _____
 
