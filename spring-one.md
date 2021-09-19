@@ -274,7 +274,6 @@ ______
 _____
 
 ## [Code Wars: Database Decisions for Application Development](https://springone.io/2021/sessions/database-decisions-for-application-development)
-> ""
 - Length 51:14, watched on 2021-09-09, **#spring #security #test**
 - Jennifer Reif as Developer Relations Engineer, Neo4j
 - Track: Beginner-Friendly Spring
