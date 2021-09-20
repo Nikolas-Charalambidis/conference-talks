@@ -660,9 +660,38 @@ _____
 _____
 
 ## [Why Every Software Team Should Have a Designer](https://springone.io/2021/sessions/why-every-software-team-should-have-a-designer)
-> ""
+> "There are high chances we don't yet know the full scope of value that design can deliver"
 - Length 24:15, watched on 2021-09-16, **#agile #project #management**
 - Antonia Horvath as Delivery Lead & Design Manager, VMware Tanzu Labs
 - Track: Agile Leadership
 
-...
+### Keynotes
+- Design altitude were design delivers value: **Surface** (look), **Structure**, **Strategy**, **Big picure**
+  - Visual design (Surface + small part of Structure), User Experience (Surface + Structure), Product Design (Surface + Structure + Strategy), Strategy Design (Structure + Strategy + Big Picture).
+- **Balanced Teams**: From day one of when a product is kicked off, designers, product managers, and software engineers work hand in hand, so they share accountability for the overall outcome, not only their discipline - each one is a core partner in the overall success from the day zero.
+- 7 things that will change for the better when we have a designer on our team:
+  - They can teach us to *listen* with humble curiosity, and with the genuine intention to *change our mind* based on what is said.
+    - They can help us prevent building stuff that no one will use through *lab engagements* to run user research every one or two weeks including every single member of the team - listening users get to learn how to ask open-closed questions and interacting with users.
+    - Listening to users makes one so humble and makes one see how often the assumptions having about this idea thought to be true isn't true at all.
+  - They can bring *meaning* to our work by helping us * empathize* with the people we serve.
+    - User research participants can make the whole team realize the product they are building can spark the kind of like behavior change in people which is incredibly powerful.
+    - Bringing meaning into the center of our team by empathizing with the users.
+   - They take chaos* and bring *order* to it as they are trained to turn uncertainty and complexity into human solutions.
+     - Every product starts with such uncertainty and chaos.
+     - For example Covid-19 tracking application: Designers collaborate with the engineers, architects, and scientists to come up with the kind of like messaging logic of who and when would be pinged under extreme circumstances, i.e. so many edge cases, dependencies, and daily changing official guidelines - the result is an application so easy to use for users.
+   - They are great at recognizing *when change is needed* and can optimize a team's processes and ways of working.
+     - It is not only about use interfaces but also internal team and organization processes and seeing what can be changed for the better.
+  - They are *great facilitators* as they can enable a large group of people to do their best thinking, and synthesize those perspectives into actionable insights.
+  - They can help us change the world as their designs can spark impactful * behavior changes* in people.
+    - For example, one wants to visualize data but people that we need to input the data aren't the people that benefit it, such as *timesheets* - behavior change and making sure people that people stick with it is a part of the product and that's when a designer can make a huge impact. 
+  - They can help us tell stories & communicate in a way that *inspires* our audience.
+    - They are great writers and UX copywriting is a whole discipline in itself so the way that the text in an application is written matters so much but it's not only text but also telling stories through images - a team would never be short appealing mockups.
+- How to bring *designer* closer to the team? Rather than just go off and hire a designer follow a couple of concrete steps beginning with making engineers friends with a designer expand the cycle because people who we surround at work matter.
+  1. Make our team's assumptions explicit about the software about to be written
+  2. Learn about, and introduce user research in our team as it is very simple
+  3. Run a design studio (at least scathing session) for the next product challenge or new feature kick-off
+
+### Rating ⭐⭐⭐⭐⭐☆
+- ✅ A mind-opening presentation about how a designer can be helpful with a team and organization.
+- ⛔ Works with false assumptions and premises that all software engineers are extroverts and love spending time daily in the office, the talk could be more remote-friendly due to the Covid-19 situation (and international remote workers).
+
