@@ -691,7 +691,7 @@ _____
   2. Learn about, and introduce user research in our team as it is very simple
   3. Run a design studio (at least scathing session) for the next product challenge or new feature kick-off
 
-### Rating ⭐⭐⭐⭐⭐☆
+### Rating ⭐⭐⭐⭐☆
 - ✅ A mind-opening presentation about how a designer can be helpful with a team and organization.
 - ⛔ Works with false assumptions and premises that all software engineers are extroverts and love spending time daily in the office, the talk could be more remote-friendly due to the Covid-19 situation (and international remote workers).
 
