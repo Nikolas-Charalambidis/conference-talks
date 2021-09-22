@@ -26,6 +26,8 @@
 | [Spring Boot—Production Boost](#spring-bootproduction-boost)                                      | #spring #kubernetes           | 26:09  | Beginner-Friendly Spring     |
 | [How to Use KPIs in an Agile Delivery Environment](#how-to-use-kpis-in-an-agile-delivery-environment) | #agile #project #management #kpi | 24:15 | Agile Leadership       |
 | [Why Every Software Team Should Have a Designer](#why-every-software-team-should-have-a-designer) | #agile #project #management   | 23:24  | Agile Leadership             |
+| [How to Start Your Application Modernization Journey](#how-to-start-your-application-modernization-journey) | #agile #organization #learning #microservices | 25:43 | Track: Agile Leadership |
+| [Staying Ahead of the Curve](#staying-ahead-of-the-curve)                                         | #agile #organization #learning #microservices | 54:20 | Track: Beginner-Friendly Spring |
 
 _____
 
@@ -43,7 +45,7 @@ _____
 - How many automated tests should I write? Whatever gives me the confidence to deploy PROD without manual intervention (i.e. code coverage is just informative).
 - Manual testing is still needed but it is exploratory testing.
 
-### Rating ⭐⭐⭐⭐☆
+### Impression ⭐⭐⭐⭐☆
 - ✅ Theoretical aspects and importance of testing, best-practices of unit testing.
 - ⛔ Too short (not the speaker's fault), code examples weren't that impressive, no mention about [BDD](https://en.wikipedia.org/wiki/Behavior-driven_development) approach.
 
@@ -63,7 +65,7 @@ _____
 - Developer experience on DIY platforms is lacking. Developers must still maintain containers, configure containers run through multiple layers of YAML, manage IT and security aspects.
 - Importance lies in tooling to help developers: leverage automatized DevOps practices, enforce organizational best-practices, app-aware platform, preconfigured templates by Ops.
 
-### Rating ⭐⭐☆☆☆
+### Impression ⭐⭐☆☆☆
 - ✅ Beginner-friendly introduction, on-spot developer concerns identification.
 - ⛔ The structure doesn't match the agenda in the introduction and a bit chaotic, rather Tanzu platform promotion, lacking expected pure K8S tips
 
@@ -84,7 +86,7 @@ _____
 - **Spring Cloud Config:** Central management of properties, can be versioned, can be audited, HTTP-based property consumption, probably should be secured, requires client-size library or code
 - **K8S Config-maps and secrets:** Doesn't require special client code, K8S-native, not centrally managed, versioning/auditing is not built-in, can leverage K8S-native security
  
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Very catchy speech, an excellent introduction into the environment properties management problem and comparison of approaches
 - ⛔ The speaker has only one session
 
@@ -102,7 +104,7 @@ _____
 - Steeltoe Project introduction on top of .NET foundation enables building production-grade and cloud-native microsystems in a simplified way quick to stand up
   - Scalability (service discovery, configuration providers), Resilience (circuit breaker, bulkhead, client-side load balancing), Ease of Use (initializer, autoconfiguration, platform providers and connectors such as DB, MQ, OAuth), Observability (management endpoints, dynamic logging, distributed tracing, metrics), Security (SSO, JWT auth, certificates), Messaging (stream processing)
 
-### Rating ⭐⭐⭐☆☆
+### Impression ⭐⭐⭐☆☆
 - ✅ Broad overview of microservice architecture facilities and difficulties
 - ⛔ Missing introduction into cloud-native concepts since this is marked as beginner-friendly, too many buzzwords, .NET examples
 
@@ -124,7 +126,7 @@ _____
   - Control groups allow processes to be organized into hierarchical groups whose usage of various types of resources can be then limited and monitored.
   - Basically, it allows assigning a maximum number of resources each group can allocate to ensure your critical system processes always have the resources they need to run.  
 
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Excellent explanation of the container and Linux kernel concepts, simple but nice workshop
 - ⛔ Slides would be better to support the ideas at the beginning
 
@@ -164,7 +166,7 @@ _____
     - It needs to be activated in properties with a specific cache mode where `ENABLE_SELECTIVE` and `DISABLE_SELECTIVE` is recommended over `ALL`/`NONE`/`UNSPECIFIED` and managed through `@Cacheable` annotation on the repository class/method or entity class level.
     - Tip: Place `@Cache(use = CacheCocurrencyStrategy.TRANSACTIONAL) over many-to-many associations and all associations on entities that don't map the foreign key column, because in these cases Hibernate doesn't cache the *association* between these two objects but *only* the objects themselves.
 
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Practical workshop with an on-spot set of tips for working with Hibernate and Spring Data JPA effectively
 - ⛔ An alternative to SpEL was introduced but not to the nested association within advanced DTO projection
 
@@ -186,7 +188,7 @@ _____
   - `kapp`: Install, upgrade, and delete multiple K8S resources as one application.
   - `imgpkg`: Bundle and relocate application configuration (with images) via Docker registers.
 
-### Rating ⭐⭐⭐☆☆
+### Impression ⭐⭐⭐☆☆
 - ✅ Well structured presentation with a demo, they were able to find a workaround for an unexpected error they faced during the demo
 - ⛔ Overly abstract terms (configuration, bundle, registers...) and commands in the demo were insufficiently described
 
@@ -211,7 +213,7 @@ ______
 - Spring Boot 3.0 introduces starter for native applications, build plugins and support for specific GraalVM versions, and auto-configuring the observability backend
 - Java 17 enforces illegal access rules, no general escape hatch anymore.
 
-### Rating ⭐⭐⭐☆☆
+### Impression ⭐⭐⭐☆☆
 - ✅ Interesting overview of upcoming versions and timing
 - ⛔ Missing examples of existing problems that new features would resolve, 60% of the time is rather focused on terms than features
 
@@ -249,7 +251,7 @@ _____
   - `FilterChainProxy` is the entry point and a first place that Spring-secured interceptor requests fall in and then come to the `SecurityFilterChain` and to the further filters that either call the next filter or terminate the request by interrupting ~ [Chain of Responsibility](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern) design pattern.
 - **Testing** is also easy in `@SpringBootTest` and `@AutoConfigureMockMvc` using `@WithMockUser(username, authorities)` annotation and static helpers in `org.springframework.security.test.**` packages. 
 
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Well-prepared, exhaustive and entertaining role-played scenario securing application step-by-step, key takeaways summary at the end
 - ⛔ CSRF demo showing requests and responses is difficult to follow and could be explained better
 
@@ -267,7 +269,7 @@ ______
   - `get("/greeting").with(user("Ria")).with(csrf()).andExpect(..)..`
 - `String greeting(@AuthenticationPrincipal(expression = "username") String username)` injects in the currently logged user's username and `String greeting(@AuthenticationPrincipal CustomUser user)` to injects in a subtype of `UserDetails`.
 
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Simple introduction to Spring security testing, TDD approach, OWASP mentioned
 - ⛔ Session labeled as *Intermediate/Advanced Spring* track should include a sample of OAuth2 testing, quite a short talk (22 mins of 30 mins available, other speakers use around 25-26 minutes) 
 
@@ -296,7 +298,7 @@ _____
   - The concepts are `@Node`, `@Id`, `@Relationship` and `@TargetNode` Spring Data Neo4j annotations and `CrudRepository<E, ID>` interface with `@Query` annotation using Cypher as a domain-specific language for querying from the database.
   - Relevant properties are `spring.data.neo4j.**` and `spring.neo4j.**`
 
-### Rating ⭐⭐⭐⭐☆
+### Impression ⭐⭐⭐⭐☆
 - ✅ Implementation of the same conceptual data representation in various database models, sorcery that programmed code on the fly worked always at the first try 
 - ⛔ Missing introduction of at least basic examples of use-cases for what each data model is suitable or not, more detailed comparison aside from implementation is missing
 
@@ -328,7 +330,7 @@ _____
  - **Eager Loading References**
    - To load data in a single statement it is possible to use a view such as `ToyView extends Toy` to simply include all `Toy` fields and embedded `Minion` field using `@Embedded(onEmpt = Embedded.OnEmpty.USE_EMPTY, prefix = "minion_")` annotation and fetch them in a repository using `@Query` with a `JOIN statement`.
 
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Very informative session about not-to-known Spring Data JDBC, easy to understand examples
 - ⛔ -
 
@@ -347,7 +349,7 @@ _____
 - Unit testing (isolation, mocking and stubbing) ->  Contract testing (contract creation and verification) -> System integration testing (system entry points) -> Backwards compatibility testing (two-step process) -> Performance testing (virtualize dependencies, short intervals and quick feedback) -> Vulnerability testing -> -> Disruptive testing (dependency and API outage) -> E2E testing -> Browser compatibility testing (Selenium) -> Production Smoke testing (certificates, network connection)
 - For disruptive testing is possible to use [Spring Boot Chaos Monkey](https://github.com/codecentric/chaos-monkey-spring-boot)
 
-### Rating ⭐⭐⭐☆☆
+### Impression ⭐⭐⭐☆☆
 - ✅ Interesting overview of the extended testing pyramid
 - ⛔ Too much teoretical and abstract, missing real-live examples of what exactly is tested in each part
 
@@ -384,7 +386,7 @@ _____
   - Spring Data offers to add store-specific custom implementation using Fragment interfaces on top of `* Repository` interfaces, ie to provide implementation and extend within the repository interface that is looked for at the application start-up.
  - To tune performance, Spring Data offer * Repository Metrics *, * Logiles *, * Network Stats *, and * Query Planners *.
 
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Comprehenisle dive into the anatomy of Spring Data module and relational and document data storages
 - ⛔ The very same deep comparison of a graph database model (Neoj4) would be great, troubleshooting part was too way brief, nothing about named queries as promised
 
@@ -404,7 +406,7 @@ _____
   - `List<Employee> findByManagerName(String managerName)` query navigates across relationships. 
 - Use `@EnableJpaAuditin` and register `@EntityListeners(AuditingEntityListener.class)` on the `Employee` object to enable auditing through `@CreatedDate` and `@LastModifiedDate`.
 
-### Rating ⭐⭐⭐☆☆
+### Impression ⭐⭐⭐☆☆
 - ✅ Auditing introduction, very beginner-friendly
 - ⛔ Since beginner-friendly the database structure could be introduced (especially how auditing stores additional data)
 
@@ -463,7 +465,7 @@ _____
   - Access to module commands via Spring's Tepmlates, multi-model obect-mapping support, JSON obect-mapping and RediSearch integration, Redis Graph oriented-mapping, RediSearch integration for existing Redis Hash mapped entities. 
 - Redis Modules Tepmlates follow Spring Data Redis `opsForXXX()` pattern and provide Native way to interact at the command-level with RedisSON, RedisGraph, RediSearch, RedisAI, RedisBloom, and RedisTimeSeries
 
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Enthustiatic talk covering wide-range of Redis topics with practical examples with some ease
 - ⛔ Some commands could be omitted in favor of where Redis aim now as said at the end of the session
 
@@ -497,7 +499,7 @@ _____
   - `Experience API` -> `Process API` -> `System API` - sometimes the Process API needed to do actual work and sometimes, however, just proxy through so they wanted to have an automatic way of doing that proxy which is what Zuul did
   - With replacing deprecating Zuul they were forced to call `Experience API` -> `System API` directly in some cases, but they needed something to proxy 3rd party libraries, so they used Spring Cloud Gateway MVC (not SPring Cloud Gateway) which is a simple `RestTemplate` wrapper (`ProxyExchange passed to controller method allows for adding headers & query params, changing path and making the actual request) with Spring MVC integration for building proxies supporting reactive as well.
 
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Great use-case talk especially about technology and know-how of using custom Spring Boot autoconfiguration and replacing Spring Netflix
 - ⛔ Lack of time for more detailed API gateway description and circuit breaker solution
 
@@ -526,7 +528,7 @@ _____
    - If a particular user searches for a certain element, that element should be bosted in the search for that particular user only. 
    - Another funciton must be taken into account similarly as previous boosting: `"script" : { "source" : "params.boosts.get(doc[params.artistIdFieldName].value)", "lang" : "painless", "params" : { .. } }`.
 
-### Rating ⭐⭐⭐⭐☆
+### Impression ⭐⭐⭐⭐☆
 - ✅ Informative overview of what is ElasticSearch capable of, although, the live demo is impossible to follow but still impressive
 - ⛔ The way result popularity in real-time was updated from Kafka was not really clearly explained, it's not clear why Kafka figures in the demo if an easier approach could be used and the title is misleading then, data structure could be shown as not everybody has experience with ElasticSearch (all because I guess mostly caused by of lack of time)
 
@@ -573,7 +575,7 @@ _____
 - **Techniques**
   - Logging and Wireshark should use a 5-minute rolling window, don't be afraid to use `ERROR` logs, the network latency-related issues can be simulated in the supervisor, choose the load generator carefully as they are not always completely spec-compliant and might behave not the way you think (especially HTTP/2), it is often required to simulate lost connection at some point by literally two machines and "pulling out the cable", test on multiple platforms since VM or bare metal seems to be less of an issue.
 
-### Rating ⭐⭐⭐⭐☆
+### Impression ⭐⭐⭐⭐☆
 - ✅ Impressive walkthrough of debugging truly complex issues around Tomcat including network communication or Ubuntu, great explanation of the steps proceeded.
 - ⛔ All issues were well-written and an example of a poor one would be nice, the lip-smacking was very intensive and annoying with all due respect to the speaker.
 
@@ -609,14 +611,14 @@ _____
      - To get some start-up boost it is possible to omit the CPU limit as long as we know it is a compressible resource.
    - Rememberto set livenes and readiness probes in K8S YAML configuraion `containers.livenessProbe` and `conainers.readinessProbe` - especially `httpGet.path`, `httpGet.port`, `initialDelaySeconds` and `periodSeconds`.
   
-### Rating ⭐⭐⭐⭐☆
+### Impression ⭐⭐⭐⭐☆
 - ✅ Hanful overview of Spring Kubernetes and producion friendly features that Spring Boot Actuator provides out-of-box.  
 - ⛔ The application could be ready to save some time (although the gist of the talk is to highlight quick rollout to production).
 
 _____
 
 ## [How to Use KPIs in an Agile Delivery Environment](https://springone.io/2021/sessions/how-to-use-kpis-in-an-agile-delivery-environment)
-> "Goodhart's Law: 'When a measure becomes a target, it ceases to be a good measure'"
+> "Goodhart's Law: 'When a measure becomes a target, it ceases to be a good measure'."
 > "'A wealth of information creates a poverty of attention - 'Herbert A. Simon"
 - Length 24:15, watched on 2021-09-14, **#agile #project #management #kpi**
 - Arijit Sarbagna as Director - Agile & DevSecOps, Atos
@@ -653,14 +655,14 @@ _____
   - **Correct**: Velocity delta (velocity as points against sprints), revenue delta (revenue per story point against time) happiness delta (subjective happiness against time).
 - To sue KPIs correctly, identify project/program objectives and goals, set few but "well thought of" measures (not becoming targets) and make them transparent, and review them periodically (do they allow us to drive corrections/improvements) and rinse & repeat.
   
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ Highly educative and well-presented approach to the KPI/CPI with examples. Two on-spot quotes.
 - ⛔ -
 
 _____
 
 ## [Why Every Software Team Should Have a Designer](https://springone.io/2021/sessions/why-every-software-team-should-have-a-designer)
-> "There are high chances we don't yet know the full scope of value that design can deliver"
+> "There are high chances we don't yet know the full scope of value that design can deliver."
 - Length 24:15, watched on 2021-09-16, **#agile #project #management**
 - Antonia Horvath as Delivery Lead & Design Manager, VMware Tanzu Labs
 - Track: Agile Leadership
@@ -691,29 +693,41 @@ _____
   2. Learn about, and introduce user research in our team as it is very simple
   3. Run a design studio (at least scathing session) for the next product challenge or new feature kick-off
 
-### Rating ⭐⭐⭐⭐☆
+### Impression ⭐⭐⭐⭐☆
 - ✅ A mind-opening presentation about how a designer can be helpful with a team and organization.
 - ⛔ Works with false assumptions and premises that all software engineers are extroverts and love spending time daily in the office, the talk could be more remote-friendly due to the Covid-19 situation (and international remote workers).
 
 _____
 
 ## [How to Start Your Application Modernization Journey](https://springone.io/2021/sessions/how-to-start-your-application-modernization)
-- Length 25:43, watched on 2021-09-19, **?**
+> "Don't be afraid to try different approaches to refactoring to determine what works."
+> "Functional *alignment* of the squads for refactoring brings *stronger outcome benefits*."
+- Length 25:43, watched on 2021-09-19, **#agile #organization #learning #microservices**
 - Steve Hawkins as Sr. Manager Converged Infrastructure, BT
 - Track: Agile Leadership
 
 ### Keynotes
-- ...
+- **BT's (company name) transformation** in order to remain relevant and competitive is modernizing the organization and architecture.
+ - Accelerate transition and adotpion of modern methods to become more responsive to customer needs as well as remove complexity and legacy to reduce time to market.
+ - The organization is changing to a flatter, more accountable strcuture and is pivoting to tribes/squad structures to enhance decision powers.
+ - Drive towards major Public Cloud adoption (SaaS), however, there was a but of a hesitancy and uncertainity from a security perspective. 
+  - In practical terms: Simplify the architecture (customer journies, system interactions), modernize the application estate, establish a new operating model, introduce agile working practicies and remove legacy.
+- **Problem statement**: Months of analysis to cleary understand the impacts to the IT estate, ability to realise cost savings foor well-defined and realisable plans, modernisation needed traction.
+- **Tribe overview**: Opportunities (establish management), Cost and Plans (overall plans, decomissioning, timing), Knowledge Repository (aggregate application knowledge, automation for data sources, reporting), Refactoring Outcomes (disagregation to microservices, decommissioning outcomes, single prioritized backlog, community) and Decommissioning Outcomes (delivery of outcomes, KPI with a single backlog).
+- **Flow of the work**: Taking application in the Opportunities squad, looking at it from the EA roadmaps for categorisation trying to analyze the estate to establish the right group of applications and gradually filter it out so at the end of the pipeline we end up with a refactoring candidate or potentially decommissioning candidate.
+  - Decisions trees and multiple views of point such as costs or people effort associated with these applications, time to refactor, complexity, value delivered and to deliver.
+  -  Refactoring technology approach takes a functionally descrete slice (from a set of functionalities so it can be easily refactored) and rebuilds as a microservice delivering a decoupled and resilient service. 
+- **Scaling the work**: Establish multiple squads on a per application bases and leverage best practices, patterns and methods.
 
-### Rating ⭐⭐☆☆☆
-- ✅ ...
-- ⛔ ...
+### Impression ⭐⭐☆☆☆
+- ✅ A complex session covering the code part of modernizing and also the people, processes and kiund of more a holistic approach, the speaker is a true professional in what he does, watching for the second time makes everything more sense, extracted two on-spot quotes defining this talk
+- ⛔ Overly adacemical resulting in a hard focus, no definition on modernization, extremely abstract terms (examples needed), unfriendly slideshow throwing tons of small text with each slide, vague shortcuts (EA, BAU, CoE, SA)
 
 _____
 
 ## [Staying Ahead of the Curve](https://springone.io/2021/sessions/staying-ahead-of-the-curve)
 > "Create a culture of continuous learning in our environment"
-- Length 54:20, watched on 2021-09-22, **?**
+- Length 54:20, watched on 2021-09-22, **#agile #organization #learning**
 - Trisha Gee as Lead Java Advocate, JetBrains
 - Track: Beginner-Friendly Spring
 
@@ -749,6 +763,6 @@ _____
     - Happy developers will more likely stay in the organization and contribute as fully as they can.
 - As a developer, don't panic, although coming to the conference might be overwhelming, try to write down the stuff that is interesting to us.
  
-### Rating ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐⭐
 - ✅ An helpful presentation providing reasons and approaches to why, where, and how should we learn new technologies to not panic. 
 - ⛔ I still panic.
