@@ -619,6 +619,7 @@ _____
 
 ## [How to Use KPIs in an Agile Delivery Environment](https://springone.io/2021/sessions/how-to-use-kpis-in-an-agile-delivery-environment)
 > "Goodhart's Law: 'When a measure becomes a target, it ceases to be a good measure'."
+> 
 > "'A wealth of information creates a poverty of attention - 'Herbert A. Simon"
 - Length 24:15, watched on 2021-09-14, **#agile #project #management #kpi**
 - Arijit Sarbagna as Director - Agile & DevSecOps, Atos
@@ -701,6 +702,7 @@ _____
 
 ## [How to Start Your Application Modernization Journey](https://springone.io/2021/sessions/how-to-start-your-application-modernization)
 > "Don't be afraid to try different approaches to refactoring to determine what works."
+> 
 > "Functional *alignment* of the squads for refactoring brings *stronger outcome benefits*."
 - Length 25:43, watched on 2021-09-19, **#agile #organization #learning #microservices**
 - Steve Hawkins as Sr. Manager Converged Infrastructure, BT
