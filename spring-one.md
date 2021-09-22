@@ -710,9 +710,9 @@ _____
 
 ### Keynotes
 - **BT's (company name) transformation** in order to remain relevant and competitive is modernizing the organization and architecture.
- - Accelerate transition and adotpion of modern methods to become more responsive to customer needs as well as remove complexity and legacy to reduce time to market.
- - The organization is changing to a flatter, more accountable strcuture and is pivoting to tribes/squad structures to enhance decision powers.
- - Drive towards major Public Cloud adoption (SaaS), however, there was a but of a hesitancy and uncertainity from a security perspective. 
+  - Accelerate transition and adotpion of modern methods to become more responsive to customer needs as well as remove complexity and legacy to reduce time to market.
+  - The organization is changing to a flatter, more accountable strcuture and is pivoting to tribes/squad structures to enhance decision powers.
+  - Drive towards major Public Cloud adoption (SaaS), however, there was a but of a hesitancy and uncertainity from a security perspective. 
   - In practical terms: Simplify the architecture (customer journies, system interactions), modernize the application estate, establish a new operating model, introduce agile working practicies and remove legacy.
 - **Problem statement**: Months of analysis to cleary understand the impacts to the IT estate, ability to realise cost savings foor well-defined and realisable plans, modernisation needed traction.
 - **Tribe overview**: Opportunities (establish management), Cost and Plans (overall plans, decomissioning, timing), Knowledge Repository (aggregate application knowledge, automation for data sources, reporting), Refactoring Outcomes (disagregation to microservices, decommissioning outcomes, single prioritized backlog, community) and Decommissioning Outcomes (delivery of outcomes, KPI with a single backlog).
