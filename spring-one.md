@@ -773,7 +773,6 @@ _____
 _____
 
 ## [A Tour of the Modern Java Platform](https://springone.io/2021/sessions/post-event/a-tour-of-the-modern-java-platform)
-> ""
 - Length 57:11, watched on 2021-09-22, **#java #spring #docker #containers #graalvm**
 - Bruce Eckel as President, Mindview LLC
 - James Ward as Developer Relations Engineer, Google Cloud
