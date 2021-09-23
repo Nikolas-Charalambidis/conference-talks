@@ -28,6 +28,7 @@
 | [Why Every Software Team Should Have a Designer](#why-every-software-team-should-have-a-designer) | #agile #project #management   | 23:24  | Agile Leadership             |
 | [How to Start Your Application Modernization Journey](#how-to-start-your-application-modernization-journey) | #agile #organization #learning #microservices | 25:43 | Track: Agile Leadership |
 | [Staying Ahead of the Curve](#staying-ahead-of-the-curve)                                         | #agile #organization #learning #microservices | 54:20 | Track: Beginner-Friendly Spring |
+| [A Tour of the Modern Java Platform](#a-tour-of-the-modern-java-platform)                         | #java #spring #docker #containers #graalvm | 57:11 | Track: Architecture |
 
 _____
 
@@ -768,3 +769,40 @@ _____
 ### Impression ⭐⭐⭐⭐⭐
 - ✅ An helpful presentation providing reasons and approaches to why, where, and how should we learn new technologies to not panic. 
 - ⛔ I still panic.
+
+_____
+
+## [A Tour of the Modern Java Platform](https://springone.io/2021/sessions/post-event/a-tour-of-the-modern-java-platform)
+> ""
+- Length 57:11, watched on 2021-09-22, **#java #spring #docker #containers #graalvm**
+- Bruce Eckel as President, Mindview LLC
+- James Ward as Developer Relations Engineer, Google Cloud
+- Track: Architecture
+
+### Keynotes
+- **Java 11+ features**:
+  - **Records** are basically fancy immutable data structures with an auto-generated constructor and a form of getters accessing the data. 
+    - Sadly it has no `copy` method in case we need to create the same record with just one changed property and another constructor is required.
+  - **Text blocks** enable working with built-in new lines.
+  - **Memory compaction thorugh an array of records** as it basically represents just a bunch of data: `var points = new Point[] {point1, point2};`.
+  - **Enhanced null pointer exception** with a helpful message describing what exactly cannot be read why (what is `null`).
+  - **Sealed classes** to allow the compiler to ask you if you have covered all the cases through `permits` in the `sealed` class.
+    - This feature interacts well with a `switch` statement as a defined set of permitted subclasses is final and known on compilation time - **Pattern matching** that is exhaustive.
+    - The implementations must be `final` or `sealed` to not break the definition hierarchy of sealed classes.
+  - **Smart casting** simplifies the `instanceof` syntax: `if (robot instanceof Vacuum v) { v.suck(); }`.
+- **Kotlin:**
+  - Question mark operator (ex. `data class Bar(@Id val id: Long?, val name: String)`) says a field can be `null` and works as a sentinel or indicator on compile-time when we attempt to access a field from where is `null` allowed. 
+  - Kotlin is null aware on compile-time, but in Java, it is handled in runtime.
+  - Kotlin introduces *co-routines* (`kotlinx.coroutines.*` package) for reactive programming through ad-hoc polymorphism - it works as a suspendable function that can release the control to a scheduler that finds another co-routine ready to run in a lightweight manner allowing millions of them. 
+  - `suspend` keyword to a function allows a function to be paused and resumed at a later time. 
+- **Test Containers** helps to alleviate as much variability between local development, integration or CI tests, and production.
+- **GraalVM:**
+  - Spring Boot has a built-in ability to turn a source code into a container with all needed to run the application using `bootBuildImage` in Maven/Gradle (`./gradlew bootBuildImage --imageName=kotlin-bars`.
+  - GraalVM and Spring Native can create a very optimized version of the application, containers are about 40 MB large only.
+  - An alternative to writing Dockerfiles that are hard to maintain and write is using build packs - the Cloud Native Computing Foundation created the standard called *Build Packs* that takes any source code and turns it into a Docker container - **Paketo**.
+  - A file `build.gradle.kts` configures the `bootBuildImage` task: Setting `"BP_NATIVE_IMAGE" to "1"` in `environment` turns on Spring Native and GraalVM enabling to create a native image where GraalVM is doing ahead-of-time compilation to compact it down. 
+  - Reflection is heavily used by Spring and it is something that cannot be done ahead of time, so Spring introduced reflection points hooks to fit well with GraalVM.
+
+### Impression ⭐⭐⭐⭐⭐
+- ✅ Entertaining folks, their speech appears like a natural dialogue, huge code I can see well on a shaking mobile screen in a gym on a runner, live demo with GraalVM, and native images explained with ease.
+- ⛔ Garbage collector news and features between Java 9 and 11 deserve more space (for example modules, and `jshell` and `jpackage` commands).
