@@ -808,23 +808,45 @@ _____
 
 ___
 
-## [The Art of Clean Code](https://springone.io/2021/sessions/the-art-of-clean-code)
-> "'Anyone can write code that a computer can understand. Good programmers write code that humans can understand' - Martin Fowler"
->  
-> "'It is not enough to write the code well. The code has to be kept clean over time... Leave the campground cleaner than you found it' - Boy Scout Rule, Robert C. Martin"
-- Length 14:27, watched on 2021-09-23, **#java #spring #docker #containers #graalvm**
-- Chiamaka Okenwa as Software Engineer, Renmoney
-- Track: Architecture
+## [Bootiful Vaccine Scavenger: A Tale of the Pragmatic Spring Framework](https://springone.io/2021/sessions/bootiful-vaccine-scavenger)
+- Length 25:30, watched on 2021-09-23, **#spring #spring-boot #spring-cloud spring-cloud-streams #rabbitmq**
+- Greg Meyer as Director, Distinguished Engineer, Cerner Corp.
+- Track: Beginner-Friendly Spring
 
-### Keynotes
-- Clean code is *simple*, *understandable* and *maintainable* to care about *teamwork*, *reusability* and *growth*.
-- Clean code is easy to read, focused, tested, and SOLID.
-- **Naming**: Use descriptive, clear, and searchable names that can be pronounced well and according to context ~ classes, functions, variables, everything.
-- **Functions**: They should be small, do one thing with as least as arguments possible, have one reason to change, and follow the single responsibility principle.
-- **Comments**: Avoid commenting out code chunks and use only as a clarification of code as code is the best documentation itself.
-- **Classes**: Class name must be short, show its responsibility, and have only one responsibility and only one reason to change.
-- **Tests** Should be independent of each other, fast, being executed in a short time, and have one assert per test.
+### Keynotes:
+- Taking an existing open-source Python project and then enhancing it and rapidly converting it into a production-grade application with the use of Spring:
+  - **Vaccine spotter** is an application allowing to pick up a location by a ZIP code and showing all the appointments available at local retail pharmacies with external REST API.
+  - **Vaccine watch** is a Python bot application to query out to a specific region for un/available appointments and publish those results out to social media networks like Twitter or Slack.
+- **JVWatch** application:
+  - **Architecture**: The whole application is divided into a *Consumer* and *Supplier* on top of the common Spring Boot Configuration.
+    - **Supplier** contains web clients to continuously call appointment APIs (Vaccine Spotter API and Proprietary Clinic API). The transformed business objects are handed up the stack o determine whether or not a particular appointment has already been published out to our social media networks and then the state of that is stored inside Redis. A  RabbitMQ queue is fed by appointments.
+    - **Consumer** consumes RabbitMQ queue to push notifications to Twitter, Slack, and Email.
+    - **Spring Boot* configuration profiles and conditional beans are used to enable/disable functionality inside the application so we could deploy separate instances of the application.
+    - **RabbitMQ** is used although it is a single application to break down the concern and make the application deployable.
+  - **Implemenation**
+    - The main `JVWatchAppliatinon` class is annotated with `@SpringBootApplication`, `@EnableReactiveFeignClients`, `@EnableRedisRepositories`, and `@EnableConfigurationProperties`.
+    - `RestTemplaete` class has effectively been deprecated in favor of configurable `WebClient` implementing reactive programming paradigm. Another way is using a reactive non-blocking Feign client through `@ReactiveFeignCient` annotation or Retrofit HTTP client as a part of Spring Cloud Square project (incubator project as of the time of writing).
+    - Feign client URL can be either hardcoded, parameterized as a hardcoded URL, or a service name that interacts with some service discovery frameworks like Eureka.
+    - Spring Cloud Streams framework can abstract us from knowing of implementation details of the underlying messaging system - the redesigned framework aligned with the Spring Cloud Functions framework which itself aligns with the Java 8.
+    - RabbitMQ (can be replaced with Kafka) is configured through `spring.cloud.stream.*` properties , `spring.cloud.stream.function` , `spring.cloud.stream.bindings`:
+    - ```
+      spring.cloud.stream.poller.fixed-delay=${jvwatch.checkTask.period}
+      spring.cloud.stream.function.definition=vaccineClinigDataSupplier;vaccineClinicDataSink
+      spring.cloud.stream.bindings.vaccineClinicDataSupplier-out-0.destinatnion=jvwatch-clinic-data
+      spring.cloud.stream.bindings.vaccineClinicDataSink-in-0.destinatnion=jvwatch-clinic-data
+      spring.cloud.stream.bindings.vaccineClinicDataSink-in-0.group=jvwatch-clinic-data-sink-group
+      spring.cloud.stream.bindings.vaccineClinicDataSink-in-0.consumer.concurrency=1
+      spring.cloud.stream.bindings.vaccineClinicDataSink-in-0.consumer.maxAttempts=4
+      spring.cloud.stream.bindings.vaccineClinicDataSink-in-0.consumer.backOffInitialInterval=15000
+      spring.cloud.stream.bindings.vaccineClinicDataSink-in-0.consumer.backOffMaxInterval=60000
+      ```
+    - There are defined beans `@PollableBean Supplier<Flux<ClinicData>> vaccineClinicDataSupplier()` and `@Bean Consumer<ClinicData> vaccineClinicDataSink()` where `@PollableBean` means that the supplier function get executed on a configurable interval and its returned object then gets mapped into a messaging object that's bound to a destination like a topic ora queue in the underlying messaging system.
+    - Spring Boot configuration allows configuration files with properties prefixes such as: 
+    - ```
+      @Configuration @Configuration(prefix="jvwatch.notifications.twitter.oauth")` @Data
+      public cass TwitterConfigProperties {... }
+      ```
 
-### Impression ⭐☆☆☆☆
-- ✅ Very beginner-friendly. Two on-spot quotes.
-- ⛔ Extremely short talk although the topic is rich in ideas (the speaker might be innocent here). Nothing new compared to already well-known and widely presented on blog posts. What is the real meaning behind the "one reason to change" cliché? Introducing `includeSetupAndTeardownPages` way is not a good idea as we might finally end up with `includeSetupAndRegisterAndLoginAndTeardownPagesUnformattedUTF8Encoded` etc.
+### Impression ⭐⭐⭐⭐⭐
+- ✅ A very impressive tale o a real application built on top of well-suited technologies able to ship into the production quickly. Introduction of Spring Cloud projects and alternatives.  
+- ⛔ Incorrect usage of Stream API with a side-effect. Lack of time for deployment.
