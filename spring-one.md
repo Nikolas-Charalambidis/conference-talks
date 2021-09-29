@@ -29,6 +29,9 @@
 | [How to Start Your Application Modernization Journey](#how-to-start-your-application-modernization-journey) | #agile #organization #learning #microservices | 25:43 | Track: Agile Leadership |
 | [Staying Ahead of the Curve](#staying-ahead-of-the-curve)                                         | #agile #organization #learning #microservices | 54:20 | Track: Beginner-Friendly Spring |
 | [A Tour of the Modern Java Platform](#a-tour-of-the-modern-java-platform)                         | #java #spring #docker #containers #graalvm | 57:11 | Track: Architecture |
+| [The Art of Clean Code](#the-art-of-clean-code)                                                   | #java                         | 14:27 | Track: Architecture           |
+| [Bootiful Vaccine Scavenger: A Tale of the Pragmatic Spring Framework](#bootiful-vaccine-scavenger-a-tale-of-the-pragmatic-spring-framework) | 25:30 | #spring #spring-boot #spring-cloud spring-cloud-streams #rabbitmq | Track: Beginner-Friendly Spring |
+| [How Spring Cloud Gateway Orchestrated Our App Modernization](#how-spring-cloud-gateway-orchestrated-our-app-modernization) | 25:16 | #spring #spring-cloud #devops  | Track: Architecture |
 
 _____
 
@@ -619,9 +622,9 @@ _____
 _____
 
 ## [How to Use KPIs in an Agile Delivery Environment](https://springone.io/2021/sessions/how-to-use-kpis-in-an-agile-delivery-environment)
-> "Goodhart's Law: 'When a measure becomes a target, it ceases to be a good measure'."
+> "Goodhart's Law: 'When a measure becomes a target, it ceases to be a good measure'"
 > 
-> "'A wealth of information creates a poverty of attention - 'Herbert A. Simon"
+> "'A wealth of information creates a poverty of attention' - Herbert A. Simon"
 - Length 24:15, watched on 2021-09-14, **#agile #project #management #kpi**
 - Arijit Sarbagna as Director - Agile & DevSecOps, Atos
 - Track: Agile Leadership
@@ -812,7 +815,7 @@ _____
 > "'Anyone can write code that a computer can understand. Good programmers write code that humans can understand' - Martin Fowler"
 >  
 > "'It is not enough to write the code well. The code has to be kept clean over time... Leave the campground cleaner than you found it' - Boy Scout Rule, Robert C. Martin"
-- Length 14:27, watched on 2021-09-23, **#java #spring #docker #containers #graalvm**
+- Length 14:27, watched on 2021-09-23, **#java**
 - Chiamaka Okenwa as Software Engineer, Renmoney
 - Track: Architecture
 
@@ -877,14 +880,28 @@ _____
 _____
 
 ## [How Spring Cloud Gateway Orchestrated Our App Modernization](https://springone.io/2021/sessions/how-spring-cloud-gateway-orchestrated-our-app-modernization)
-- Length 25:16, watched on 2021-09-28, **#spring #spring-boot #spring-cloud spring-cloud-streams #rabbitmq**
+- Length 25:16, watched on 2021-09-28, **#spring #spring-cloud #devops**
 - Dodd Pfeffer as Advisory Solution Engineer, VMware
 - Partha Chandramohan as Solutions Architect, AARP
 - Track: Architecture
 
 ### Keynotes:
-- 
-
-### Impression ⭐⭐⭐⭐☆
-- ✅ 
-- ⛔ 
+- The decade-old application about to be modernized:
+  - AARP is a nonprofit organization empowering people to *choose how they live*, advocating healthcare, social security, and health insurance, and serves more than 40 million members today.
+  - DSM manages the Digital and Membership strategies for AARP including the technology and production of content on [aarp.org](aarp.org) and the AARP Now application, and strategies that help them to *acquire*, *maintain* and *bring value to members*.
+- **Legacy setup** consisting of over 30 applications and monoliths:
+  - *Web server* -> multiple *ELB (Elastic Load Balancer)* -> 1:1 *EC2* Tomcat Application (multiple instances).
+  - No meaningful auto-scaling (it was based on CPU/Memory but not actual incoming traffic), no gateway, no throttling, no rule-based routing...
+- **Needed solution**: Migrate to modernized application *gradually without impacting* the functionality, application metrics and with a *quick rollback strategy* to the original state, *Throttle the traffic* into the new applications incrementally and route traffic to legacy and new service *at the same time*.
+- **Modernization strategy**: Break down monolithic apps (key piece), gradually peel off one service at a time, route traffic to legacy and new service, SCG was the solution for routing, A/B testing, traffic splitting, ruling by header values.
+  - **Blue-Green deployment**:
+    - Outlined requirement as part of application modernization - Spring Cloud Gateway became the fundamental enabler to achieve it using header values.
+    - Spring Cloud Gateway enabled quick switching and roll-back between a new service and legacy solution (50:50) for A/B testing and load measurements of the infrastructure
+- **The setup**:
+  - *Webproxy* -> *SCG* -> routing to *Tanzu Platform* and *Legacy platform* (through *Webserver*).
+- **Pros of Spring Cloud Gateway**:
+  - Developer friendly, works seamlessly with the platform, keeps things simple, easy integration, comprehensive configuration list, avoids the need for other expensive products.
+ 
+### Impression ⭐⭐⭐☆☆
+- ✅ Great session about how Spring Cloud Gateway becomes handy for application modernization as a simple solution able to fulfill a lot of solution requirements. Interesting architecture lesson.
+- ⛔ Fewer abbreviations (who knows SCG stands for Spring Cloud Gateway). Confusing speakers switching. Cons of Spring Cloud Gateway were not mentioned.
