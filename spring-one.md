@@ -30,8 +30,8 @@
 | [Staying Ahead of the Curve](#staying-ahead-of-the-curve)                                         | #agile #organization #learning #microservices | 54:20 | Track: Beginner-Friendly Spring |
 | [A Tour of the Modern Java Platform](#a-tour-of-the-modern-java-platform)                         | #java #spring #docker #containers #graalvm | 57:11 | Track: Architecture |
 | [The Art of Clean Code](#the-art-of-clean-code)                                                   | #java                         | 14:27 | Track: Architecture           |
-| [Bootiful Vaccine Scavenger: A Tale of the Pragmatic Spring Framework](#bootiful-vaccine-scavenger-a-tale-of-the-pragmatic-spring-framework) | 25:30 | #spring #spring-boot #spring-cloud spring-cloud-streams #rabbitmq | Track: Beginner-Friendly Spring |
-| [How Spring Cloud Gateway Orchestrated Our App Modernization](#how-spring-cloud-gateway-orchestrated-our-app-modernization) | 25:16 | #spring #spring-cloud #devops  | Track: Architecture |
+| [Bootiful Vaccine Scavenger: A Tale of the Pragmatic Spring Framework](#bootiful-vaccine-scavenger-a-tale-of-the-pragmatic-spring-framework) | #spring #spring-boot #spring-cloud spring-cloud-streams #rabbitmq | 25:30 | Track: Beginner-Friendly Spring |
+| [How Spring Cloud Gateway Orchestrated Our App Modernization](#how-spring-cloud-gateway-orchestrated-our-app-modernization) | #spring #spring-cloud #devops | 25:16 | Track: Architecture |
 
 _____
 
