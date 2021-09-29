@@ -806,7 +806,30 @@ _____
 - ✅ Entertaining folks, their speech appears like a natural dialogue, huge code I can see well on a shaking mobile screen in a gym on a runner, live demo with GraalVM, and native images explained with ease.
 - ⛔ Garbage collector news and features between Java 9 and 11 deserve more space (for example modules, and `jshell` and `jpackage` commands).
 
-___
+_____
+
+## [The Art of Clean Code](https://springone.io/2021/sessions/the-art-of-clean-code)
+> "'Anyone can write code that a computer can understand. Good programmers write code that humans can understand' - Martin Fowler"
+>  
+> "'It is not enough to write the code well. The code has to be kept clean over time... Leave the campground cleaner than you found it' - Boy Scout Rule, Robert C. Martin"
+- Length 14:27, watched on 2021-09-23, **#java #spring #docker #containers #graalvm**
+- Chiamaka Okenwa as Software Engineer, Renmoney
+- Track: Architecture
+
+### Keynotes
+- Clean code is *simple*, *understandable* and *maintainable* to care about *teamwork*, *reusability* and *growth*.
+- Clean code is easy to read, focused, tested, and SOLID.
+- **Naming**: Use descriptive, clear, and searchable names that can be pronounced well and according to context ~ classes, functions, variables, everything.
+- **Functions**: They should be small, do one thing with as least as arguments possible, have one reason to change, and follow the single responsibility principle.
+- **Comments**: Avoid commenting out code chunks and use only as a clarification of code as code is the best documentation itself.
+- **Classes**: Class name must be short, show its responsibility, and have only one responsibility and only one reason to change.
+- **Tests** Should be independent of each other, fast, being executed in a short time, and have one assert per test.
+
+### Impression ⭐☆☆☆☆
+- ✅ Very beginner-friendly. Two on-spot quotes.
+- ⛔ Extremely short talk although the topic is rich in ideas. Nothing new compared to already well-known and widely presented on blog posts. What is the real meaning behind the "one reason to change" cliché? Introducing `includeSetupAndTeardownPages` way is not a good idea as we might finally end up with `includeSetupAndRegisterAndLoginAndTeardownPagesUnformattedUTF8Encoded` etc.
+
+_____
 
 ## [Bootiful Vaccine Scavenger: A Tale of the Pragmatic Spring Framework](https://springone.io/2021/sessions/bootiful-vaccine-scavenger)
 - Length 25:30, watched on 2021-09-23, **#spring #spring-boot #spring-cloud spring-cloud-streams #rabbitmq**
@@ -850,3 +873,18 @@ ___
 ### Impression ⭐⭐⭐⭐⭐
 - ✅ A very impressive tale o a real application built on top of well-suited technologies able to ship into the production quickly. Introduction of Spring Cloud projects and alternatives.  
 - ⛔ Incorrect usage of Stream API with a side-effect. Lack of time for deployment.
+
+_____
+
+## [How Spring Cloud Gateway Orchestrated Our App Modernization](https://springone.io/2021/sessions/how-spring-cloud-gateway-orchestrated-our-app-modernization)
+- Length 25:16, watched on 2021-09-28, **#spring #spring-boot #spring-cloud spring-cloud-streams #rabbitmq**
+- Dodd Pfeffer as Advisory Solution Engineer, VMware
+- Partha Chandramohan as Solutions Architect, AARP
+- Track: Architecture
+
+### Keynotes:
+- 
+
+### Impression ⭐⭐⭐⭐☆
+- ✅ 
+- ⛔ 
