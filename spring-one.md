@@ -26,12 +26,12 @@
 | [Spring Boot—Production Boost](#spring-bootproduction-boost)                                      | #spring #kubernetes           | 26:09  | Beginner-Friendly Spring     |
 | [How to Use KPIs in an Agile Delivery Environment](#how-to-use-kpis-in-an-agile-delivery-environment) | #agile #project #management #kpi | 24:15 | Agile Leadership       |
 | [Why Every Software Team Should Have a Designer](#why-every-software-team-should-have-a-designer) | #agile #project #management   | 23:24  | Agile Leadership             |
-| [How to Start Your Application Modernization Journey](#how-to-start-your-application-modernization-journey) | #agile #organization #learning #microservices | 25:43 | Track: Agile Leadership |
-| [Staying Ahead of the Curve](#staying-ahead-of-the-curve)                                         | #agile #organization #learning #microservices | 54:20 | Track: Beginner-Friendly Spring |
-| [A Tour of the Modern Java Platform](#a-tour-of-the-modern-java-platform)                         | #java #spring #docker #containers #graalvm | 57:11 | Track: Architecture |
+| [How to Start Your Application Modernization Journey](#how-to-start-your-application-modernization-journey) | #agile #organization #learning #microservices | 25:43 | Agile Leadership |
+| [Staying Ahead of the Curve](#staying-ahead-of-the-curve)                                         | #agile #organization #learning #microservices | 54:20 | Beginner-Friendly Spring |
+| [A Tour of the Modern Java Platform](#a-tour-of-the-modern-java-platform)                         | #java #spring #docker #containers #graalvm | 57:11 | Architecture |
 | [The Art of Clean Code](#the-art-of-clean-code)                                                   | #java                         | 14:27 | Track: Architecture           |
 | [Bootiful Vaccine Scavenger: A Tale of the Pragmatic Spring Framework](#bootiful-vaccine-scavenger-a-tale-of-the-pragmatic-spring-framework) | #spring #spring-boot #spring-cloud spring-cloud-streams #rabbitmq | 25:30 | Track: Beginner-Friendly Spring |
-| [How Spring Cloud Gateway Orchestrated Our App Modernization](#how-spring-cloud-gateway-orchestrated-our-app-modernization) | #spring #spring-cloud #devops | 25:16 | Track: Architecture |
+| [How Spring Cloud Gateway Orchestrated Our App Modernization](#how-spring-cloud-gateway-orchestrated-our-app-modernization) | #spring #spring-cloud #devops | 25:16 | Architecture |
 
 _____
 
