@@ -408,7 +408,7 @@ _____
 - Having 1:N relationship between Manager and Employee `entities` using Spring Data JPA:
   - `List<Employee> findByNameContainingIgnoreCase(String partialName)` for full-text search.
   - `List<Employee> findByManagerName(String managerName)` query navigates across relationships. 
-- Use `@EnableJpaAuditin` and register `@EntityListeners(AuditingEntityListener.class)` on the `Employee` object to enable auditing through `@CreatedDate` and `@LastModifiedDate`.
+- Use `@EnableJpaAuditing` and register `@EntityListeners(AuditingEntityListener.class)` on the `Employee` object to enable auditing through `@CreatedDate` and `@LastModifiedDate`.
 
 ### Impression ⭐⭐⭐☆☆
 - ✅ Auditing introduction, very beginner-friendly
