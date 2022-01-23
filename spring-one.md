@@ -335,7 +335,7 @@ _____
    - To load data in a single statement it is possible to use a view such as `ToyView extends Toy` to simply include all `Toy` fields and embedded `Minion` field using `@Embedded(onEmpt = Embedded.OnEmpty.USE_EMPTY, prefix = "minion_")` annotation and fetch them in a repository using `@Query` with a `JOIN statement`.
 
 ### Impression ⭐⭐⭐⭐⭐
-- ✅ Very informative session about not-to-known Spring Data JDBC, easy to understand examples
+- ✅ Very informative session about not-too-known Spring Data JDBC, easy to understand examples
 - ⛔ -
 
 _____
