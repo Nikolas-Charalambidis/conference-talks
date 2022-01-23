@@ -168,7 +168,7 @@ _____
   - 2nd level cache:
     - It is a session independent entity store containing entity objects and is used whenever an entity is found by its primary key (or if associations are traversed), but it creates some additional problems because now this external cache is needed to keep in sync (check first) that creates a small overhead and it's needed to compensate with a higher number of hits (rule of thumb is at least 9-10 reads per 1 write operation).
     - It needs to be activated in properties with a specific cache mode where `ENABLE_SELECTIVE` and `DISABLE_SELECTIVE` is recommended over `ALL`/`NONE`/`UNSPECIFIED` and managed through `@Cacheable` annotation on the repository class/method or entity class level.
-    - Tip: Place `@Cache(use = CacheCocurrencyStrategy.TRANSACTIONAL) over many-to-many associations and all associations on entities that don't map the foreign key column, because in these cases Hibernate doesn't cache the *association* between these two objects but *only* the objects themselves.
+    - Tip: Place `@Cache(use = CacheCocurrencyStrategy.TRANSACTIONAL)` over many-to-many associations and all associations on entities that don't map the foreign key column, because in these cases Hibernate doesn't cache the *association* between these two objects but *only* the objects themselves.
 
 ### Impression ⭐⭐⭐⭐⭐
 - ✅ Practical workshop with an on-spot set of tips for working with Hibernate and Spring Data JPA effectively
