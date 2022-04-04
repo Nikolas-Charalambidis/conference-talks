@@ -905,3 +905,24 @@ _____
 ### Impression ⭐⭐⭐☆☆
 - ✅ Great session about how Spring Cloud Gateway becomes handy for application modernization as a simple solution able to fulfill a lot of solution requirements. Interesting architecture lesson.
 - ⛔ Fewer abbreviations (who knows SCG stands for Spring Cloud Gateway). Confusing speakers switching. Cons of Spring Cloud Gateway were not mentioned.
+
+_____
+
+## [Spring for Architects](https://springone.io/2021/sessions/spring-for-architects)
+> "If you want to make somebody to do something, make it easy."
+- Length 59:45, watched on 2022-02-21, **#spring**
+- Nate Schutta as Architect, VMware
+- Jakub Pilimon as Software Engineer, VMware
+- Track: Architecture
+
+### Keynotes:
+- Things used to be simple, i.e. having few monolyths. Nowadays we have dozens, hundreds of services dropping daily new versions and a scattered team around the globe. Architects cannot and don't want to be involved in every single decision that teams have made. 
+  - They have to **empower** our teams to make good decisions and embrace the notion of **distributed decision making**.
+  - They have to step in and **establish principles** to put on guardrails and guideposts to help teams make good decisions. A way to go is to **leverage the power of defaults**.
+- From observations, distributed systems have similar needs and a lot of things come up over and over: Monitoring, circuit breakers, consumer driven contracts, gateways, streams, externalized configuration, functions, service discovery, load balancing, documentation -> we cannot reinvent the wheel on every single project and the focus should be led on critical design decisions.
+- 6:00
+ 
+### Impression ⭐⭐⭐☆☆
+- ✅ 
+- ⛔ 
+_____
