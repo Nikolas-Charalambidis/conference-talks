@@ -910,6 +910,7 @@ _____
 
 ## [Spring for Architects](https://springone.io/2021/sessions/spring-for-architects)
 > "If you want to make somebody to do something, make it easy."
+> "'If you don't think managing state is tricky, consider the fact that 80% of all problems in all complex systems are fixed by rebooting.' - Stuart Halloway"
 - Length 59:45, watched on 2022-02-21, **#spring**
 - Nate Schutta as Architect, VMware
 - Jakub Pilimon as Software Engineer, VMware
@@ -919,9 +920,48 @@ _____
 - Things used to be simple, i.e. having few monolyths. Nowadays we have dozens, hundreds of services dropping daily new versions and a scattered team around the globe. Architects cannot and don't want to be involved in every single decision that teams have made. 
   - They have to **empower** our teams to make good decisions and embrace the notion of **distributed decision making**.
   - They have to step in and **establish principles** to put on guardrails and guideposts to help teams make good decisions. A way to go is to **leverage the power of defaults**.
-- From observations, distributed systems have similar needs and a lot of things come up over and over: Monitoring, circuit breakers, consumer driven contracts, gateways, streams, externalized configuration, functions, service discovery, load balancing, documentation -> we cannot reinvent the wheel on every single project and the focus should be led on critical design decisions.
-- 6:00
- 
+- From observations, distributed systems have similar needs and a lot of things come up over and over: Monitoring, circuit breakers, consumer driven contracts, gateways, streams, externalized configuration, functions, service discovery, load balancing, documentation -> we cannot reinvent the wheel on every single project and the focus should be led on critical design decisions while empowering teams to solve critical business problems.
+- **Twelve factor app**
+  - They are characteristics shared by successful apps (by Heroku).
+    1. One codebase in version control, multiple deploys
+    1. Explicitely defined dependencies
+    1. Configuration separated from the code
+    1. Backing services are just attached resources (trivial swap out, loose coupling) 
+    1. Build, release and run lifecycle
+    1. Stateless (durable, not in memory)
+    1. Export services via port binding
+    1. Scale via process (to scale horizontally)
+    1. Start up fast and shut down gracefully (all in seconds, apps need to be disposable)
+    1. Dev/Prod parity (from commit to production)
+    1. Treat logs as event streams (no file system)
+    1. Admin tasks run as one off processes (database migrations etc.)
+  - Does an application have to be fully 12-factor compliant? Nope, but should be a goal but be also ruthlessly pragmatic. **Think of it as a continuum.** Applications need to be designed properly to take the advantage of that.
+  - For greenfield applications, go cloud native and don't build legacy.
+- **Monitoring** is vital to a thriving distributed architecture to know what is going on. Four primary components: 
+  - Logging to know what happened. 
+  - Tracing (correlation) -> Spring Cloud Sleuth. It overs spans, sampling and key:value pairs, adds trace and span IDs and to stock ingress and egress points instrumented and generated Zipkin compatible traces if desired.
+  - Dashboards to view the health of a service and monitor key metrics involving usually infrastructure (CPU, RAM, threads, DB connections, availablility, latency, response time, etc. identified earlier as part of the SLO (service level objectives)). Also the traffic level and error-failed requests etc.
+  - Alerts to alert then something goes wonky and fix it ideally before the customers even notice. It means pager duty for what there has to be clear and concise on-call duty documentation. Alerts should be urgent, actionable and require human intervention.
+    > "'We don't rise to the level of our expectations, we fall to the level of our training' - Archilochus"
+  - Number of tools from Wavefront to Dynatrace to New Relic -> Spring Boot Actuator.
+  - **Spring Boot Actuator**
+    - It is needed to use Spring Web dependencies from Initializr to enable the HTTP communication (JMX is yet another option).
+    - `/actuator/beans`: The information about beans including their scope and type provided by the application
+    - `/actuator/env`: The classpath, Java vendor, timezone, OS etc.
+    - `/actuator/caches/:` The caches
+    - `/actuator/mappings` The HTTP mappings
+    - `/actuator/scheduledtasks`: The scheduled tasks
+    - `/actuator/shutdown`: To shutdown the application gracefully
+    - It is possible to include Spring Security to secure the endpoints
+    - It is possible to configure the custom actuator endpoints using the annotations: `@Endpoint`, `@JmxEndpoint`, `@WebEndpoint`, `@ReadOperation`, `@WriteOperation`, etc.
+    - **All endpoints are enabled but not exposed by default**, which means they are by default included by the actuator.
+       ```
+       management.endpoint.shutdown.enabled=true
+       management.endpoints.web.exposure.include=*
+       ```
+- **Fault tolerance**
+34:12
+
 ### Impression ⭐⭐⭐☆☆
 - ✅ 
 - ⛔ 
