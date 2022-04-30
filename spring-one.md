@@ -911,6 +911,7 @@ _____
 ## [Spring for Architects](https://springone.io/2021/sessions/spring-for-architects)
 > "If you want to make somebody to do something, make it easy."
 > "'If you don't think managing state is tricky, consider the fact that 80% of all problems in all complex systems are fixed by rebooting.' - Stuart Halloway"
+> "Architect cannot afford to be dogmatic, for ex. I want my teams write tests, so I don't care what they choose to write tests in. Do you like jUnit? Fantastic, use it. Do you like Spock? Wonderful, that's great... just because I want them to write tests."
 - Length 59:45, watched on 2022-02-21, **#spring**
 - Nate Schutta as Architect, VMware
 - Jakub Pilimon as Software Engineer, VMware
@@ -960,9 +961,50 @@ _____
        management.endpoints.web.exposure.include=*
        ```
 - **Fault tolerance**
-34:12
+  - We cannot prevent failure, but we can be prepared for it.
+  - How to react? Error message? Backup service? Rely on cached data? Return default answer? ... *it depends*.
+  - A cicuit breaker is a good way to go as it watches the calls and makes sure that something that is broken doesn't get continually called.
+  - Once failure threshold is exceeded, the ciruits is open and you can't copmlete the circuit anymore and it redirects to a fallback mechanism. Every so often it pokes the original service if it is healthy yet, so let's back to normal and close the cuicuit.
+  - Circuit breakers are vitals for healthy microservices, easy to add and cusomers would thank you or they don't notice at all.
+  - It is better to display the user a manual error quickly than let them wait for a long time to fail and very rarely succeed.
+  - **Spring Cloud Circuit Breaker** has a consisten API and allowing developers to pick the implementation: Netflix Hystrix, Resilience4j, Sentinel, Spring Retry (`org.springframework.cloud`:`spring-cloud-starter-circuitbreaker-resilience4j`).
+    - All can be configured as necessary and all provide a basic default configuration.
+    - Free to change value thresholds, slow call thresholds, sliding window size.
+    - [Apache Benchmark](https://httpd.apache.org/docs/current/en/programs/ab.html) is a simple command line tool for benchmarks.
+    - ```
+      ab -n 100 http:localhost:8080/evaluate
+      ```
+    - Configuring a cictut breaker is done through `CircuitBreakerConfig` with either a default configuration `ofDefaults()` or a custom one (`custom()`).
+    - ```
+      CircuitBreakerConfig.custom()
+          .failureRateThreshold(5)                          // a number of consecutive failing values require to open the circuit
+          .waitDurationInOpenState(Duration.ofMillis(1000)) // duration in the open state
+          .slidingWindowSize(2)                             // used to record the outcome of calls when the circuit breaker is closed
+          .build()
+      ```
+- **Event driven architecture** has multiple event patterns. Which to choose? ... *it depends*, it's all about trade offs.
+  - Event notification (for example a new client registration):
+    - Something happens and the system shouts into the void (like banging a cowbell), and the emitter usually doesn't care what happens the next. 
+    - This is great for being highly asynchronous and compliant with the 0th law of computer science: High cohesion and low coupling. 
+    - The downside is that it is difficult to debug, to reason about the system and easy to lose sight of the flow - that's why monitoring is crucial.
+  - Event-carried state transfer (for example a client changed his address): 
+    - The event carries the detail so the event subscribers don't need to ask for the details and it is an example of "tell, not ask". 
+    - It reeduces latency and lowers the overhead to the source systems (it doesn't mean the data get tossed around), and receivers need to handle the state.
+  - Event sourcing: 
+    - We record every single state change, so it turns out that the event store is really the record of truth and not the database.
+    - Kafka is a friend for this as it serves as a strong audit log, allows to recreate history, makes it easy to run hypotheticals, although envolving schemas can be painful. It is challenging to replay when we interact with outside systems.
+  - CQRS as Command Query Responsibility Segregation:
+    - It splits the data structure to one that reads and the one that writes, which is not necessary event-driven per se but you sort of seet it combined with these approaches.
+  - **How to do distributed transactions in cloud? They don't**.
+    - A real world example: You buy a t-shirt in a shop with a return policy. The shop doesn't keep the transaction open until the return period expires. The sale is commited, if you return a t-shirt, there is a series of compensanting transactions (put the t-shirt into inventory, issue you a credit, etc.).
+  - **Spring Cloud Stream** for architects that want flexibility, because the architecture is often defined as the decisions that are hard to change.
+    - Spring Cloud Stream allows to swap brokers and use what's right for the team, so is middleware neutral.
+    - It supports as expected: Kafka, RabbitMQ (`org.springframework.cloud`:`spring-cloud-starter-strean-rabbit`), Kinesis plus various partner maintained bits.
+    - It provides a binder to the external brokers that serve as a bridge between the application and the broker.
+    - It allows to implement an onwn binder and integration-test them.
+    - Destination binder connects to your messaging system, handles the boilerplate configuration bits, so one can focus only on the business problem.
 
-### Impression ⭐⭐⭐☆☆
-- ✅ 
-- ⛔ 
+### Impression ⭐⭐⭐⭐☆
+- ✅ Great and informative content of implementing architectural patterns with Spring Boot, nice explanation of event driven architecture, brilliant quotes and nice-to-listen presentation style
+- ⛔ They were cut off and such situation should have be handled better (both organizers and presenters)
 _____
