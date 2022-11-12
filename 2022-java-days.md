@@ -55,7 +55,7 @@ _____
 
 _____
 
-## Scalable backend (in original Škálovatelný backend)
+## Scalable backend (in original: Škálovatelný backend)
 
 > "The Oracle Java is again available free of charge for production as of Java 17"
 - Length 46:44, watched on 2021-11-12, **#intoduction #news**
