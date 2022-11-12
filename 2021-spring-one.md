@@ -1,6 +1,6 @@
-# [Spring One](https://springone.io/)
+# [Spring One 2021](https://springone.io/)
 
-- All sessions for free and online since the 7th of September 2021
+- All sessions are for free and online since the 7th of September 2021.
 
 | Session                                                                                           | Tags                          | Length | Track                        |
 |---------------------------------------------------------------------------------------------------|-------------------------------|--------|------------------------------|
@@ -60,6 +60,7 @@ _____
 - Length 27:31, watched on 2021-09-07, **#devops #cloud #native #microservices**
 - Valentina Alaria as Director Product Management, VMware
 - Track: Cloud Native Platforms
+- Language: English
 
 ### Keynotes
 - Most of Kubernetes offerings are delivered as a bag of parts:
@@ -80,6 +81,7 @@ _____
 - Length 26:49, watched on 2021-09-07, **#devops #kubernetes #spring #cloud**
 - Craig Walls as Engineer, VMware
 - Track: Architecture
+- Language: English
 
 ### Keynotes
 - Spring applications environment configuration is based on Spring Environment Abstraction as of Spring 3.1 (`application.properties`, `application.yml`, command-args, JVM system properties...). 
@@ -100,6 +102,7 @@ _____
 - Length 27:00, watched on 2021-09-07, **#cloud #native**
 - Hananiel Sarella as Software Engineer, VMware
 - Track: Beginner-Friendly Spring
+- Language: English
 
 ### Keynotes
 - Pros: Microservice architecture provides easy to maintain, test, and deploy services, teams can be scaled, polyglot-friendly, 
@@ -119,6 +122,7 @@ _____
 - Length 26:15, watched on 2021-09-08, **#containers #devops**
 - Nigel Brown as Senior Open Source Community Manager, VMware
 - Track: Cloud Native Platforms
+- Language: English
 
 ### Keynotes
 - Container is a process or group of processes running in isolation, it is great for portability and security
@@ -141,6 +145,7 @@ _____
 - Length 54:50, watched on 2021-09-08, **#spring #jpa #hibernate**
 - Thorben Janssen as Freelancer, Self-employed
 - Track: Intermediate/Advanced Spring
+- Language: English
 
 ### Keynotes
 - Hibernate statistics: Properties `hibernate.generate_statistics=true`, `hibernate.session.events.log.LOG_QUERIES_SLOWER+THAN_MS=3` and logging `org.hibernate.stats=DEBUG` (for DEV purposes).
@@ -182,6 +187,7 @@ _____
 - Ian Zink as Staff Software Engineer, VMware
 - Nitasha Verma as Solutions Engineer, VMware
 - Track: Architecture
+- Language: English
 
 ### Keynotes
 - Relocating K8S configurations and containers in the hands of their customers as a secure, consistent, and unified distribution within the framework of their existing ecosystem is clumsy.
@@ -203,6 +209,7 @@ ______
 - Length 25:34, watched on 2021-09-08, **#java #spring #jakarta**
 - Juergen Hoeller as Spring Framework Project Lead, VMware
 - Track: Intermediate/Advanced Spring
+- Language: English
 
 ### Keynotes
 - Spring Framework **5.3.x**:
@@ -230,6 +237,7 @@ _____
 - Marcus Da Coregio as Software Engineer, VMware
 - Steve Riesenberg as Software Engineer, VMware
 - Track: Beginner-Friendly Spring
+- Language: English
 
 ### Keynotes
 - **Secured by default first principle**
@@ -266,6 +274,7 @@ ______
 - Length 22:25, watched on 2021-09-08, **#spring #security #test**
 - Eleftheria Stein-Kousathana as Software Engineer, VMware
 - Track: Intermediate/Advanced Spring
+- Language: English
 
 ### Keynotes
 - Dependency `org.springframework.security:spring-security-test` brings helpers in `org.springframework.security.test.**` packages and more:
@@ -283,6 +292,7 @@ _____
 - Length 51:14, watched on 2021-09-09, **#spring #security #test**
 - Jennifer Reif as Developer Relations Engineer, Neo4j
 - Track: Beginner-Friendly Spring
+- Language: English
 
 ### Keynotes
 - Databases
@@ -313,6 +323,7 @@ _____
 - Length 52:39, watched on 2021-09-09, **#spring #data #jdbc**
 - Jens Schauder as Staff Engineer, VMware
 - Track: Intermediate/Advanced Spring
+- Language: English
 
 ### Keynotes
 - Spring Data offers a common abstraction for various kind of persitent stores, by abstraction is means that things look similar and it' by no means that it's possble to just swap just one database out and another one in, otherwise the common set of features would be limited and the undelying technology features are no blocked - things looks similar so working with one gives an easy way in the other. Sprnig Data is famous for the ability to define repositories as interfaces conceptually from the domain-driven design.
@@ -345,7 +356,8 @@ _____
 - Length 22:58, watched on 2021-09-09, **#microservice #test**
 - Kishore Kotaas as Sr Architect, Discover Financial Services
 - Sindhu Nair as Principal Value Stream Architect, Discover Financial Services
- - Track: Architecture
+- Track: Architecture
+- Language: English
 
 ### Keynotes
 - Testing monolithic architecture heavy relies on End-To-End testing and prolonges testing cycle
@@ -401,6 +413,7 @@ _____
 - Length 55:32, watched on 2021-09-11, **#spring #data**
 - Greg Turnquist as Principal Software Engineer, VMware
 - Track: Beginner-Friendly Spring
+- Language: English
 
 ### Keynotes
 - Spring Data JPA has pre-baked `JpaRepositoy` that extends `PagingAndSotringReporitory` from Spring Data.
@@ -422,6 +435,7 @@ _____
 - Brian Sam-Bodden as Developer Advocate, Redis Labs
 - DaShaun Carter as Partner Solution Architect, Redis
 - Track: Beginner-Friendly Spring
+- Language: English
 
 ### Keynotes
 - Redis (162 clients in 50 languages) stores data in memory, not on disk, which brings <1ms latency
@@ -481,6 +495,7 @@ _____
 - Length 27:12, watched on 2021-09-12, **#spring #microservices**
 - Joris Kuipers as CTO, Trifork
 - Track: Architecture
+- Language: English
 
 ### Keynotes
 - Case study of the integration platform developed for the Dutch Lotteries
@@ -513,6 +528,7 @@ _____
 - Length 26:42, watched on 2021-09-13, **#spring #elasticsearch**
 - Erdem Günay as CTO, Layermark
 - Track: Architecture
+- Language: English
 
 ### Keynotes
 - ElasticSearch based indexed search using analyzers and filters with a boost by popularity and by user behavior.
@@ -543,6 +559,7 @@ _____
 - Length 51:15, watched on 2021-09-14, **#spring #tomcat**
 - Mark Thomas as Staff Engineer, VMware
 - Track: Intermediate/Advanced Spring
+- Language: English
 
 ### Keynotes
 - **Complex issues** are subjective (everybody has a different understanding o this term), and there are three factors that are not completely independent but it tends one dominates more than the other.
@@ -589,6 +606,7 @@ _____
 - Length 26:09, watched on 2021-09-14, **#spring #kubernetes**
 - Thomas Vitale as Senior Software Engineer, Systematic
 - Track: Beginner-Friendly Spring
+- Language: English
 
 ### Keynotes
 - If Flyway should be used with a Reactive application, it is needed to provide JDBC connecion to Flyway as it doesn't support R2DBC drivers.
@@ -628,6 +646,7 @@ _____
 - Length 24:15, watched on 2021-09-14, **#agile #project #management #kpi**
 - Arijit Sarbagna as Director - Agile & DevSecOps, Atos
 - Track: Agile Leadership
+- Language: English
 
 ### Keynotes
 - Measuring in an Agile environment is problematic as businesses have been curious to measure few specific elements: *scope* delivered on *time*, on *spec*, and on *budget* without compromising quality -> golden triangle.
@@ -671,6 +690,7 @@ _____
 - Length 24:15, watched on 2021-09-16, **#agile #project #management**
 - Antonia Horvath as Delivery Lead & Design Manager, VMware Tanzu Labs
 - Track: Agile Leadership
+- Language: English
 
 ### Keynotes
 - Design altitude were design delivers value: **Surface** (look), **Structure**, **Strategy**, **Big picure**
@@ -711,6 +731,7 @@ _____
 - Length 25:43, watched on 2021-09-19, **#agile #organization #learning #microservices**
 - Steve Hawkins as Sr. Manager Converged Infrastructure, BT
 - Track: Agile Leadership
+- Language: English
 
 ### Keynotes
 - **BT's (company name) transformation** in order to remain relevant and competitive is modernizing the organization and architecture.
@@ -736,6 +757,7 @@ _____
 - Length 54:20, watched on 2021-09-22, **#agile #organization #learning**
 - Trisha Gee as Lead Java Advocate, JetBrains
 - Track: Beginner-Friendly Spring
+- Language: English
 
 ### Keynotes
 - Developers like to update to the latest and greatest technologies because it's fun to do, and it's hard to be immune to this disease, For example, applying a new technology results the application would look like before but hopefully it might have slightly better performance, however:
@@ -780,6 +802,7 @@ _____
 - Bruce Eckel as President, Mindview LLC
 - James Ward as Developer Relations Engineer, Google Cloud
 - Track: Architecture
+- Language: English
 
 ### Keynotes
 - **Java 11+ features**:
@@ -818,6 +841,7 @@ _____
 - Length 14:27, watched on 2021-09-23, **#java**
 - Chiamaka Okenwa as Software Engineer, Renmoney
 - Track: Architecture
+- Language: English
 
 ### Keynotes
 - Clean code is *simple*, *understandable* and *maintainable* to care about *teamwork*, *reusability* and *growth*.
@@ -838,6 +862,7 @@ _____
 - Length 25:30, watched on 2021-09-23, **#spring #spring-boot #spring-cloud spring-cloud-streams #rabbitmq**
 - Greg Meyer as Director, Distinguished Engineer, Cerner Corp.
 - Track: Beginner-Friendly Spring
+- Language: English
 
 ### Keynotes:
 - Taking an existing open-source Python project and then enhancing it and rapidly converting it into a production-grade application with the use of Spring:
@@ -884,6 +909,7 @@ _____
 - Dodd Pfeffer as Advisory Solution Engineer, VMware
 - Partha Chandramohan as Solutions Architect, AARP
 - Track: Architecture
+- Language: English
 
 ### Keynotes:
 - The decade-old application about to be modernized:
@@ -916,6 +942,7 @@ _____
 - Nate Schutta as Architect, VMware
 - Jakub Pilimon as Software Engineer, VMware
 - Track: Architecture
+- Language: English
 
 ### Keynotes:
 - Things used to be simple, i.e. having few monolyths. Nowadays we have dozens, hundreds of services dropping daily new versions and a scattered team around the globe. Architects cannot and don't want to be involved in every single decision that teams have made. 
