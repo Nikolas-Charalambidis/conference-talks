@@ -2,9 +2,10 @@
 
 - The conference is paid and the online access is granted for a limited time (1-2 weeks).
 
-| Session                 | Tags                          | Length | 
-|-------------------------|-------------------------------|--------|
-| [Keynote](#keynote)     | #intoduction #news            | 46:44  |
+| Session                                   | Tags                          | Length   | 
+|-------------------------------------------|-------------------------------|----------|
+| [Keynote](#keynote)                       | #intoduction #news            | 46:44    |
+| [Scalable backend](#scalable-backend)     | #architecture #monolithic     | 1:00:39  |
 
 _____
 
@@ -55,10 +56,11 @@ _____
 
 _____
 
-## Scalable backend (in original: Škálovatelný backend)
+## Scalable backend
+- (in original: Škálovatelný backend)
 
-> "The Oracle Java is again available free of charge for production as of Java 17"
-- Length 46:44, watched on 2021-11-12, **#intoduction #news**
+> ""
+- Length 1:00:39, watched on 2021-11-12, **#intoduction #news**
 - Roman Bouchner
 - Language: Czech 🇨🇿
 
