@@ -13,13 +13,13 @@ _____
 > "The Oracle Java is again available free of charge for production as of Java 17"
 - Length 46:44, watched on 2021-11-12, **#intoduction #news**
 - Jiří Pinkas
-- Language: Czech
+- Language: Czech 🇨🇿
 
 ### Keynotes
 - Usage statistics:
   - **Java version**: Java 8 (37%), Java 11 (29%), Java 12 and newer (12%), Kotlin (8%), Groovy (6%), Java 7 and older (5%), Scala (3%)
   - **JRE/JDK distribution**: Oracle Java (36%), Generic OpenJdk (27%), AdoptOpenJdk (16%), Amazon COrretto (7%), Azul Zulu (6%), GraalVM (3%), Other (3%), OpenLogic JDK (2.3%)
-    - The best distributions: Adoptioum (Temurin) which is TCK certified and GraalVM for native applications.-
+    - The best distributions: Adoptioum (Temurin) which is TCK certified and GraalVM for native applications.
     - The Generic OpenJDK has half-year validity only
     - The Oracle Java is again available free of charge for production under the new "Oracle No-Fee Terms and Conditions" (NFTC) license that reverses a 2018 decision. This applies to the recently released version 17 of Oracle JDK and future versions.
   - **Microservices**: Currently transitioning to microservices (44%), We are talking about it (10%), Tried, didnt work (2%) 
@@ -42,7 +42,7 @@ _____
 - **Spring Boot 3**
   - Spring Boot 3 runs on Java 17 (which is the minimum version required) and supports records.
   - New Micrometer for metrics and tracing, Spring Cloud Sleuth project becomes obsolete.
-  - Java EE is no longer used in favor of Jakarta EE, which means no longer `javax` packages but `jakarta` ones.
+  - Java EE is no longer used in favor of Jakarta EE, which means no longer `javax` packages but the `jakarta` ones.
   - Spring Security 6 has a major change where `SecurityChainFilter` has to be used instead of `WebSecurityConfigurerAdapter`.
   - Spring Data JPA and Hibernate 6
   - AOT GraalWM support for native images making Spring Native obsolete as it was an experimental project, not it is supported out-of-the box.
@@ -57,4 +57,10 @@ _____
 
 ## Scalable backend (in original Škálovatelný backend)
 
-TODO
+> "The Oracle Java is again available free of charge for production as of Java 17"
+- Length 46:44, watched on 2021-11-12, **#intoduction #news**
+- Roman Bouchner
+- Language: Czech 🇨🇿
+
+### Keynotes
+- TODO
