@@ -2,14 +2,15 @@
 
 - The conference is paid and the online access is granted for a limited time (1-2 weeks).
 
-| Session                                                                                                                    | Tags                          | Length   | 
-|----------------------------------------------------------------------------------------------------------------------------|-------------------------------|----------|
-| [Keynote](#keynote)                                                                                                        | #intoduction #news            | 46:44    |
-| [Scalable backend](#scalable-backend)                                                                                      | #architecture #monolithic      | 1:00:39  |
-| [Building Docker images with Spring Boot Maven Plugin](#building-docker-images-with-spring-boot-maven-plugin)              | #spring #native #docker        | 35:22    |
-| [Advanced tips and tricks for productivity in IntelliJ Idea](#advanced-tips-and-tricks-for-productivity-in-intellij-idea)  | #intellij                      | 46:57    |
-| [Project Loom: Virtual threads in Java 19](#project-loom-virtual-threads-in-java-19                                     )  | #java #multithreading          | 43:11    |
-| [Domain Driven Microservices](#domain-driven-microservices)                                                                | #domain #analysis              | 49:24    |
+| Session                                                                                                                    | Tags                               | Length   | 
+|----------------------------------------------------------------------------------------------------------------------------|------------------------------------|----------|
+| [Keynote](#keynote)                                                                                                        | #intoduction #news                 | 46:44    |
+| [Scalable backend](#scalable-backend)                                                                                      | #architecture #monolithic           | 1:00:39  |
+| [Building Docker images with Spring Boot Maven Plugin](#building-docker-images-with-spring-boot-maven-plugin)              | #spring #native #docker             | 35:22    |
+| [Advanced tips and tricks for productivity in IntelliJ Idea](#advanced-tips-and-tricks-for-productivity-in-intellij-idea)  | #intellij                           | 46:57    |
+| [Project Loom: Virtual threads in Java 19](#project-loom-virtual-threads-in-java-19                                     )  | #java #multithreading               | 43:11    |
+| [Domain Driven Microservices](#domain-driven-microservices)                                                                | #domain #analysis                   | 49:24    |
+| [GraalVM: Java ♥ Python ♥ Micronaut](#graalvm-java--python--micronaut).                                                    | #graalvm #java #python #polygot  | 44:33   |
 
 _____
 
@@ -113,7 +114,7 @@ _____
   - **Database migration**: It is not easy to rename columns or tables and it must happen in multiple steps as long as multiple versions of the application can use the same database schema.
   - **Error handling**: There is no sophisticated error handling required as no retries are implemented, the record just fails. If a problem persists for a longer time, it's worth to take a look at it.
 
-### Impression ⭐⭐⭐⭐⭐
+### Impression ⭐⭐⭐⭐☆
 - ✅ Though it looked like an anti-microservice session, the reasoning was context-aware. The solutions were simple and well-explained. A proof that microservices should not be always used.
 - ⛔ Some relevant code and Kibana logs (though data would be anonymized) from the project to be shown would be great.
 
@@ -260,7 +261,7 @@ _____
   - Other: Remote debug (`ssh -f nikolas@email.com -L 5005:127.0.0.1:5005 -N`).
 - **Code writing**:
   - Live templates are context-aware (`sout`, `iter`, `psvm`, `for`, `lazy`).
-  - Surround with code (`if-else`, `try-catch`, etd.)(**⌘⌥T**).
+  - Surround with code (`if-else`, `try-catch`, etc.)(**⌘⌥T**).
   - Show context actions (**⌥↵**).
   - Delete line (**⌘X**).
   - Duplicate line (**⌘D**).
@@ -357,5 +358,57 @@ _____
 ### Impression ⭐⭐⭐☆☆
 - ✅ 
 - ⛔ Too theoretical, it would be nice to show a sample core, generic and supporting domain designed in detail.
-
 _____
+_____
+_____
+_____
+_____
+
+## GraalVM: Java ♥ Python ♥ Micronaut
+> "It's possible to render beautiful graphs with `pygal` in Java through GraalVM."
+- Length 44:33, watched on 2021-11-13, **#graalvm #java #python #polygot**
+- Štepán Šindelář
+- Language: Czech 🇨🇿
+
+## Keynotes
+
+- **GraalVM** is an universal virtual machine for running application written in JavaScript, Python, Ruby, R, JVM-based languages (Java, Kotlin, Scala) and LLVM-based languages (C, C++). It is similar to JVM that supports native images, JIT mode, non-JVM languages - a kind of universal swiss knife.
+  - The structure is very similar to the standard JVM, but has additional tools:
+    - `./bin/gu` - `gu` is a tool for installing and managing optional GraalVM language runtimes and utilities, that can be listed with `./bin/gu list`, for example `./bin/gu install python` installs the Python language runtime
+    - `./bin/graalpy` starts the Python CLI
+- **GraalPy** only supports currently Max/Linux, but is compatible with CPython. Unlike JPython supports native extensions, such as NumPy, Matplotlib, etc. The peak performance in on par with PyPy (currently the fastest alternative). It also supports Java interoperability and Python venv.
+- It is possible to call Python code from Java as well as Python scripts, though GraalVM doesn't support multiple return types from Python to Java.
+- The GraalVM can be included to the IDE as a SDK and the GraalVM-specific classes are already a part of the SDK, so the IDE should recognise them without importing a Maven dependency. 
+  ```java
+  Context ctx = org.graalvm.polygot.Context.newBuilder("python").build() // part of GraalVM
+  Value value = ctx.eval("python", "1+1");
+  Integer i = value.fitsInInt ? value.asInt() : null;
+  ```
+- It's possible to get bindings from the snippet and execute them:
+  ```java
+  ctx.eval("python", 
+  """
+  def foo(a,b):
+      return a+b
+  import polygot
+  polygot.export_value("myid", foo)
+  """);
+  ```
+  ```java
+  ctx.getPolygotBindings().getMember("myId").execute(2, 3);
+  ```
+  ```java
+  ctx.getBindings("python").getMember("foo").execute(2, 3);
+  ```
+- If Python needs to access the Java arrays and classes, it's needed to allow the host access:
+  ```java
+  ctx.allowHostAccess();
+  ```
+- Sample usages: 
+  - Simple and quick scripting where Python excels primarly (though alternatives are to write a Maven plugin or dependency), but this is useful for smaller companies.
+  - To render beautiful graphs with `pygal` in Java through GraalVM.  
+  
+### Impression ⭐⭐⭐⭐⭐
+- ✅ Though I am not interested in Python, the capabilities of GraalVM are fucking lit. The live coding done well.
+- ⛔ -
+
