@@ -2,10 +2,13 @@
 
 - The conference is paid and the online access is granted for a limited time (1-2 weeks).
 
-| Session                                   | Tags                          | Length   | 
-|-------------------------------------------|-------------------------------|----------|
-| [Keynote](#keynote)                       | #intoduction #news            | 46:44    |
-| [Scalable backend](#scalable-backend)     | #architecture #monolithic     | 1:00:39  |
+| Session                                                                                                                    | Tags                          | Length   | 
+|----------------------------------------------------------------------------------------------------------------------------|-------------------------------|----------|
+| [Keynote](#keynote)                                                                                                        | #intoduction #news            | 46:44    |
+| [Scalable backend](#scalable-backend)                                                                                      | #architecture #monolithic      | 1:00:39  |
+| [Building Docker images with Spring Boot Maven Plugin](#building-docker-images-with-spring-boot-maven-plugin)              | #spring #native #docker        | 35:22    |
+| [Advanced tips and tricks for productivity in IntelliJ Idea](#advanced-tips-and-tricks-for-productivity-in-intellij-idea)  | #intellij                      | 46:57    |
+| [Project Loom: Virtual threads in Java 19](#project-loom-virtual-threads-in-java-19                                     )  | #java #multithreading          | 43:11    |
 
 _____
 
@@ -59,10 +62,233 @@ _____
 ## Scalable backend
 - (in original: Škálovatelný backend)
 
-> ""
-- Length 1:00:39, watched on 2021-11-12, **#intoduction #news**
+> "An universal truth about architecture does not exist and its design must be context-aware."
+- Length 1:00:39, watched on 2021-11-12, **#architecture #monolithic**
 - Roman Bouchner
 - Language: Czech 🇨🇿
 
 ### Keynotes
+- Though it is a modern conception to have multiple instances, it's required to know the main goals:
+  - No downtime deployment, resiliency against HW failure, better performance (huge amount of users) and its protection on high traffic.  
+- Scaling doesn't mean to increase a number of nodes, but mind the CPU and RAM memory as databases are resources demaning. Though, scaling assures high availability (HA).
+- Worth to read: https://spoilerproxy.com/ and https://goodbackend.com/.
+- **Context**: Small development team (also DevOps and testing), fast paced product, strong focus on data consistency, simple architecture, infrastructure and code, simple error codes and their handling.
+- **Rules**: Backend are stateless and all states are in the database (including the locking), backends don't call each other (how to handle 504 timeout?).
+- **Idea**: Producer-consumer architecture (the BE manages data from the FE, sneds to a queue and the BE workers process them), the resutls processed in 3 seconds are returned synchronously, otherwise an information about an upcoming notification is offered.
+- **Solution**: 
+  - Scalable monolithic architecture deploying the very same configurable JAR (favors easy development) thorugh properties `api.enabled=true` and `worker.threads=1` and more layers as the properties switch if the JAR will serve as a Worker or the API REST (Main) service.
+  - In case the Main service decides it's going to take a lot of time, the request is sent into a queue from where Workers take and process them.
+  - **Queue**: The queue is implemented by PostgreSQL database as it assures the transactional manner, data consistency and simple backups (Kafka is rather suitable for non-transactional data, for example email notifications). The database is a single source of truth.
+    - 1 record is represented by exactly one row (important).
+    - Data: RequestId (for Kibana), UserRequestContext (user identification, JSON request), WorkerId, RequestParameters, State (Waiting -> Processing -> Done/Error -> ErrorResolved), Result, Error message.
+    - `INSERT` into the database is easy, but `SELECT` cannot get everything as long as synchronization between the workers is required so the record is processed by exactly one worker only:
+    ```sql
+    BEGIN
+    SELECT * FROM my_queue WHERE state='waiting' FOR UPDATE SKIP LOCKED LIMIT 1
+    UPDATE my_queue SET state='processing' WHERE id = ...
+    COMMIT;
+    ```
+  - The stored JSON request assures that the request can be processed by a Worker regardless of its origin as it follows a defined format.  
+  - **Polling? Notifications?**: The problem was how often to poll the requests from the queue? Once a second or 10 seconds?
+    - The neat solution is to notify other backends without actually calling them -> PostgeSQL notifications.
+    - The PostgreSQL notifications are an in-built solution that and transactional and easy to use.
+    ```bash
+    pgsql NOTIFY <channel> <payload>
+    pgsql LISTEN <channel>
+    ```
+    This can be implemented into Java by a custom implementation:
+    ```java
+    pgListenerService.notify("worker", "params");
+    pgListenerService.addServiceListener("worker", params -> { });
+    ```
+  - **Database scaling for HA**: The main goal is the high availability (HA), the idea behind is that the more dumb the database is, the easier it can be scaled. 
+    - PostgreSQL is capable of having one primary database for read and write and a secondary one for reading only. Internally it uses WAL (Write-Ahead Logging) and phisical transaction replication. Theoretically, the data can be available for read with a tiny delay in terms of miliseconds, but it is useful for analytical and aggregation processing. 
+    - In
+  - **Database scaling for multiple users**: Another goal is to avoid distributed databases as the development gets complex as well as its testing.
+    - The solution is to add more databases but in the way a transactional communication is **never** required between them.
+    - A proper sharding implementation should assure that the relevant data always stay together in a single database (one company data are only in a single databasase). With a new big customer new cloud (shard), but the same architecture and software can be used.
+    - It is required to implement a switch (here is possible to use Kafka, RabbitMQ as long as the consistency is not what matters here, but a quick switching).
+    - It is also recommend to use UUID to distinguish company data for easy migration across the shardes.
+  - **Database migration**: It is not easy to rename columns or tables and it must happen in multiple steps as long as multiple versions of the application can use the same database schema.
+  - **Error handling**: There is no sophisticated error handling required as no retries are implemented, the record just fails. If a problem persists for a longer time, it's worth to take a look at it.
+
+### Impression ⭐⭐⭐⭐⭐
+- ✅ Though it looked like an anti-microservice session, the reasoning was context-aware. The solutions were simple and well-explained. A proof that microservices should not be always used.
+- ⛔ Some relevant code and Kibana logs (though data would be anonymized) from the project to be shown would be great.
+
+_____
+
+## Building Docker images with Spring Boot Maven Plugin
+- (in original: Tvorba docker image pomocí Spring Boot Maven Pluginu)
+
+> ""
+- Length 35:22, watched on 2021-11-12, **#spring #native #docker**
+- Jiří Pinkas
+- Language: Czech 🇨🇿
+
+### Keynotes
+
+- History:
+  - 2011 - Heroku initiated buildpacks (dynos)
+  - 2013 - Docker, Cloud Factory adopted Buildpacks	
+  - 2014 - Spotify Docker Maven Plugin
+  - 2015 - Kubernetes, Cloud Native Computing Foundation (CNCF) established
+  - 2018 - Jib 1.0, Cloud Native Buildpacks, CNCF Sandbox		
+  - 2019 - Podman 1.0.0
+  - 2020 - Cloud Native Buildpacks -> CNCF Incubation
+- Dockerfiles are no longer written by hand (though it is good to know how they work), nowadays it is mostly used the Spotify Docker Maven Plugin though there are more advanced tools: Jib plugin is the best choice for a corporate and Native (Spring Boot Maven Plugin) for hipsters.
+- Spring Boot Maven Plugin is simple to use, the command `mvn spring-boot:build-image` downloads a builder image where the application is built and the result is a Docker image (it is required to has Docker installed and Docker daemon run) - the result image is **layered**. It is required to include the plugin:
+  ```xml
+  <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+  </plugin>
+  ```
+  
+  There is Bellsoft Liberica JDK inside out-of-the-box for unknown reason, though there are better JDK distributions.
+- **Layered image**
+  - Example from infrequently to frequently changed parts: `spring-boot-loader`, `dependencies`, `snapshot-dependencies`, `application`
+  - Layers enable only the changed parts can be replaced: in case we change the `dependencies`, then at least the `spring-boot-loader` can remain same. If we change the `application` part, only the `application` part is sent to Docker registry or Kubernetes nodes.
+  - Layered JARs, images work with JIB or Builpacks and saves the time between build and deployment (network traffic between Jenkins, Kubernetes nodes etc.)
+- **OpenJ9 Buildpack**: Buildpacks can be browset at: https://github.com/orgs/paketo-buildpacks/repositories?q=jre
+  - Configuration is in the `spring-boot-maven-plugin`
+    ```xml
+    <configuration>
+			<image>
+				<name>TODO_IMAGE_NAME</name>
+				<buildpacks>
+					<buildpack>gcr.io/packet-buildpacks/eclipse-openj9:latest</buildpack>
+					<buildpack>paketo-buildpacks/java</buildpack>
+        </buildpacks>
+      </image>
+    </configuration>
+    ```
+  - The application build happens in the builder image, there are 3 builders out-of-the-box: `full`, `base` and `tiny`. They differ in the amount of libraries installed, though the most used one is `tiny`. It is possible to create an own builder, though it is really complicated and worth only for corporates where the implementation of such a builder must be certified security-wise. Jib also allows to crate a custom builder in a simpler way.
+    ```xml
+    <configuration>
+      <image>
+        <name>TODO_IMAGE_NAME</name>
+        <buildpacks>
+          <builder>paketobuildpacks/builder:tiny</buildpack>
+        </buildpacks>
+      </image>
+    </configuration>
+    ```
+  - The plugin also can push into Docker registry:
+    ```xml
+    <configuration>
+      <image> ... </image>
+      <docker>
+        <publishRegistry>
+          <username>${docker.username}</username>
+          <password>${docker.password}</password>
+        </publishRegistry>
+      </docker> 
+    </configuration>
+    ```
+    It is dumb the credentials must be specified right in the `pom.xml`, though it can be passed in the command line:
+    ```bash
+    mvn -Ddocker.username=TODO -Ddocker.password=TODO spring-boot:build-imaage
+    ```
+- **Spring Boot 3**: The plugin is already built into Spring Boot 3:
+  ```xml
+  <configuration>
+    <image>
+      <name>TODO_IMAGE_NAME</name>
+      <buildpacks>
+        <buildpack>gcr.io/packet-buildpacks/bellsoft-liberica:9.9.0-ea</buildpack>
+        <buildpack>paketo-buildpacks/java-native-image</buildpack>
+      </buildpacks>
+      <env>
+        <!-- optional as long as the default values are sensible -->
+        <BP_JVM_VERSION>17</BP_JVM_VERSION> 
+      </env>
+    </image>
+  </configuration>
+  ```
+  ```bash
+  mvn spring-boot:build-image -Pnative
+  ```
+  Paketo buildpacks have also CLI that can build the native images:
+  ```bash
+  pack build test_img --builder=paketobuildpacks/builder:base -e BP_JVM_VERSION=17
+  ``` 
+- **Alternatives**
+  - It is still possible to write Dockerfiles (a great tutorial is at spring.io/guides/topicals/spring-boot-docker)
+  - As long as we are not ready for buildpacks, Jib is a good choice as it is really easy to use (`maven jib:build`) and a subsequent transition to buildpacks is not hard. We can also use Jib without Spring Boot.
+  - JLink is **not** a good alternative because it conflicts the layered JARs concepts, as long as each application has own JRE, so they cannot share the same layers. 
+- **Goals (regardless of the technology)**: Layered images, smaller images, CI/CD image builds, distroless images
+  - Distroless images are without Linux distribution and contain only the application, though there is no `bash` to use in the container, it is smaller and safe from attacks.
+
+### Impression ⭐⭐⭐⭐⭐
+- ✅ Detailed and comprehensible overview of how to build Docker images using buildpacks. Jib mentioned and offered as a simple alternative.
+- ⛔ I still love to write Dockerfiles, it's fun. Buildpacks are confusing in terms of underlying Java versions (compatibility matrix) and this was not explained.
+
+_____
+
+## Advanced tips and tricks for productivity in IntelliJ Idea
+- (in original: Produktivita práce v IntelliJ Idea - pokročilé tipy)
+
+> ""
+- Length 46:57, watched on 2021-11-12, **#intellij**
+- Pavel Jetenský
+- Language: Czech 🇨🇿
+
+### Keynotes
+- **Navigation**: 
+  - Type hierarchy (**⌃H**).
+  - Last edit location (**⌘⇧⌫**).
+  - Backward-forward location history (**⌥⌘←** / **⌥⌘→**).
+  - Quick documentation view (**⌥␣**)(works also for XML, Dockerfile, in Windows <kbd>ctrl</kbd><kbd>Q</kbd>).
+  - Find a test class or method for implementation (**⌘⇧T**).
+  - Other: File structure, Declaration and usages...
+- **Opening and reading**:
+  - Multicolumn edit (Mouse Middle button, or **⌥⌘⇧** and left click and drag).
+  - Multiple carets (**⌥⇧** and click)
+  - Quick open understands wildcard (**⇧⇧** and type `*Controller`).
+  - Other: Mnemonic bookmarks, Find in the previous search (for example: `pet` AND `@Entity`).
+- **Debugging**: 
+  - Node.js debugging (**⌃⇧** click to the `localhost` address once the application starts).
+  - Debug evaluation in a full-text mode can define new variables and return them to the console (a log trick can be used with a raw `List`):
+    ```java
+    int a = 5;
+    int b = a + 5;
+    a
+    ```
+    This prints out the value of `a` only.
+  - Other: Remote debug (`ssh -f nikolas@email.com -L 5005:127.0.0.1:5005 -N`).
+- **Code writing**:
+  - Live templates are context-aware (`sout`, `iter`, `psvm`, `for`, `lazy`).
+  - Surround with code (`if-else`, `try-catch`, etd.)(**⌘⌥T**).
+  - Show context actions (**⌥↵**).
+  - Delete line (**⌘X**).
+  - Duplicate line (**⌘D**).
+  - Move lines up or down (**⌥⇧↑** / **⌥⇧↓**).
+  - Move blocks up or down (**⌘⇧↑** / **⌘⇧↓**).
+- **Plugins**:
+  - Presentation assistant plugin to show the shortcuts written
+  - Key promoter to suggest shortcuts for repetitive actions
+  - String manipulation (hash, base64, case conversion)
+- **Miscellaneous**:
+  - Code → Analyze Stack Trace
+  - View → Appearance → Enter presentation mode
+
+### Impression ⭐⭐⭐⭐☆
+- ✅ Perfect tips I didn't know about and I will surely use: Especially from the navigation section, and String manipulation. Suggested very plugins.
+- ⛔ I expected more of the debugging tricks. RIP for the Mac users  as only Windows shortcuts were presented (though the speaker is a Windows user, he could include them.
+
+_____
+
+## Project Loom: Virtual threads in Java 19
+- (in original: Projekt Loom: virtuální vlákna v Java 19)
+
+- Length 43:11, watched on 2021-11-12, **#java #multithreading**
+- Miroslav Sevelda
+- Language: Czech 🇨🇿
+
+### Keynotes
 - TODO
+
+### Impression ⭐⭐⭐⭐⭐
+- ✅ I don't know if I am impressed by the speaker or the topic.
+- ⛔ -
