@@ -1,7 +1,9 @@
 # [Spring One 2021](https://springone.io/)
 
+- Worldwide 🌎
+- September 2021
+- Online only
 - All sessions are for free and online since the 7th of September 2021.
-- All sessions are in the English language 🇺🇸.
 
 | Session                                                                                           | Tags                          | Length | Track                        |
 |---------------------------------------------------------------------------------------------------|-------------------------------|--------|------------------------------|
