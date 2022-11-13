@@ -9,6 +9,7 @@
 | [Building Docker images with Spring Boot Maven Plugin](#building-docker-images-with-spring-boot-maven-plugin)              | #spring #native #docker        | 35:22    |
 | [Advanced tips and tricks for productivity in IntelliJ Idea](#advanced-tips-and-tricks-for-productivity-in-intellij-idea)  | #intellij                      | 46:57    |
 | [Project Loom: Virtual threads in Java 19](#project-loom-virtual-threads-in-java-19                                     )  | #java #multithreading          | 43:11    |
+| [Domain Driven Microservices](#domain-driven-microservices)                                                                | #domain #analysis              | 49:24    |
 
 _____
 
@@ -281,14 +282,80 @@ _____
 
 ## Project Loom: Virtual threads in Java 19
 - (in original: Projekt Loom: virtuální vlákna v Java 19)
-
+> "The entire JVM was reworked to support the virtual theads."
 - Length 43:11, watched on 2021-11-12, **#java #multithreading**
 - Miroslav Sevelda
 - Language: Czech 🇨🇿
 
 ### Keynotes
-- TODO
+- History:
+  - Java 1 - Basic support for multithreading
+  - Java 5 - Thread pools, executor services, futures, callable
+  - Java 7 - Fork/join framework (velmi důležitý pro virt. vláken jako scheduler pro mapování na fyzická)
+  - Java 8 - Completable futures, lambda, streams
+  - Java 9 - Reactive streams (against IO bound threads)
+  - Java 19 - Virtual threads
+- **Current model**: In the current model, a thread in the JVM always means there is a corresponding OS thread linked. This model will be still available and unchanged with the Project Loom. 
+- **Project Loom** ([JEP 425](https://openjdk.org/jeps/425)): Brings a new solution of massive parallelism and introduces virtual threads that are invisible from the point of view of the OS. It means it's possible to create teoretically billion of threads without saturating the OS. This principle is similar to what Python uses: virtual thread synchronization into a single one. This project doesn't introduce virtual threads only.
+- Motto: Easy-to-use, hight-throughput, leightweight concurrency and new programming models.
+- **Virtual thread** is planned and manager thread visible only on the JVM level and is similar to the [green thread](https://en.wikipedia.org/wiki/Green_thread) concept and analogous to the currently unused POSIX threads.
+  - The solution was to return back to the M:N model: In this case the JVM platform thread is mapped to the OS thread and a huge amount of virtual threads. Context switch through a scheduler mounts the virtual thread to the JVM platform thread, which is a single OS thread.
+  - **Terminology**:
+    - Virtual thread: - Invisible in the OS.
+    - Platform thread: - JVM thread mapped to the OS thread.
+    - Carried thread - Platform thread bound to the virtual thread as it is not possible to run a virtual thread with no platform thread. 
+    - Thread mounting - Process when the virtual thread is assigned to the platform one.
+    - Thread unmounting - Process when the virtual thread is unassigned from the plarform one. It happens automatically as soon as the virtual thread invokes a blocking operation.
+  - **Disadvantages of the current model**:
+    - JVM thread is bound to the OS thread, which means the thread management is above the JVM and thread creation is expensive. 
+    - Inflexible memory allocation for the thread stack memory, which is not under control of the JVM.
+    - Problematic support for massive parallelism and not optimal for IO-bound threads that are not computing in a blocked state.
+  - **Advantages of the new model**:
+    - Virtual threads are inexpensive, so it's possible to create billion of virtual threads, basically as much as we need without the OS and resources limits.
+    - Scheduling and the memory management is under the JVM control and the GC.
+    - Alternative to the Async-IO and reactive approaches.
+    - No dangerous operations like suspending or stopping threads since the virtual threads are un/mounted automatically.
+  - **Disadvantages of the new model**:
+    - The debugging caan become harder as it is no longer possible to use the debugging tools on the OS level.
+    - It is too soon for comprehensible conclusions. 
+- **New API**: Only few changes were introduced for minimal interference to the existing API for sake of easy transition to virtual threads. The new solution completes the current API design and the virtual thread is still an instance of `Thread` as well as the platform thread.
+  - Each virtual thread is of a type `DAEMON` and has fixed `NORM_PRIORITY` that cannot be changed (as it never worked correctly and synchronization primitives was always a better way to go).
+  - The virtual thread scheduling is implemented with the existing `ForkJoinPool` in the FIFO mode that implements the "work stealing", though it is partially customizable and it is possible to use a custom scheduler (but why). It's great virtual threads are built on the existing and well-known implementation.
+  - **New factory methods**: The old implementation is unchanged and it is needed to use factory methods to create a virtual thread.
+    - `Thread vt = Thread.ofVirtual()` - creates a virtual thread
+    - `Thread pt = Thread.ofPlatform()` - creates a platform thread
+    - `Thread vt = Thread.startVirtualThread()` - creates and starts a virtual thread
+  - **Fluent style**:
+    - `Thread vt = Thread.ofVirtual().name("virtual").unstarted(runnable);
+    - `Thread vt = Thread.ofPlatform().name("platform").unstarted(runnable);
+  - **Builder and factory styles**
+  - **Methods**:
+    - `boolean isPlatformVirtual = Thread.ofPlatform().isVirtual(); // false`
+    - `boolean isVirtualVirtual = Thread.virtual().isVirtual(); // true`
+    - `boolean isVirtualDaemon = Thread.virtual().isDaemon(); // true`
+  - **Executor services**:
+    - `ExecutorService service = Executors.newVirtualThreadPerTaskExecutor();`
+- **Antipatterns**
+  - The virtual threads should not bee pooled as long as they are lightweight and the pool management becomes an overheads compared to threads creations. However, there is a new dedicated thread pool `ExecutorService`, though it's better to just create a thread and let the system to handle it.
+  - Do not use priorities with virtual threads.
 
 ### Impression ⭐⭐⭐⭐⭐
-- ✅ I don't know if I am impressed by the speaker or the topic.
-- ⛔ -
+- ✅ I don't know if I am impressed by the speaker or the topic. Disadvantages and patterns were well-explained. 
+- ⛔ None about the session. I think I can give up on Project Reactor and Spring Webflux.
+
+_____
+
+## Domain Driven Microservices
+> "The used language should be ubiquitous."
+- Length 49:24, watched on 2021-11-12, **#domain #analysis**
+- Ivan Macalák
+- Language: Czech 🇨🇿
+
+### Keynotes
+- TODO
+
+### Impression ⭐⭐⭐☆☆
+- ✅ 
+- ⛔ Too theoretical, it would be nice to show a sample core, generic and supporting domain designed in detail.
+
+_____
