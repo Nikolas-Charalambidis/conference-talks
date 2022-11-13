@@ -391,19 +391,162 @@ _____
 
 ## Experience with Spring native
 - (in original: Zkušenosti se Spring Native)
-> ""
+> "Nobody uses Liferay and WAS today."
 - Length 42:55, watched on 2021-11-13, **#spring #native #graalvm**
 - Jiří Pinkas
 - Language: Czech 🇨🇿
+
+## Keynotes
+- Spring Boot 3 is in its final design as Spring Native for Spring Boot 2 was rather experimental, vastly different from Spring Boot 3, and the entire implementation for native support and  ahead-of-time (AOT) was 3 times reworked. GraalVM Native Support needs to be included in [start.spring.io](https://start.spring.io/).
+- **GraalVM native image**
+  - A technology that compiles ahead-of-time Java code into a standalone runnable application called a *native image*.
+  - Such an application contains application classes, dependency classes and classes used by Java runtime and native JVM code.
+  - Native images don't run on JVM (but they come from JVM), but they load important JVM components like memory management, thread scheduling, etc. from a differnt runtime called Subtrate VM.
+  - The result application has a quick start (doesn't load classpath and classes that happens now on the build time), and consumes less of RAM compared to JVM.
+  - Process: Java bytecode (application, dependencies, JVM) → Native image build (static analysis finds what is used, initialization, snapshot) → Binary code (code, image heap).
+  - Use cases:
+    - Microservices - resulting Docker image is smaller, starts-up quickly and has lower memory footprint
+    - Serverless and CLI applications - they start instantly
+  - GraalVM community version uses only the old SerialGC that is suitable only for smaller heaps, though GraalVM enterprise edition can use G1.
+- **Native and dynamic code**
+  - What is saved into a native image depends on the result of the static analysis on the native image build time. 
+  - Such an analysis **can't** find out the usages of JNI, reflections, dynamic proxies or resources from classpath - such classes need to be added manually through configurations. Luckily, Spring can do that.
+    ```    
+    META-INF/
+    ├─ native-image/
+    │  ├─ resource-congif.json
+    │  ├─ serialization-config.json
+    │  ├─ jni-config.json
+    │  ├─ proxy-config.json
+    │  ├─ reflect-config.json
+    ```
+  - This was a huge problem since Spring Framework is built on top of reflections and dynamic proxies. The creators had to catch up with Micronaut and Quarkus and implement the native images support. They originally ignored benefits of a quick start-up, then they found out that serverless is an interesting use-case and finally, they found out they are fucked up. The implementation of AOT was lengthy and reworked 3 times. 
+  - GraalVM can't dynamically create runtime classes out-of-the box.
+- **Spring Boot 3**
+  - It's required to have GraalVM installed as a SDK to support GraalVM.
+  - The exectution of `mvn clean spring-boot:build-image -Pnative` calls `spring-boot-maven-plugin:process-aot` itnernally that runs a Spring container and discovers what beans were created on the application load and generates the following:
+    - `graalvm-reachability-metadata`: `reflct-config.json`, `resource-config.json`, etc. from various libraries
+    - `spring-aot`: `reflect-config.json`, `resource-config.json` from the application
+  - Spring luckily doesn't need to store all beans into such JSON configuration files, but only their definitions.
+  - For example: Spring Data JPA beans are normally created on the application startup, now it's not possible so that's why the AOT plugin was created.
+  - The creators of Spring AOT found out that such an approach can be used even for non-Spring applications, so it makes sense as a slight performance and size improvement, although the native would not be used. 
+- **Native executable** is no longer platform-agnostic, which is completely different from what Java was created on top of. Now the solution brings a platform-specific executable, which is ok, beacuse we have Docker and CI/CD that were not available years ago. We somehow reinvented the old solution. 
+- **Comparison** (the more points, the better):
+  |                    | JVM | Native | Remark                                                                        |
+  |--------------------|-----|--------|-------------------------------------------------------------------------------|
+  | Maturity           | 100 | 50     | JVM is a proven solution, native is pretty much new                           |
+  | Build time         | 10  | 2      | What is 5 seconds for JVM becomes tens of minutes for native                  |
+  | Startup time       | 20  | 100    | What is seconds and minutes for JVM is miliseconds for native                 |
+  | Latency/throughput | 100 | 7      | JIT in a long run can optimize the runtime, which is not possible for native. |
+  | Memory footprint   | 50  | 100    | What is 200 MB RAM for JVM becomes 50 MB RAM for native                       |
+  - Build time becomes very lengthy and it is not possible to reduce it significantly.
+  - Image size is smaller for native solutions, but custom layered images are useless for native solutions, because each image has a custom and optimized JDK for a given applicaiton.
+  - Memory footprint is also smaller for native solutions.
+- **Problems**:
+  - How to register resources, proxy classes or classes used by reflection? A solution is to implement `RuntimeHintsRegistrar` and activate with `@ImportRuntimeHints`: 
+    ```java
+    public class CustomRuntimeHintsRegistrar implements RuntimeHintsRegistrar {
+
+        @Override
+        public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
+            hints.resources()
+                    .registerPattern("banner.txt")
+                    .registerPattern("static/*")
+                    .registerPattern("templates/*");
+
+            var categories = new MemberCategory[] {
+                    MemberCategory.DECLARED_FIELDS,
+                    MemberCategory.INTROSPECTED_DECLARED_CONSTRUCTORS,
+                    MemberCategory.INTROSPECTED_DECLARED_METHODS,
+                    MemberCategory.INVOKE_DECLARED_CONSTRUCTORS,
+                    MemberCategory.INVOKE_DECLARED_METHODS
+            };
+            reflectionHints.registerType(org.thymeleaf.engine.IterationStatusVar.class, categories);
+            reflectionHints.registerType(org.thymeleaf.expression.Lists.class, categories);
+        }
+    }
+    ```
+  - However, it does not import all the classes as long as some DTO/records used for reflection are ignored. There is a non-Spring workaround solution using `org.reflections:reflections`. Create a custom annotation `@RegisterForReflection`, scan and register these classes.
+    ```java
+    var rootPackage = Main.class.getPackageName();
+    var classes = new Reflections(rootPackage).getTypesAnnotatedWith(RegisterForReflection.class)
+    var categories = new MemberCategory[] { ... };
+    var reflectionHints = hints.reflection();
+    classes.forEach(clazz -> reflectionHints.registerType(class, categories));
+    ```
+- **Production support**:
+  - [GraalVM Dashboard](https://www.graalvm.org/dashboard/) can introspect the contents of the built application.
+  - [Dive](https://github.com/wagoodman/dive) can instrospect layered Docker images.
+  - Actuator metrics becomes limited as they don't display used memory amount. 
+  - Profiling becomes problematic and Java Flight Recorder limited.
+  - **Heap size tuning**:
+    - `docker run -m 200m --rm -it -p 8080.8080 <image_name> -XX:+PrintGC -XX:+VerboseGC` prints each GC run details. Currently there is no other solution.
+  - **Observation** of a sample stateless application:
+    - RAM was reduced from 200 MB to 50 MD, response time got lowered from 60ms to 30ms, start-up took only 70ms.
+    - The build time increased brutally from few seconds to 3-6 minutes.
+- **Future**:
+  - Native image support to be standardized in OpenJDK through Project Leyden
+  - Reachability metadata repository is a repository of reflection and dynamic proxies for various projects so we would write and configure JSON configurations as least as possible. GraalVM thoroughly cooperates with Spring.
+    - Link: https://medium.com/graalvm/enhancing-3rd-party-library-support-in-graalvm-native-image-with-shared-metadata-9eeae1651da4
+
+### Impression ⭐⭐⭐⭐⭐
+- ✅ Excellent understanding and experience of the speaker as well as his ability to explain simmply and highlight the important aspects of the native approach. Solution to common problems.
+- ⛔ -
 
 _____
 
 ## Web Services, SOAP, REST and how to design them
 - (in original: Web Services, SOAP, REST aneb jak je správně navrhovat)
-> ""
+> "Insurance companies have contracts older than 30 years that need to be supported, though the products are no longer offered. For that reason they use old systems."
 - Length 52:14, watched on 2021-11-13, **#rest #soap**
 - Petr Adámek
 - Language: Czech 🇨🇿
+
+## Keynotes
+- The author has experience with rather older projects as he works as a consultant for corporates.
+- Law of the instrument (law of the hammer, Maslow's hammer): Is a cognitive bias that involves an over-reliance on a familiar tool: "I hold a hammer, everithing becomes a nail".
+- There is not an universal solution and tools, there exist limits and exceptions, and quite often.
+- **SOAP vs REST**:
+  |                  | SOAP                                  | REST                                            |
+  |------------------|---------------------------------------|-------------------------------------------------|
+  | Characteristics  | Heawyweight                           | Lightweight                                     |
+  | Origin           | Specification and abstraction attempt | Organic                                         |
+  | Protocol         | Any (including HTTP)                  | HTTP only                                       |
+  | Definition       | WSDL (advantage in the beginning)     | Swagger (disadvantage as it came later)         |
+  | Content format   | XML only                              | Any (usually JSON, sometimes XML)               |
+  | Content schema   | XML schema                            | Depends on the content format (ex. JSON schema) |
+  | Class generation | `wsimport`                            | `swagger-codegen`                               |
+  | Operations       | Any                                   | `GET`, `POST`, `PUT`, `PATCH`, `DELETE`         |
+- **XML vs JSON**:
+  | Goal                 | Universal and compatible format with SGML | Human readable format                             |
+  |----------------------|-------------------------------------------|---------------------------------------------------|
+  | Formal standard      | XML 1.0 (1998), XML 2.0 (2006)            | RFC 5627 (2006), RFC 8259 (2017), ECMA-404 (2017) |
+  | Semistructured data  | Yes                                       | No                                                |
+  | Comments             | Yes                                       | No                                                |
+  | Process instructions | Yes                                       | No                                                |
+  | Namespaces           | Yes                                       | No                                                |
+  | Schema               | XML schema, RelaxNG, Schematron           | JSON Schema                                       |
+  | Transformations      | XSLT (any version), XQuery                | XSLT 3.0, jolt, jslt, JSONata                     |
+- **When to use SOAP?**
+  - Due to the historical reason. The other party requires it.
+    - Insurance companies have contracts older than 30 years that need to be supported, though the products are no longer offered. For that reason they use old systems. It makes no sense for such companies to rewrite the existing solutions that become deprecated with time. Also the XML structures tend to be rich and complex in definition and XML allows nesting.
+  - It's needed to build something on top of the existing SOAP solution. It's needed to route through multiple nodes (SOAP is protocol independent). 
+  - It's needed ot use XML, WSDL or SOAP extensions (WS-security, WS-MeliableMessaging, WS-Addressing) or use it as an universal format.
+  - Reasons XML is required: There is an existing schema to be used. Produce SOAP as a REST service. Schemes need to be combined. There is a need for semistructured data. There is a need for XSLT transformations.
+- **Best practices**:
+  - Contract first as it's possible to develop in parallel, unless a small BE-FE application with few endpoints is developed.
+  - Well-defined contract including the non-standard situations and error codes. An empirical approach about how the service works is not a good idea.
+  - Use standard and appropriate error codes for a particular situation (4XX and 5XX for the beginning). 
+  - Think out-of-the-box and don't let the Law of the instrument to influent you, for example there are other solutions aside from REST and SOAP:
+    - GraphQL
+    - Messaging (JMS, Kafka, RabbitMQ etc.)
+  - Client identification and correlation ID
+  - REST API versioning with backward-compatibility: The approach with headers is not usually recommended and it's better to include the version to the path which is handy for the future version decomissioning.
+  - REST API filter: If there is required a sophisticated fitler for nested projection, better grab GraphQL.
+
+### Impression ⭐⭐⭐⭐⭐
+- ✅ A great speech proving SOAP is not dead (ex. insurance industry), though shall rather not be used for the greenfield projects. Well-explained comparison focusing on *when* SOAP or REST shall be used and how, instead of just a shallow comparison.
+- ⛔ I would expect some design tips and tricks for SOAP as I know REST quite well.
 
 _____
 
