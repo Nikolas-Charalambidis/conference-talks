@@ -1,5 +1,8 @@
 # [JavaDays 2022](https://www.javadays.cz/en/)
 
+- Czech Republic 🇨🇿, Prague, CineStar Černý Most
+- November 2022
+- Both onsite and online
 - The conference is paid and the online access is granted for a limited time (1-2 weeks).
 
 | Session                                                                                                                    | Tags                               | Length   | 
