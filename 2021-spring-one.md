@@ -9,7 +9,7 @@
 | Conference availability | Online         |                                         |
 | Records availability    | Yes, unlimited | https://springone.io/2021/schedule#day1 |
 
-## Attended session list
+## Attended sessions list
 
 | Session                                                                                           | Tags                          | Length | Track                        |
 |---------------------------------------------------------------------------------------------------|-------------------------------|--------|------------------------------|
