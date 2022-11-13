@@ -8,15 +8,19 @@
 | [Scalable backend](#scalable-backend)                                                                                      | #architecture #monolithic           | 1:00:39  |
 | [Building Docker images with Spring Boot Maven Plugin](#building-docker-images-with-spring-boot-maven-plugin)              | #spring #native #docker             | 35:22    |
 | [Advanced tips and tricks for productivity in IntelliJ Idea](#advanced-tips-and-tricks-for-productivity-in-intellij-idea)  | #intellij                           | 46:57    |
-| [Project Loom: Virtual threads in Java 19](#project-loom-virtual-threads-in-java-19                                     )  | #java #multithreading               | 43:11    |
+| [Project Loom: Virtual threads in Java 19](#project-loom-virtual-threads-in-java-19)                                       | #java #multithreading               | 43:11    |
 | [Domain Driven Microservices](#domain-driven-microservices)                                                                | #domain #analysis                   | 49:24    |
-| [GraalVM: Java ♥ Python ♥ Micronaut](#graalvm-java--python--micronaut).                                                    | #graalvm #java #python #polygot  | 44:33   |
+| [Don't be scared of benchmarks in development](#dont-be-scared-of-benchmarks-in-development)                               | #java #jmh #benchmarks             | 45:53   |
+| [Tips and tricks for Java memory management](#tips-and-tricks-for-java-memory-management)                                  | #java #jvm #gc #memory             | 48:54   |
+| [Experience with Spring native](#experience-with-spring-native)                                                            | #spring #native #graalvm           | 42:55   |
+| [Web Services, SOAP, REST and how to design them](#web-services-soap-rest-and-how-to-design-them)                          | #rest #soap                         | 52:14   |
+| [GraalVM: Java ♥ Python ♥ Micronaut](#graalvm-java--python--micronaut)                                                     | #graalvm #java #python #polygot  | 44:33   |
 
 _____
 
 ## Keynote
 
-> "The Oracle Java is again available free of charge for production as of Java 17"
+> "The Oracle Java is again available free of charge for production as of Java 17."
 - Length 46:44, watched on 2021-11-12, **#intoduction #news**
 - Jiří Pinkas
 - Language: Czech 🇨🇿
@@ -122,8 +126,7 @@ _____
 
 ## Building Docker images with Spring Boot Maven Plugin
 - (in original: Tvorba docker image pomocí Spring Boot Maven Pluginu)
-
-> ""
+> "Jib is simple and helps for transition to Buildpacks."
 - Length 35:22, watched on 2021-11-12, **#spring #native #docker**
 - Jiří Pinkas
 - Language: Czech 🇨🇿
@@ -230,8 +233,6 @@ _____
 
 ## Advanced tips and tricks for productivity in IntelliJ Idea
 - (in original: Produktivita práce v IntelliJ Idea - pokročilé tipy)
-
-> ""
 - Length 46:57, watched on 2021-11-12, **#intellij**
 - Pavel Jetenský
 - Language: Czech 🇨🇿
@@ -358,10 +359,43 @@ _____
 ### Impression ⭐⭐⭐☆☆
 - ✅ 
 - ⛔ Too theoretical, it would be nice to show a sample core, generic and supporting domain designed in detail.
+
 _____
+
+## Don't be scared of benchmarks in development
+- (in original: Nebojte se benchmarků při vývoji)
+> ""
+- Length 45:53, watched on 2021-11-13, **#java #jmh #benchmark**
+- Jan Novotný
+- Language: Czech 🇨🇿
+
 _____
+
+## Tips and tricks for Java memory management
+- (in original: Tipy a triky práce s pamětí v Javě)
+> ""
+- Length 48:54, watched on 2021-11-13, **#java #jvm #gc #memory**
+- Petr Adámek
+- Language: Czech 🇨🇿
+
 _____
+
+## Experience with Spring native
+- (in original: Zkušenosti se Spring Native)
+> ""
+- Length 42:55, watched on 2021-11-13, **#spring #native #graalvm**
+- Jiří Pinkas
+- Language: Czech 🇨🇿
+
 _____
+
+## Web Services, SOAP, REST and how to design them
+- (in original: Web Services, SOAP, REST aneb jak je správně navrhovat)
+> ""
+- Length 52:14, watched on 2021-11-13, **#rest #soap**
+- Petr Adámek
+- Language: Czech 🇨🇿
+
 _____
 
 ## GraalVM: Java ♥ Python ♥ Micronaut
@@ -411,4 +445,3 @@ _____
 ### Impression ⭐⭐⭐⭐⭐
 - ✅ Though I am not interested in Python, the capabilities of GraalVM are fucking lit. The live coding done well.
 - ⛔ -
-
