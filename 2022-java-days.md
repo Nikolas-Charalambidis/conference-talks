@@ -365,7 +365,7 @@ _____
 ## Don't be scared of benchmarks in development
 - (in original: Nebojte se benchmarků při vývoji)
 > ""
-- Length 45:53, watched on 2021-11-13, **#java #jmh #benchmark**
+- Length 45:53, watched on 2021-11-13, **#java #jmh #benchmarks**
 - Jan Novotný
 - Language: Czech 🇨🇿
 
