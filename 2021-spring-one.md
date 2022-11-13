@@ -1,9 +1,15 @@
-# [Spring One 2021](https://springone.io/)
+# [Spring One 2021](https://springone.io/2021)
 
-- Worldwide 🌎
-- September 2021
-- Online only
-- All sessions are for free and online since the 7th of September 2021.
+|                         |                | Remark                                  |
+|-------------------------|----------------|-----------------------------------------|
+| Location                | 🌎 Worldwide    |                                         |
+| Date                    | September 2021 |                                         |
+| Languages               | English 🇺🇸     |                                         |
+| Paid                    | No             |                                         |
+| Conference availability | Online         |                                         |
+| Records availability    | Yes, unlimited | https://springone.io/2021/schedule#day1 |
+
+## Attended session list
 
 | Session                                                                                           | Tags                          | Length | Track                        |
 |---------------------------------------------------------------------------------------------------|-------------------------------|--------|------------------------------|
