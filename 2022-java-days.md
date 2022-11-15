@@ -366,26 +366,93 @@ _____
 - TODO
 
 ### Impression ⭐⭐⭐☆☆
-- ✅ 
+- ✅ A necessity of an ubiquitous language is highlighted. The session clearly demonstrated how the Domain Diven Design is coupled with Microservice Architecture.
 - ⛔ Too theoretical, it would be nice to show a sample core, generic and supporting domain designed in detail.
 
 _____
 
 ## Don't be scared of benchmarks in development
 - (in original: Nebojte se benchmarků při vývoji)
-> ""
+> "Moore's Law ceases to apply as a single core performance converges to a limit defined by the laws of physics"
 - Length 45:53, watched on 2021-11-13, **#java #jmh #benchmarks**
 - Jan Novotný
 - Language: Czech 🇨🇿
+
+### Keynotes
+- TODO
+
+### Impression ⭐⭐⭐⭐☆
+- ✅ Explanation of why Moore's Law ceases to apply. Highlighted pitfalls of the data preparation for JMH tests. Nice overview of profiling and the tools for it. 
+- ⛔ Rather a beginner session and a quick introduction to the JMH as most of the information can be found easily. I cannot imagine how to configure and run the JMH tests for integrations as was advised. 
 
 _____
 
 ## Tips and tricks for Java memory management
 - (in original: Tipy a triky práce s pamětí v Javě)
-> ""
+> "The first rule of optimization is to not optimize."
 - Length 48:54, watched on 2021-11-13, **#java #jvm #gc #memory**
 - Petr Adámek
 - Language: Czech 🇨🇿
+
+### Keynotes
+- **Cases when `java.lang.OutOfMemoryError` occurs**:
+  - It's not possible to allocate a new instance of an object, because the memory run out in the Heap.
+  - A huge array is allocated that doesn't fit in the memory.
+  - Native memory ran out in the Metaspace.
+  - Allocation of memory failed on native code call through JNI
+  - High overhead of Garbage Collector (GC)
+    - By default, if Garbage Collector takes 98% or more of the JVM run and deallocates less than 5% of memory, the error is thrown
+  - It's not possible to create a new thread, because the underlying OS limits for the maximum number of threads (this surprisingly throws this error as JVM has not much information from the OS).
+- **Cases when `java.lang.StackOverflowError` occurs**:
+  - Excessive deep or infinite recursion.
+- **JVM memory management**:
+  - **Heap**: Object allocation, array allocation, String pool, GC
+    - The Heap is divided to 2 basic sections: Young Generation (Eden + Survival) and Old Generation
+    - The GC checks the younger objects more often than the survival and old ones.
+    - Most of the problems are related to Heap and Non-Heap: Although the overall memory allocated of the Heap is sufficient,`java.lang.OutOfMemoryError` is thrown when a single section gets full. For example, it doesn't matter the remaing sections are nearly empty if the Eden section is full. 
+  - **Non-Heap**: Internal data used by the JVM that are invisible to a developer (code cache, formerly Permanent Generation (PermGen), now Metaspace).
+  - **Stack**: There are 2 types of stack: Native Stack (for native and JNI methods) and a Normal Stack (for our methods). Each thread has own stack.
+    - Method calls and metadata storage. Each *frame* has: Return value, local variables, operand stack, current class constant pool reference (into the Non-Heap memory).
+- **Garbage Collector (GC)**
+  - The Heap memory is hierarchically divided by young/old generation and furhter sub-groups for optimized and fairly sophisticated run.
+  - General garbage collecting algorithms overview:
+    - **Tracing (Reachability tree): The GC traverses the oriented graph of objects, traces for the reachable ones and removes the unreachable ones. Though this algorithm is slow and expensive, but can detect and remove cyclical references. JVM GC uses this algorithm.
+    - **Reference counting**: Counts the number of references and removes if fall into zero. This algorithm can miss cyclical references.
+  - By default, the less memory is available, the more aggressively the GC runs to release the memory in the JVM. This approach delays  `java.lang.OutOfMemoryError`, though the overhead of the GC run raises and the application becomes less responsive (lags).
+- **String internization** is implemented using the flyweight design pattern (referencing to a shared copy).
+  - String literals (those between `""`) are interned (pooled) automatically. Though we can call `String#intern`, it's not recommended for the short-lived strings as we risk wasting the memory.
+  - It's also not a good idea to intern the sensitive data as it's not under our control when they are removed from the memory by the GC. For this reason, all sensitive content should be passed through `char []`.
+- **Java 8 changes to the JVM**
+  - Permanent Generation is replaced by more dynamic Metaspace. It caused problems with multiple hot-deploy (ex. Tomcat, etc.) when the JVM is not registerd. Though a new classloader is loaded and the reference to the old one is discarded and the class references become replaced by the new one, but releasing of the the long-living classes takes a delay (if they are released at all) and the maximum memory limit can be hit. 
+  - **Permanent Generation (PermGen)** has a fixed size of a allocated continuous block of native memory in the OS that is **not** efficiently deallocated.
+    - `-XX:PermSize=[size]` and `-XX:MaxPermSize=[size]` parameters.
+  - **Metaspace** has a dynamically allocated memory continuous block of native memory in the OS that is efficiently deallocated as long as the OS only limits of how much memory is can be provided.
+    - `-XX:MetaspaceSize=[size]`, `-XX:MaxMetaspaceSize=[size]`, `-XX=MinMetaspaceFreeRatio=[ratio]`, `-XX:MaxMetaspaceFreeRatio=[ratio]` parameters.
+- **Memory management problems - resolving**: 
+  - Generate a memory dump for further analysis:
+    - `jmap -dump:[live],format=b,file=<file=path> <pid>`
+    - `jcmd <pid> GC.heap_dump <file-path>`
+    - `java -XX:+HeatDumpOnOutOfMemoryError`
+  - The biggest issue is that the application can become irresponsive before `OutOfMemoryError` is thrown and the critical moment is missed.
+  - Restart the application:
+    - `java -XX:+ExitOnOutOfMemoryError`
+    - `java -XX+CrashOnOutOfMemoryError`
+    - `java -XX:OnOutOfMemoryError="stop.sh %p"`
+  - Use the monitoring tools: JMX, Jolokia, https://gceasy.io/ for `gc.log` analysis.
+- **Memory management problems - prevention**:
+  - Analyse the memory management on the production run (take off-peak load memory dumps to find out irregularities).
+  - Don't forget to do performance testing.
+  - Optimize JVM to not use too big Heap which increases the GC overhead.
+  - Minimize the memory demand: 
+    - Minimize stateful integration and HTTP sessions usage.
+    - Make the application stateless.
+    - Beware of soft/weak references in cache and the keys size (it is not a good idea to put a whole request as a key).
+  - A large number of hash-based structures (`HashMap` and `HashSet`) is also not a good idea and a plain array can be a better choice.
+  - VisualVM is a nice tool but favors smaller Heap sized.
+
+### Impression ⭐⭐⭐⭐☆
+- ✅ Educative session about how is JVM memory management done in a sufficient detail.
+- ⛔ I expected more of "tips and tricks", especially ineffective code snippets and how to fix them.
 
 _____
 
