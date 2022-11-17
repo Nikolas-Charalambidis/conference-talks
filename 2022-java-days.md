@@ -23,7 +23,7 @@
 | [Tips and tricks for Java memory management](#tips-and-tricks-for-java-memory-management)                                  | #java #jvm #gc #memory             | 48:54   |
 | [Experience with Spring native](#experience-with-spring-native)                                                            | #spring #native #graalvm           | 42:55   |
 | [Web Services, SOAP, REST and how to design them](#web-services-soap-rest-and-how-to-design-them)                          | #rest #soap                         | 52:14   |
-| [jOOQ - A bit different framework](#jooq---a-bit-different-framework)                                                        | #java #jooq #database               | 46:50   |
+| [jOOQ - A bit different ORM framework](#jooq---a-bit-different-orm-framework)                                              | #java #jooq #database               | 46:50   |
 | [GraalVM: Java ♥ Python ♥ Micronaut](#graalvm-java--python--micronaut)                                                     | #graalvm #java #python #polygot  | 44:33   |
 
 
@@ -787,7 +787,8 @@ _____
 
 _____
 
-## jOOQ - A bit different framework
+## jOOQ - A bit different ORM framework
+- (in original: jOOQ - tak trochu jiný ORM framework)
 > "OpenSource version is for free for the latest open source DB versions (PostgreSQL, MySQL...)."
 > "It's a one-man-show project."
 - Length 45:50, watched on 2021-11-13, **#java #jooq #database**
