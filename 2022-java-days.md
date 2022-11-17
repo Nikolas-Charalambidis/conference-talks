@@ -24,6 +24,7 @@
 | [Experience with Spring native](#experience-with-spring-native)                                                            | #spring #native #graalvm           | 42:55   |
 | [Web Services, SOAP, REST and how to design them](#web-services-soap-rest-and-how-to-design-them)                          | #rest #soap                         | 52:14   |
 | [GraalVM: Java ♥ Python ♥ Micronaut](#graalvm-java--python--micronaut)                                                     | #graalvm #java #python #polygot  | 44:33   |
+| [jOOQ - A bit different framework](#jooq-a-bit-differnt-framework)                                                         | #java #jooq #database               | 46:50   |
 
 _____
 
@@ -782,6 +783,316 @@ _____
 ### Impression ⭐⭐⭐⭐⭐
 - ✅ A great speech proving SOAP is not dead (ex. insurance industry), though shall rather not be used for the greenfield projects. Well-explained comparison focusing on *when* SOAP or REST shall be used and how, instead of just a shallow comparison.
 - ⛔ I would expect some design tips and tricks for SOAP as I know REST quite well.
+
+_____
+
+## jOOQ - A bit different framework
+> ""
+- Length 45:50, watched on 2021-11-13, **#java #jooq #database**
+- Leoš Přikryl
+- Language: Czech 🇨🇿
+
+## Keynotes
+- jOOQ /ʤuk/ stands for "jOOQ Object Oriented Querying" and is a Java framework for database integration introducing type-safe and database platform-independent SQL queries. It does *not* hide the SQL queries, unlike Hibernate, it only makes them easier for use.
+- **Database integration solutions comparison**
+  - **JPA/Hibernate**:
+    - **Advantages**: Database platform-independent SQL. Suitable for CRUD operations and persisting complex object graphs.
+    - **Disadvantages**: Extremely complex, difficult and error prone (lazy fetch, 1-N queries...). Not suitable for complex queries across multiple tables and the following need to be used: JPQL/HQL, Criteria API, QueryDSL (though we know how the SQL should look like, it's not easy to write it with QueryDSL), native queries... Cannot be used if the database structure is not known in advance.
+  - **JDBC**
+    - **Advantages**: Enables the full power of the SQL. Useful if the database structure is not known in advance. 
+    - **Disadvantages**: Low-level API that is not database platform-independent and the SQL queries must follow a dialect. No type safety and prone to SQL injection.
+  - **Spring JdbcTemplate**
+    - **Advantages**: Enables the full power of the SQL. Useful if the database structure is not known in advance. More comfortable API than a pure JDBC.
+    - **Disadvantages**: No type safety and no not database platform-independence. Errors in the complex queries are rather discovered in runtime.
+  - **jOOQ**
+    - **Advantages**: Enables the full power of the SQL. Useful if the database structure is not known in advance. Database platform-independent SQL and type-safe.
+    - **Disadvantages**: Not suitable for persisting complex object graphs. The free version works only for the latest versions of the open-source databases.
+- **jOOQ**
+  ```sql
+  SELECT last_name, first_name FROM user
+  WHERE role = 'admin'
+  ORDER BY last_name, first_name;
+  ```
+  ```java
+  dslc.select(USER.LAST_NAME, USER.FIRST_NAME)
+      .from(USER)
+      .where(USER.ROLE.eq("admin"))
+      .orderBy(USER.LAST_NAME, USER.FIRST_NAME);
+  ```
+  - **Database-first approach**
+    - The database is a source of truth and the code is generated from it. This approach is preferred as the database changes less often than the code.
+    - Developers need to design the data structure and the database becomes more efficiently used.
+    - A code generator produces a Java/Kotlin type-safe code with the database description: tables, sequences, stored procedures, indexes, records
+    - 
+    - **Type safety**
+      ```java
+      dslc.select(USER.LAST_NAME, USER.FIRST_NAME)
+          .from(USER)
+          .where(USER.ROLE.eq(1)) // the USER.ROLE is of the type VARCHAR → compiler-time error
+      ```
+      ```
+      dslc.select(USER.LAST_NAME, USER_FIRSTNAME) // the USER.LAST_NAME was renamed to USER.SURNAME → compiler-time error
+          .from(USER)
+          .where(USER.ROLE.eq("admin"));
+      ```
+  - **Generator-first approach**
+    - It's possible to use jOOQ even without the code generator, though it is not recommended.
+    - It's useful in case the database structure is not known in advance. 
+    - **No type safety**
+      ```java
+      dslc.select(field("last_name"), field("first_name"))
+          .from(table("user"))
+	  .where(field("role").eq("admin"))
+	  .orderBy(field("last_name"), field("first_name"));
+      ```
+  - **Quick start**
+    - Start with the [`DSL`](https://www.jooq.org/javadoc/dev/org.jooq/org/jooq/impl/DSL.html) to get `DSLContext` which is a main object for writing the queries.
+      ```java
+      var dslc = DSL.using(connection, SQLDialect.POSTGRES);
+      var dslc = DSL.using(dataSource, SQLDialect.POSTGRES);
+      ```
+    - Spring Boot offers `org.springframework.boot:spring-boot-starter-jooq` to configure and inject the context.
+  - **Queries**
+    - **`WHERE`**
+      ```java
+      dslc.select(AUTHOR.LAST_NAME, AUTHOR.FIRST_NAME)
+          .from(AUTHOR)
+	  .where((AUTHOR.LAST_NAME.eq("London").or(AUTHOR.FIRST_NAME.like("J%")).and(AUTHOR.YEAR_OF_BIRTH.between(1800, 1900)));
+      ```
+      ```java
+      dslc.select(AUTHOR.LAST_NAME, AUTHOR.FIRST_NAME)
+          .from(AUTHOR)
+	  .where(
+              AUTHOR.LAST_NAME.eq("London").or(AUTHOR.FIRST_NAME.like("J%")),
+	      AUTHOR.YEAR_OF_BIRTH.between(1800, 1900)));
+    - **`JOIN`** is supported as well as all common joins (`INNER`, `LEFT/RIGHT/FULL OUTER`, `CROSS`) and introduces *semi* and *anti* joins.
+      ```java
+      dslc.select(AUTHOR.LAST_NAME, AUTHOR.FIRST_NAME, BOOK.TITLE)
+          .from(AUTHOR)
+	  .join(BOOK).on(AUTHOR.ID.eq(BOOK.AUTHOR_ID))
+	  .where(AUTHOR.ID.eq(1));
+      ```
+      ```java
+      dslc.select(AUTHOR.LAST_NAME, AUTHOR.FIRST_NAME, BOOK.TITLE)
+          .from(AUTHOR)
+	  .join(BOOK).onKey() // in case the foreing key is well-configured
+	  .where(AUTHOR.ID.eq(1));
+      ```
+      ```java
+      dslc.select(BOOk.author().LAST_NAME, AUTHOR.author().FIRST_NAME, BOOK.TITLE) // jOOQ can do an implicit JOIN
+          .from(BOOK)
+	  .where(AUTHOR.ID.eq(1));
+      ```
+      - **Semi join** returns all the left-side rows for which there *exist* at least one right-sided row. It's a kind of "fake" join as it finds out whether there is something to join.
+        ```java
+	dslc.select(BOOK.TITLE).from(BOOK)
+	    .leftSemiJoin(BOOK_TO_BOOK_STORE).onKey();
+	```
+        ```sql
+	SELECT book.title FROM BOOK
+	WHERE EXISTS (
+	    SELECT 1 FROM book_to_book_store
+	    WHERE book_to_book_store.book_id = book.id)
+	```
+        ```java
+	// alternative using jOOQ without the semi join
+	dslc.select(BOOK.TITLE).from(BOOK)
+	    .whereExists(
+                dslc.selectOne()
+		    .from(BOOK_TO_BOOK_STORE)
+		    .where(BOOK_TO_BOOK_STORE.BOOK_ID.eq(BOOK.ID)));
+	```
+      - **Anti join** is an opposite to *semi join*. Returns all the left-side rows for which there *doesn't exist* at least one right-sided row.
+        ```java
+	dslc.select(BOOK.TITLE).from(BOOK)
+	    .leftAntiJoin(BOOK_TO_BOOK_STORE).onKey();
+	```
+    - **Aggregation**
+    ```java
+    dslc.select(count()).from(BOOK);
+    ```
+    ```java
+    dslc.select(avg(BOOK.YEAR_OF)).from(BOOK);
+    ```
+    ```
+    dslc.select(LANGUAGE.DESCRIPTION, count())
+        .from(BOOK).join(LANGUAGE).onKey()
+	.grouBy(LANGUAGE.DESCRIPTION)
+	.orderBy(count()).desc();
+    ```
+    - **Complex queries**
+      ```sql
+      SELECT author.first_name, author.last_name, count(*) FROM author
+          JOIN book ON book.author_id = author.id
+          JOIN language ON book.language_id = language.id
+      WHERE lanuage.code = 'CZ' AND book.published_in > DATE '2020-01-01'
+      GROUP BY author.first_name, author.last_name
+      HAVING count(*) > 5
+      ORDER BY author.last_name ASC NULLS FIRST
+      LIMIT 5 OFFSET10;
+      ```
+      ```java
+      dslc.select(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, count()).from(AUTHOR)
+              .join(BOOK).onKey()
+	      .join(LANGUAGE).onKey()
+	  .where(LANGUAGE.CODE.eq("CZ").and(BOOK.PUBLISHED_IN.gt(LocalDate.of(2020, 1, 1))))
+	  .groupBy(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME)
+	  .having(count().gt(5))
+	  .orderBy(AUTHOR.LAST_NAME.asc().nullsFirst())
+	  .limit(5).offset(10);
+      ```
+  - **Reading**
+    - Single line: `fetchOne` returns one or `null` or exception in case of more rows, `fetchSingle` returns exactly one row or exception in case of more rows, `fetchAny` returns one or `null` and ignores the rest in case of more rows.
+    - Multiple lines: `fetch` returns a `List`, `fetchLazy` returns a cursor (similar to JDBC `ResultSet`), `stream` returns Java 8 Stream, `fetchGroups`, `fetchMap`, `fetchArray`...
+    - POJO mapping using the column names via reflection (though can be sufficient)
+      ```java
+      dslc.select(BOOK.ID, BOOK.TITLE).from(BOOK)
+          .fetchInto(Book::class);
+      ```
+    - POJO mapping using the constructurs is type-safe
+      ```java
+      dslc.select(BOOK.ID, BOOK.TITLE.as("bookTitle")).from(BOOK)
+          .fetch(Records.mapping(Book::new));
+      ```
+  - **Writing**
+    - Using SQL
+      ```java
+      dslc.insertInto(AUTHOR, AUTHOR.FIRST_NAME, AUTHOR.LAT_NAME)
+          .values("Jack", "London")
+          .execute();
+      ```
+      ```java
+      dslc.update(AUTHOR)
+          .set(AUTHOR.FIRST_NAME, "Jack")
+	  .where(AUTHOR.ID.eq(3))
+	  .execute();
+      ```
+      ```java
+      dslc.delete(AUTHOR)
+          .where(AUTHOR.ID.eq(100))
+          .execute();
+      ```
+    - Using active record pattern
+      ```java
+      // CREATE
+      var book = dslc.newRecord(BOOK);
+      book.setTitle("1984");
+      book.store();
+      // ID is autogenerated and populated automatically
+      var bookId = book.getId();
+      // RETRIEVE
+      var book2 = dslc.fetchSingle(BOOK, BOOK.ID.eq(bookId));
+      // UPDATE
+      book2.setPublishedIn(2000);
+      book2.store();
+      // DELETE
+      book2.delete();
+      ```
+    - Generated POJO and generated DAO
+      ```java
+      // CREATE
+      var book = new Book();
+      book.setTitle("1984");
+      bookDao.insert(book);
+      // ID is autogenerated and populated automatically
+      var bookId = book.getId();
+      // RETRIEVE
+      var book2 = bookDao.fetchOneById(bookId);
+      bookDao.update(book2);
+      // DELETE
+      bookDao.delete(book2);
+      ```
+  - **Complex features**
+    - **Emulation of non-existing database functions**, for example PostgreSQL doesn't know `median`.
+      ```java
+      dslc.select(median(BOOK.PUBLISHED_IN)).from(BOOK); // there is no PostgreSQL median
+      ```
+      ```sql
+      SELECT percentile_cont(0.5) WITHING GROUP (ORDER BY book.published_in) FROM book;
+      ```
+    - **Enumerations**, the database native enums can be mapped to the Java `enum`. Hibernate struggles with PostgreSQL enumerations.
+      ```sql`
+      CREATE TYPE book_type AS ENUM ('NOVEL', 'POEM', 'ESSAY'); -- PostgreSQL enumerations
+      ```
+      ```java
+      dslc.celect(BOOK.TITLE).from(BOOK).where(BOOK.TYPE.eq(BookTypeEnum.NOVEL));
+      ```
+    - **Native database arrays**, the database native arrays can be mapped to the Java array.
+      ```sql
+      CREATE TABLE book (
+         tags text[]
+      );
+      ```
+      ```java
+      public class Book implements Serializable { // jOOQ generated class
+          private String[] tags;
+	  // gettes and setters
+      }
+      ```
+    - **Nested data structures** are supported in jOOQ, though Hibernate excels in it. Sadly, only H2 and PostgreSQL database support native arrays (the method `array` can be used), though in other database types the method `multiset` is a proper substitution to `array`.
+      ```java
+      public record Book(int id, String title) {}
+      public record Name(String first, String last) {}
+      public record Author(int id, Name name, Book[] books) {}
+      ```
+      ```java
+      // this generates duplicated author first and surnames and requires further processing in Java
+      dslc.select(AUTHOR.ID, AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, BOOK.ID, BOOK.TITLE)
+          .from(AUTHOR)
+	  .join(BOOK).onKey()
+	  .fetch();
+      ```
+      ```java
+      // column mapping
+      dslc.select(
+              AUTHOR.ID, 
+	      row(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME).as("name"))
+	      array(
+	          dslc.select(row(BOOK.ID, BOOK.TITLE)).from(BOOK)
+		      .where(BOOK.AUTHOR_ID.eq(AUTHOR_ID))).as("books"))
+          .from(AUTHOR)
+	  .fetchInto(Author::class);
+      ```
+      ```java
+      // constructor mapping
+      dslc.select(
+              AUTHOR.ID,
+	      row(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME).mapping(Name::new))
+	      array(
+                  dslc.select(row(BOOK.ID, BOOK.TITLE)).mapping(Book::class, Book::new).from(BOOK)
+		      .where(BOOK.AUTHOR_ID.eq(AUTHOR_ID)))
+          .from(AUTHOR)
+          .fetchInto(Author::class);
+      ```
+    - **Format as JSON** is useful when a three-layer architecture is not reqired.
+      ```java
+      var jsonFormat = new JSONFORMAT()
+          .recordFormat(JSONFormat.RecordFormat.OBJECT)
+	  .format(true);
+      System.out.println(query.fetch().formatJSON(jsonFormat));
+      ```
+    - **Format as an ASCII table** is useful for debugging due to well-overriden `Object#toString` method.
+      ```java
+      System.out.println(query.fetch());
+      ```
+  - **Other features**
+    - The main usecase is for dynamic approach to the databse, it can generating procedures, triggers, etc. It has a rich API over the databases.
+    - Migration scripts are recommended to use and works well with jOOQ.
+    - Works well with Hibernate and those can be combined over the same transaction manager. This approach is also recommended to combine for various use-cases where each framework excels in. 
+  - **Problems with Kotlin generators**
+    - KotlinGenerator generates in POJO types of all database columns as nullable (correct in the principle, but troublesome in practice).
+    - The solution should come with the 3.18 version.
+    - An alternative is the JavaGenerator with `@Nullable` and `@NotNull`.
+- **jOOQ dual licence model**
+  - OpenSource version is for free for the latest open source DB versions (PostgreSQL, MySQL...).
+  - Paid version (99€, 399€ and 999€ per developer per year depending on the obscurity of the database) has no further fees (application, server) and supports older open source database versions as well as other non-open source databases. The paid subscription includes a support.
+- **Credits** 
+  - **Author** of jOOQ is Lukas Eder in his Data Geekery company in Switzerland. Sadly, it's basically a one-man-show project, but has a nice guide (https://www.jooq.org/learn/) and blog (https://blog.jooq.org/).
+  - [GitHub Copilot](https://github.com/features/copilot) can generate some easy jOOQ code from SQL.
+
+### Impression ⭐⭐⭐⭐☆
+- ✅ Amazing introduction to jOOQ so I would love to try it out immediatelly. GitHub copilot.
+- ⛔ The transaction management (commits, rollbacks) was not explained at all as well as triggers, procedures etc. though the session was more than rich enough.
 
 _____
 
