@@ -23,8 +23,9 @@
 | [Tips and tricks for Java memory management](#tips-and-tricks-for-java-memory-management)                                  | #java #jvm #gc #memory             | 48:54   |
 | [Experience with Spring native](#experience-with-spring-native)                                                            | #spring #native #graalvm           | 42:55   |
 | [Web Services, SOAP, REST and how to design them](#web-services-soap-rest-and-how-to-design-them)                          | #rest #soap                         | 52:14   |
+| [jOOQ - A bit different framework](#jooq---a-bit-different-framework)                                                        | #java #jooq #database               | 46:50   |
 | [GraalVM: Java ♥ Python ♥ Micronaut](#graalvm-java--python--micronaut)                                                     | #graalvm #java #python #polygot  | 44:33   |
-| [jOOQ - A bit different framework](#jooq-a-bit-differnt-framework)                                                         | #java #jooq #database               | 46:50   |
+
 
 _____
 
@@ -885,28 +886,28 @@ _____
       ```
       - **Semi join** returns all the left-side rows for which there *exist* at least one right-sided row. It's a kind of "fake" join as it finds out whether there is something to join.
         ```java
-	dslc.select(BOOK.TITLE).from(BOOK)
-	    .leftSemiJoin(BOOK_TO_BOOK_STORE).onKey();
-	```
+        dslc.select(BOOK.TITLE).from(BOOK)
+            .leftSemiJoin(BOOK_TO_BOOK_STORE).onKey();
+        ```
         ```sql
-	SELECT book.title FROM BOOK
-	WHERE EXISTS (
-	    SELECT 1 FROM book_to_book_store
-	    WHERE book_to_book_store.book_id = book.id)
-	```
+        SELECT book.title FROM BOOK
+        WHERE EXISTS (
+            SELECT 1 FROM book_to_book_store
+            WHERE book_to_book_store.book_id = book.id)
+        ```
         ```java
-	// alternative using jOOQ without the semi join
-	dslc.select(BOOK.TITLE).from(BOOK)
-	    .whereExists(
+        // alternative using jOOQ without the semi join
+        dslc.select(BOOK.TITLE).from(BOOK)
+            .whereExists(
                 dslc.selectOne()
-		    .from(BOOK_TO_BOOK_STORE)
-		    .where(BOOK_TO_BOOK_STORE.BOOK_ID.eq(BOOK.ID)));
-	```
+                    .from(BOOK_TO_BOOK_STORE)
+                    .where(BOOK_TO_BOOK_STORE.BOOK_ID.eq(BOOK.ID)));
+        ```
       - **Anti join** is an opposite to *semi join*. Returns all the left-side rows for which there *doesn't exist* at least one right-sided row.
         ```java
-	dslc.select(BOOK.TITLE).from(BOOK)
-	    .leftAntiJoin(BOOK_TO_BOOK_STORE).onKey();
-	```
+        dslc.select(BOOK.TITLE).from(BOOK)
+            .leftAntiJoin(BOOK_TO_BOOK_STORE).onKey();
+        ```
     - **Aggregation**
     ```java
     dslc.select(count()).from(BOOK);
