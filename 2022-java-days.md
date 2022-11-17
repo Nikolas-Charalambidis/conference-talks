@@ -363,11 +363,21 @@ _____
 - Language: Czech 🇨🇿
 
 ### Keynotes
-- TODO
+- Domain Driven Design is an approach to software development that helps us to break down a compex system into loosely coupled components with well-encapsulated logic and clearly defined dependencies among them. 
+- It's needed to have a *strategy* that matches the architecture.
+- **Domain** is a sphere of knowledge representad by the *ubiquitous language* and encapsulates a domain model and bounded context.
+  - The *ubiquitous language* is important as analyst and developer should use same language and same terms.
+  - **Bounded context** enables decomposing to smaller parts, for example Smart building managemnt:
+    - Building management -> Occupant (Name, Floor, Flat number, Relations).
+    - User profile -> User (Name, Favourites, Contacts, Payment methods, Invoice address).
+    - Incident management -> Reporter (Name, Email, Phone)
+    - Authorization -> User (Username, Email, Password, Roles)
+  - **Domain vision statement** 
+  - TODO
 
 ### Impression ⭐⭐⭐☆☆
 - ✅ A necessity of an ubiquitous language is highlighted. The session clearly demonstrated how the Domain Diven Design is coupled with Microservice Architecture.
-- ⛔ Too theoretical, it would be nice to show a sample core, generic and supporting domain designed in detail.
+- ⛔ Too theoretical and abstract, it would be nice to show a sample core, generic and supporting domain designed in detail.
 
 _____
 
@@ -383,6 +393,7 @@ _____
   - The producers compensate the performance limits by adding more threads.
 - **Java Microbenchmark Harness (JMH)** is a low-lever test framework for simple and quick *unit* and *integration* performance tests writing.
   - Maven dependencies: `org.openjdk.jmh:jmh-core` (`compile`) and `org.openjdk.jmh:jmh-generator-annprocess` (`provided`).
+  - Samples are available at https://github.com/openjdk/jmh/tree/master/jmh-samples/src/main/java/org/openjdk/jmh/samples 
   - There are three basic ways to run it:
     - Using IntelliJ Idea using a JMH plugin (click to the green triangle and run as a test).
     - Using a main class:
@@ -447,7 +458,6 @@ _____
       - `Scope.Group` grants all instances will be shared across all threads within the same group defined by `@Group`. This advanced scope is the least and the hardest to use and configure correctly.
   - **Debugging**
     - The debugging of the test (especially data preparation) does not work with a JVM fork (`@Fork(1)`). For this purpose, the fork has to be disabled (`@Fork(0)`).  
-  - Samples are available at https://github.com/openjdk/jmh/tree/master/jmh-samples/src/main/java/org/openjdk/jmh/samples 
   - **Gotchas**
     - It's needed to watch out the data if they are sent with each iteration as we assume.
     - Constant folding: The compiler eliminates useless code and pre-calculates predictable results. It's needed ot use a return type or `Blackhole` (can be used as a formal parameter to the `@Benchmark` method) to consume the result.
