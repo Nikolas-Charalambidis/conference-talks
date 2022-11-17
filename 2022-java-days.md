@@ -19,7 +19,7 @@
 | [Advanced tips and tricks for productivity in IntelliJ Idea](#advanced-tips-and-tricks-for-productivity-in-intellij-idea)  | #intellij                           | 46:57    |
 | [Project Loom: Virtual threads in Java 19](#project-loom-virtual-threads-in-java-19)                                       | #java #multithreading               | 43:11    |
 | [Domain Driven Microservices](#domain-driven-microservices)                                                                | #domain #analysis                   | 49:24    |
-| [Don't be scared of benchmarks in development](#dont-be-scared-of-benchmarks-in-development)                               | #java #jmh #benchmarks             | 45:53   |
+| [Don't be scared of benchmarks in the development](#dont-be-scared-of-benchmarks-in-the-development)                       | #java #jmh #benchmarks             | 45:53   |
 | [Tips and tricks for Java memory management](#tips-and-tricks-for-java-memory-management)                                  | #java #jvm #gc #memory             | 48:54   |
 | [Experience with Spring native](#experience-with-spring-native)                                                            | #spring #native #graalvm           | 42:55   |
 | [Web Services, SOAP, REST and how to design them](#web-services-soap-rest-and-how-to-design-them)                          | #rest #soap                         | 52:14   |
