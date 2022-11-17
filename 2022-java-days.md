@@ -382,6 +382,7 @@ _____
 - Moore's Law ceases to apply as a single core performance converges to a limit defined by the laws of physics: Performance becomes a thing again!
   - The producers compensate the performance limits by adding more threads.
 - **Java Microbenchmark Harness (JMH)** is a low-lever test framework for simple and quick *unit* and *integration* performance tests writing.
+  - Maven dependencies: `org.openjdk.jmh:jmh-core` (`compile`) and `org.openjdk.jmh:jmh-generator-annprocess` (`provided`).
   - There are three basic ways to run it:
     - Using IntelliJ Idea using a JMH plugin (click to the green triangle and run as a test).
     - Using a main class:
@@ -402,6 +403,7 @@ _____
                      <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                          <mainClass>org.openjdk.jmh.Main</mainClass>
                      </transformer>
+                     <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
                  </transformers>
                  <filters>
                      <filter>
