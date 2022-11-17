@@ -1146,3 +1146,5 @@ _____
 ### Impression ⭐⭐⭐⭐⭐
 - ✅ Though I am not interested in Python, the capabilities of GraalVM are fucking lit. The live coding was done well.
 - ⛔ -
+
+_____
