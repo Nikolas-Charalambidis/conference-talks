@@ -373,17 +373,117 @@ _____
 
 ## Don't be scared of benchmarks in development
 - (in original: Nebojte se benchmarků při vývoji)
-> "Moore's Law ceases to apply as a single core performance converges to a limit defined by the laws of physics"
+> "Moore's Law ceases to apply as a single core performance converges to a limit defined by the laws of physics."
 - Length 45:53, watched on 2021-11-13, **#java #jmh #benchmarks**
 - Jan Novotný
 - Language: Czech 🇨🇿
 
 ### Keynotes
-- TODO
+- Moore's Law ceases to apply as a single core performance converges to a limit defined by the laws of physics: Performance becomes a thing again!
+  - The producers compensate the performance limits by adding more threads.
+- **Java Microbenchmark Harness (JMH)** is a low-lever test framework for simple and quick *unit* and *integration* performance tests writing.
+  - There are three basic ways to run it:
+    - Using IntelliJ Idea using a JMH plugin (click to the green triangle and run as a test).
+    - Using a main class:
+    ```java
+    org.openjdk.jmh.Main.main(args);
+    ```
+    - Using the command line, for which it's necessary too use a Maven Shade Plugin (`org.apache.maven.plugins:maven-shade-plugin`) to create a fat jar (also called *uberjar*) that contains the performance tests.
+    ```xml
+    <executions>
+        <execution>
+             <phase>package</phase>
+             <goals>
+	         <goal>shade</goal>
+             </goals>
+             <configuration>
+                 <finalName>benchmarks</finalName>
+                 <transformers>
+                     <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                         <mainClass>org.openjdk.jmh.Main</mainClass>
+                     </transformer>
+                 </transformers>
+                 <filters>
+                     <filter>
+                         <!-- sharding of signed JAR fails without this: https://stackoverflow.com/q/999489/3764965 -->
+                         <artifact>*:*</artifact>
+                         <excludes>
+                             <exclude>META-INFO/*.SF</exclude>
+                             <exclude>META-INFO/*.DSA</exclude>
+                             <exclude>META-INFO/*.RSA</exclude>
+                        </excludes>
+                    </filter>
+                </filters>
+            </configuration>
+        </execution>
+    </executions>
+    ```
+    Upon running `mvn clean install`, the JAR with tests can be run:
+    ```bash
+    java -jar target/benchmarks.jar
+    ```
+  - **Configuration**
+    - **Annotations** are available to configure the test, though they can be overriden with the command line arguments.
+      - `@Benchmark` annotates the performance test itself.
+      - `@Warmup` defines the warm-up.
+      - `@Measurement` defines the benchmark measurement details.
+      - `@Fork` defines the forking. The test should run in the separate JVM (`@Fork(1)`) to not influent the tests and yield representative results
+      - `@BenchmarkMode` and `@OutputTimeUnit` to define the output.
+      - `@Setup(Level.XXX)` and `@TearDown(Level.XXX)` for test and data preparations.
+      - `@State(Scope.XXX)` to define te test data scope.
+    - **Builder** using `OptionsBuilder` contains a context help thanks to it's fluent style and using `include(String regex)` can define through CI/CD what set of tests would be run, assuming smart package naming.
+  - **Lifecycle of the test**
+    - There are three levels: `Level.Trial`, `Level.Iteration`, and `Level.Invocation`.
+      - **Trial** is run *once* before (`@Setup(Level.Trial`) and after (`@TearDown(Level.Trial`) the test and is used for initialization and closing resources.
+      - **Iteration** is run *always* before (`@Setup(Level.Iteration`) and after (`@TearDown(Level.Iteration`) each test iteration and is used for the data preparation and clean-up.
+      - **Invocation** is run *always* before (`@Setup(Level.Invocation`) and after (`@TearDown(Level.Invocation`) the test method (`@Benchmark`) itself and might possibly have impact to the test, so it's recommended to not handle data in this phase, unless it's quick compared to the test execution itself.
+  - **Data preparation**
+    - A stateful data object annotated with `@State` and defined scope is passed as a formal parameter to the method annotated with `@Benchmark`.
+    - **Scopes** define the liveness of the `@State` data object:
+      - `Scope.Thread` is the most used one and the data are isolated and instantiated per thread.
+      - `Scope.Benchmark` creates one instance for all the tests and threads, so beware the synchronization and access.
+      - `Scope.Group` grants all instances will be shared across all threads within the same group defined by `@Group`. This advanced scope is the least and the hardest to use and configure correctly.
+  - **Debugging**
+    - The debugging of the test (especially data preparation) does not work with a JVM fork (`@Fork(1)`). For this purpose, the fork has to be disabled (`@Fork(0)`).  
+  - Samples are available at https://github.com/openjdk/jmh/tree/master/jmh-samples/src/main/java/org/openjdk/jmh/samples 
+  - **Gotchas**
+    - It's needed to watch out the data if they are sent with each iteration as we assume.
+    - Constant folding: The compiler eliminates useless code and pre-calculates predictable results. It's needed ot use a return type or `Blackhole` (can be used as a formal parameter to the `@Benchmark` method) to consume the result.
+    - Safe-looping: The compiler elimineates useless iterations and does magic with cycles at all (unrolling, jamming, vectorization), so it's better to leave the iteration mechanisms to the JMH and measure only the algorithm itself.
+  - **Profiles** reveal the reasoning behind the bad test results as we want to know why.
+    - IntelliJ idea has an own profiler displaying the process and time diagram of test method execution.
+    - JMH Stack Profiling can reveal the multithreading issue, for example:
+      - A single thread processes 2878000 ops/s, output:
+      ```
+      Stack profiler:
+
+      ...[Thread state distributions]......
+       75.0%	RUNNABLE
+       25.0%	TIMED_WAITING
+      ```
+      - Multiple (12) threads process together each only 2121178 ops/s, output:
+      ```
+      Stack profiler:
+
+      ...[Thread state distributions]......
+       69.2%	BLOCKED
+       24.0%	RUNNABLE
+        6.7%	TIMED_WAITING
+      ```
+      - The reason is that the threads spend nearly 70% of the time in the `BLOCKED` state.
+    - Types of profiles: Stack profiling, Linux performance profiling (for L1 cache), GC profiling, ClassProfiler (number of un/loaded classes), CompilerProfiler (time dedicated for JIT compilation)...
+  - **Best practices**:
+    - Define a problem, formulate a hypothesis, state the expectations and perform an experiment.
+    - Ask the following: What I try to measure? Do I measure it correctly? Why the result is not I expect? What happens?
+    - Do not get stick with the absolute numbers and rather compare and use the relative numbers as the results depend on hardware, OS, surrounding code, etc.
+    - Use the production-alike data.
+    - Observe the `BLOCKED` thread time in multithreading applications.
+    - Be careful with formulating and summarizing the results. It's worth to consult with a colleague, review the test and involve more people.
+    - Observe the changes in time and use the CI/CD pipeline for the performance tests.  
 
 ### Impression ⭐⭐⭐⭐☆
 - ✅ Explanation of why Moore's Law ceases to apply. Highlighted pitfalls of the data preparation for JMH tests. Nice overview of profiling and the tools for it. 
-- ⛔ Rather a beginner session and a quick introduction to the JMH as most of the information can be found easily. I cannot imagine how to configure and run the JMH tests for integrations as was advised. 
+- ⛔ Rather a beginner session and a quick introduction to the JMH as most of the information can be found easily. I cannot imagine how to configure and run the JMH tests for integrations as was advised. JMH Stack Profiling was not sufficiently explained.
 
 _____
 
