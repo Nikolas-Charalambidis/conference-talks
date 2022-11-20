@@ -109,7 +109,7 @@ _____
   - **Polling? Notifications?**: The problem was how often to poll the requests from the queue. Once a second or 10 seconds?
     - The neat solution is to notify other backends without actually calling them -> PostgreSQL notifications.
     - The PostgreSQL notifications are an in-built solution that and transactional and easy to use.
-    ```bash
+    ```shell
     pgsql NOTIFY <channel> <payload>
     pgsql LISTEN <channel>
     ```
@@ -203,7 +203,7 @@ _____
     </configuration>
     ```
     It is dumb the credentials must be specified right in the `pom.xml`, though it can be passed in the command line:
-    ```bash
+    ```shell
     mvn -Ddocker.username=TODO -Ddocker.password=TODO spring-boot:build-image
     ```
 - **Spring Boot 3**: The plugin is already built into Spring Boot 3:
@@ -222,11 +222,11 @@ _____
     </image>
   </configuration>
   ```
-  ```bash
+  ```shell
   mvn spring-boot:build-image -Pnative
   ```
   Paketo buildpacks have also CLI that can build the native images:
-  ```bash
+  ```shell
   pack build test_img --builder=paketobuildpacks/builder:base -e BP_JVM_VERSION=17
   ``` 
 - **Alternatives**
@@ -490,7 +490,7 @@ _____
     </executions>
     ```
     Upon running `mvn clean install`, the JAR with tests can be run:
-    ```bash
+    ```shell
     java -jar target/benchmarks.jar
     ```
   - **Configuration**
