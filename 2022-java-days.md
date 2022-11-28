@@ -66,13 +66,13 @@ _____
   - Java EE is no longer used in favor of Jakarta EE, which means no longer `javax` packages but the `jakarta` ones.
   - Spring Security 6 has a major change where `SecurityChainFilter` has to be used instead of `WebSecurityConfigurerAdapter`.
   - Spring Data JPA and Hibernate 6
-  - AOT GraalWM support for native images making Spring Native obsolete as it was an experimental project, not it is supported out-of-the-box.
+  - AOT GraalVM support for native images making Spring Native obsolete as it was an experimental project, not it is supported out-of-the-box.
 - **Java 18**
   - Multiline String, Switch Expressions, Records, Pattern Matching for `instanceof`, better NPE error messages, faster start-up, and lower memory footprint
 
 ### Impression ⭐⭐☆☆☆
 - ✅ A nice and brief overview of the new and incoming technologies and upgrades as well as an overview of the usage statistics from various sources.
-- ⛔ Though it is nice to know which JRE/JDK distribution the speaker prefers, no technical reasoning was provided instead. It's nice to know what offers a "killer feature", but what exactly it is? Next time less of hype, swag, and buzzwords, but more explanation.
+- ⛔ Though it is nice to know which JRE/JDK distribution the speaker prefers, no technical reasoning was provided instead. So much hate towards MySQL but no explanation. It's nice to know what offers a "killer feature", but what exactly it is? Next time less of hype, swag, and buzzwords, but more explanation.
 
 _____
 
