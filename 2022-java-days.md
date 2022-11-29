@@ -791,6 +791,7 @@ _____
 ## jOOQ - A bit different ORM framework
 - (in original: jOOQ - tak trochu jiný ORM framework)
 > "OpenSource version is for free for the latest open source DB versions (PostgreSQL, MySQL...)."
+
 > "It's a one-man-show project."
 - Length 45:50, watched on 2021-11-13, **#java #jooq #database**
 - Leoš Přikryl
