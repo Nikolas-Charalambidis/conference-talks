@@ -47,7 +47,7 @@ _____
   - **Framework**: 
     - Spring Boot (74%), Other (18%), Quarkus (5%), Vert.x (2%), DropWizard (1%)
     - Spring-based: Spring Boot (90.6%), Spring MVC (51.8%), Java EE 29.4%, Quarkus (10.6%), Vaadin (9.4%), Jakarta EE (5.9%), JSF (5.9%), Struts (5.9%)
-  - **Virtual machine platform**: Docker (41%), Kubernetes (26%), Vmware (16%), N/A (10%), Other (4%), Vagrant (3%)
+  - **Virtual machine platform**: Docker (41%), Kubernetes (26%), VMware (16%), N/A (10%), Other (4%), Vagrant (3%)
   - **PaaS provider**: ASW (31%), Undisclosed (24%), Azure (14%), Google Cloud Platform (11%), Other (8%), Oracle Cloud Platform (3%), IBS (3%), SAP (2%), Pivotal (2%), VMWare Tanzu (2%)
   - **Application server**: Tomcat (48%), JBoss (15%), Jetty (13%), Other (8%), WebLogic (7%), WebSphere (5%), GlassFish (4%)
   - **Build tool**: Maven (68%), Gradle (23%), Ant (6%), Other (3)
@@ -166,8 +166,8 @@ _____
   - Examples from infrequently to frequently changed parts: `spring-boot-loader`, `dependencies`, `snapshot-dependencies`, `application`
   - Layers enable only the changed parts can be replaced: in case we change the `dependencies`, then at least the `spring-boot-loader` can remain the same. If we change the `application` part, only the `application` part is sent to the Docker registry or Kubernetes nodes.
   - Layered JARs, images work with JIB or Builpacks and save the time between build and deployment (network traffic between Jenkins, Kubernetes nodes, etc.)
-- **OpenJ9 Buildpack**: Buildpacks can be browset at: https://github.com/orgs/paketo-buildpacks/repositories?q=jre
-  - Configuration is in the `spring-boot-maven-plugin`
+- **Buildpacks**: Buildpacks can be browsed at: https://github.com/orgs/paketo-buildpacks/repositories?q=jre and the configuration is in the `spring-boot-maven-plugin`.
+  - **OpenJ9 Buildpack**
     ```xml
     <configuration>
         <image>
@@ -179,13 +179,14 @@ _____
         </image>
     </configuration>
     ```
-  - The application build happens in the builder image, there are 3 builders out-of-the-box: `full`, `base`, and `tiny`. They differ in the number of libraries installed, though the most used one is `tiny`. It is possible to create your builder, though it is complicated and worth only for corporates where the implementation of such a builder must be certified security-wise. Jib also allows creating a custom builder more simply.
+  - **Paketo Builder**
+    - The application build happens in the builder image, there are 3 builders out-of-the-box: `full`, `base`, and `tiny`. They differ in the number of libraries installed, though the most used one is `tiny`. It is possible to create your builder, though it is complicated and worth only for corporates where the implementation of such a builder must be certified security-wise. Jib also allows creating a custom builder more simply.
     ```xml
     <configuration>
       <image>
         <name>TODO_IMAGE_NAME</name>
         <buildpacks>
-          <builder>paketobuildpacks/builder:tiny</buildpack>
+          <builder>paketo-buildpacks/builder:tiny</buildpack>
         </buildpacks>
       </image>
     </configuration>
