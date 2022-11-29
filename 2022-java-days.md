@@ -340,8 +340,8 @@ _____
     - `Thread pt = Thread.ofPlatform()` - creates a platform thread
     - `Thread vt = Thread.startVirtualThread()` - creates and starts a virtual thread
   - **Fluent style**:
-    - `Thread vt = Thread.ofVirtual().name("virtual").unstarted(runnable);
-    - `Thread vt = Thread.ofPlatform().name("platform").unstarted(runnable);
+    - `Thread vt = Thread.ofVirtual().name("virtual").unstarted(runnable);`
+    - `Thread vt = Thread.ofPlatform().name("platform").unstarted(runnable);`
   - **Builder and factory styles**
   - **Methods**:
     - `boolean isPlatformVirtual = Thread.ofPlatform().isVirtual(); // false`
@@ -350,7 +350,7 @@ _____
   - **Executor services**:
     - `ExecutorService service = Executors.newVirtualThreadPerTaskExecutor();`
 - **Antipatterns**
-  - The virtual threads should not be pooled as long as they are lightweight and the pool management becomes an overhead compared to threads creations. However, there is a new dedicated thread pool `ExecutorService`, though it's better to just create a thread and let the system handle it.
+  - The virtual threads should not be pooled as long as they are lightweight and the pool management becomes an overhead compared to threads creation. However, there is a new dedicated thread pool `ExecutorService`, though it's better to just create a thread and let the system handle it.
   - Do not use priorities with virtual threads.
 
 ### Impression ⭐⭐⭐⭐⭐
@@ -587,7 +587,7 @@ _____
 - **Garbage Collector (GC)**
   - The Heap memory is hierarchically divided by young/old generation and further sub-groups for the optimized and fairly sophisticated run.
   - General garbage collecting algorithms overview:
-    - **Tracing (Reachability tree): The GC traverses the oriented graph of objects, traces for the reachable ones, and removes the unreachable ones. Though this algorithm is slow and expensive but can detect and remove cyclical references. JVM GC uses this algorithm.
+    - **Tracing (Reachability tree)**: The GC traverses the oriented graph of objects, traces for the reachable ones, and removes the unreachable ones. Though this algorithm is slow and expensive but can detect and remove cyclical references. JVM GC uses this algorithm.
     - **Reference counting**: Counts the number of references and removes if fall to zero. This algorithm can miss cyclical references.
   - By default, the less memory is available, the more aggressively the GC runs to release the memory in the JVM. This approach delays  `java.lang.OutOfMemoryError`, though the overhead of the GC run raises and the application becomes less responsive (lags).
 - **String internization** is implemented using the flyweight design pattern (referencing a shared copy).
@@ -834,7 +834,7 @@ _____
           .from(USER)
           .where(USER.ROLE.eq(1)) // the USER.ROLE is of the type VARCHAR → compiler-time error
       ```
-      ```
+      ```java
       dslc.select(USER.LAST_NAME, USER_FIRSTNAME) // the USER.LAST_NAME was renamed to USER.SURNAME → compiler-time error
           .from(USER)
           .where(USER.ROLE.eq("admin"));
@@ -861,31 +861,31 @@ _____
       ```java
       dslc.select(AUTHOR.LAST_NAME, AUTHOR.FIRST_NAME)
           .from(AUTHOR)
-	  .where((AUTHOR.LAST_NAME.eq("London").or(AUTHOR.FIRST_NAME.like("J%")).and(AUTHOR.YEAR_OF_BIRTH.between(1800, 1900)));
+      .where((AUTHOR.LAST_NAME.eq("London").or(AUTHOR.FIRST_NAME.like("J%")).and(AUTHOR.YEAR_OF_BIRTH.between(1800, 1900)));
       ```
       ```java
       dslc.select(AUTHOR.LAST_NAME, AUTHOR.FIRST_NAME)
           .from(AUTHOR)
-	  .where(
+          .where(
               AUTHOR.LAST_NAME.eq("London").or(AUTHOR.FIRST_NAME.like("J%")),
-	      AUTHOR.YEAR_OF_BIRTH.between(1800, 1900)));
+              AUTHOR.YEAR_OF_BIRTH.between(1800, 1900)));
     - **`JOIN`** is supported as well as all common joins (`INNER`, `LEFT/RIGHT/FULL OUTER`, `CROSS`) and introduces *semi* and *anti* joins.
       ```java
       dslc.select(AUTHOR.LAST_NAME, AUTHOR.FIRST_NAME, BOOK.TITLE)
           .from(AUTHOR)
-	  .join(BOOK).on(AUTHOR.ID.eq(BOOK.AUTHOR_ID))
-	  .where(AUTHOR.ID.eq(1));
+          .join(BOOK).on(AUTHOR.ID.eq(BOOK.AUTHOR_ID))
+          .where(AUTHOR.ID.eq(1));
       ```
       ```java
       dslc.select(AUTHOR.LAST_NAME, AUTHOR.FIRST_NAME, BOOK.TITLE)
           .from(AUTHOR)
-	  .join(BOOK).onKey() // in case the foreign key is well-configured
-	  .where(AUTHOR.ID.eq(1));
+          .join(BOOK).onKey() // in case the foreign key is well-configured
+          .where(AUTHOR.ID.eq(1));
       ```
       ```java
       dslc.select(BOOk.author().LAST_NAME, AUTHOR.author().FIRST_NAME, BOOK.TITLE) // jOOQ can do an implicit JOIN
           .from(BOOK)
-	  .where(AUTHOR.ID.eq(1));
+          .where(AUTHOR.ID.eq(1));
       ```
       - **Semi-join** returns all the left-side rows for which there *exists* at least one right-sided row. It's a kind of "fake" join as it finds out whether there is something to join.
         ```java
@@ -918,11 +918,11 @@ _____
     ```java
     dslc.select(avg(BOOK.YEAR_OF)).from(BOOK);
     ```
-    ```
+    ```java
     dslc.select(LANGUAGE.DESCRIPTION, count())
         .from(BOOK).join(LANGUAGE).onKey()
-	.grouBy(LANGUAGE.DESCRIPTION)
-	.orderBy(count()).desc();
+        .gropuBy(LANGUAGE.DESCRIPTION)
+        .orderBy(count()).desc();
     ```
     - **Complex queries**
       ```sql
@@ -937,13 +937,13 @@ _____
       ```
       ```java
       dslc.select(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, count()).from(AUTHOR)
-              .join(BOOK).onKey()
-	      .join(LANGUAGE).onKey()
-	  .where(LANGUAGE.CODE.eq("CZ").and(BOOK.PUBLISHED_IN.gt(LocalDate.of(2020, 1, 1))))
-	  .groupBy(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME)
-	  .having(count().gt(5))
-	  .orderBy(AUTHOR.LAST_NAME.asc().nullsFirst())
-	  .limit(5).offset(10);
+          .join(BOOK).onKey()
+          .join(LANGUAGE).onKey()
+          .where(LANGUAGE.CODE.eq("CZ").and(BOOK.PUBLISHED_IN.gt(LocalDate.of(2020, 1, 1))))
+          .groupBy(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME)
+          .having(count().gt(5))
+          .orderBy(AUTHOR.LAST_NAME.asc().nullsFirst())
+          .limit(5).offset(10);
       ```
   - **Reading**
     - Single line: `fetchOne` returns one or `null` or exception in case of more rows, `fetchSingle` returns exactly one row or exception in case of more rows, `fetchAny` returns one or `null` and ignores the rest in case of more rows.
@@ -968,8 +968,8 @@ _____
       ```java
       dslc.update(AUTHOR)
           .set(AUTHOR.FIRST_NAME, "Jack")
-	  .where(AUTHOR.ID.eq(3))
-	  .execute();
+          .where(AUTHOR.ID.eq(3))
+          .execute();
       ```
       ```java
       dslc.delete(AUTHOR)
@@ -1030,7 +1030,7 @@ _____
       ```java
       public class Book implements Serializable { // jOOQ generated class
           private String[] tags;
-	  // getters and setters
+          // getters and setters
       }
       ```
     - **Nested data structures** are supported in jOOQ, though Hibernate excels in it. Sadly, only H2 and PostgreSQL database support native arrays (the method `array` can be used), though in other database types the method `multiset` is a proper substitution for `array`.
@@ -1043,28 +1043,31 @@ _____
       // this generates duplicated author first and surnames and requires further processing in Java
       dslc.select(AUTHOR.ID, AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, BOOK.ID, BOOK.TITLE)
           .from(AUTHOR)
-	  .join(BOOK).onKey()
-	  .fetch();
+          .join(BOOK).onKey()
+          .fetch();
       ```
       ```java
       // column mapping
       dslc.select(
               AUTHOR.ID, 
-	      row(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME).as("name"))
-	      array(
-	          dslc.select(row(BOOK.ID, BOOK.TITLE)).from(BOOK)
-		      .where(BOOK.AUTHOR_ID.eq(AUTHOR_ID))).as("books"))
-          .from(AUTHOR)
-	  .fetchInto(Author::class);
+              row(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME).as("name"))
+              array(
+                  dslc.select(row(BOOK.ID, BOOK.TITLE))
+                      .from(BOOK)
+                      .where(BOOK.AUTHOR_ID.eq(AUTHOR_ID))).as("books"))
+                      .from(AUTHOR)
+          .fetchInto(Author::class);
       ```
       ```java
       // constructor mapping
       dslc.select(
               AUTHOR.ID,
-	      row(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME).mapping(Name::new))
-	      array(
-                  dslc.select(row(BOOK.ID, BOOK.TITLE)).mapping(Book::class, Book::new).from(BOOK)
-		      .where(BOOK.AUTHOR_ID.eq(AUTHOR_ID)))
+              row(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME).mapping(Name::new))
+              array(
+                  dslc.select(row(BOOK.ID, BOOK.TITLE))
+                      .mapping(Book::class, Book::new)
+                      .from(BOOK)
+                      .where(BOOK.AUTHOR_ID.eq(AUTHOR_ID)))
           .from(AUTHOR)
           .fetchInto(Author::class);
       ```
@@ -1072,7 +1075,7 @@ _____
       ```java
       var jsonFormat = new JSONFORMAT()
           .recordFormat(JSONFormat.RecordFormat.OBJECT)
-	  .format(true);
+          .format(true);
       System.out.println(query.fetch().formatJSON(jsonFormat));
       ```
     - **Format as an ASCII table** is useful for debugging due to the well-overridden `Object#toString` method.
