@@ -170,13 +170,13 @@ _____
   - Configuration is in the `spring-boot-maven-plugin`
     ```xml
     <configuration>
-			<image>
-				<name>TODO_IMAGE_NAME</name>
-				<buildpacks>
-					<buildpack>gcr.io/packet-buildpacks/eclipse-openj9:latest</buildpack>
-					<buildpack>paketo-buildpacks/java</buildpack>
-        </buildpacks>
-      </image>
+        <image>
+            <name>TODO_IMAGE_NAME</name>
+            <buildpacks>
+                <buildpack>gcr.io/packet-buildpacks/eclipse-openj9:latest</buildpack>
+                <buildpack>paketo-buildpacks/java</buildpack>
+            </buildpacks>
+        </image>
     </configuration>
     ```
   - The application build happens in the builder image, there are 3 builders out-of-the-box: `full`, `base`, and `tiny`. They differ in the number of libraries installed, though the most used one is `tiny`. It is possible to create your builder, though it is complicated and worth only for corporates where the implementation of such a builder must be certified security-wise. Jib also allows creating a custom builder more simply.
