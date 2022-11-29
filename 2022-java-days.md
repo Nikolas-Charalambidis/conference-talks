@@ -846,8 +846,8 @@ _____
       ```java
       dslc.select(field("last_name"), field("first_name"))
           .from(table("user"))
-	  .where(field("role").eq("admin"))
-	  .orderBy(field("last_name"), field("first_name"));
+          .where(field("role").eq("admin"))
+          .orderBy(field("last_name"), field("first_name"));
       ```
   - **Quick start**
     - Start with the [`DSL`](https://www.jooq.org/javadoc/dev/org.jooq/org/jooq/impl/DSL.html) to get `DSLContext` which is the main object for writing the queries.
@@ -1015,7 +1015,7 @@ _____
       SELECT percentile_cont(0.5) WITHING GROUP (ORDER BY book.published_in) FROM book;
       ```
     - **Enumerations**, the database native enums can be mapped to the Java `enum`. Hibernate struggles with PostgreSQL enumerations.
-      ```sql`
+      ```sql
       CREATE TYPE book_type AS ENUM ('NOVEL', 'POEM', 'ESSAY'); -- PostgreSQL enumerations
       ```
       ```java
